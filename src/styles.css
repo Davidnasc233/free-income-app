@@ -1,1 +1,176 @@
-/* You can add global styles to this file, and also import other style files */
+@import "assets/styles/_variables.css";
+
+/* ==========================================================================
+   CSS Reset - Limpeza Global
+   ========================================================================== */
+
+/* 1. Garante que o padding e a borda fiquem incluídos no tamanho total do elemento */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* 2. Remove margens e paddings de elementos estruturais e comuns */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* 3. Renderização do Body */
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    /* Suaviza fontes em telas baseadas no WebKit (Chrome/Safari) */
+    font-family: "Helvetica", sans-serif;
+    margin: 0;
+}
+
+/* 4. Remove a marcação de bolinha/números de listas */
+ol,
+ul {
+    list-style: none;
+}
+
+/* 5. Melhora a visualização de imagens e mídias */
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* 6. Evita problemas de herança em formulários e inputs */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+/* 7. Remove estilos padrão de botões e links que costumam atrapalhar */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 8. Melhora a usabilidade de textareas */
+textarea {
+    resize: vertical;
+    /* Impede o usuário de quebrar o layout expandindo para os lados */
+}
+
+.btn-fi-success {
+    background-color: var(--background-brand);
+    border-radius: var(--radius-sm);
+    color: var(--color-white);
+    padding: 8px 0;
+
+    &:hover {
+        background-color: var(--color-brand-hover);
+        color: var(--color-white);
+    }
+}
+
+.input-border {
+    border: 1px solid var(--input-border);
+}
+
+.color-brand {
+    color: var(--color-brand);
+}
+
+.text-fi-primary {
+    color: var(--text-primary);
+}
+
+.text-secondary {
+    color: var(--text-secondary);
+}

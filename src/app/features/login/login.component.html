@@ -1,0 +1,170 @@
+<main class="login-page d-flex flex-column">
+    <section class="container p-0">
+        <div *ngIf="isLogin" class="section-one d-flex flex-column align-items-center justify-content-center">
+            <i class="ph ph-chart-line-up"></i>
+            <h2 class="fw-bold mb-5">
+                Renda
+                <span class="color-brand">Livre</span>
+            </h2>
+            <span class="fw-bold m-0">Seu dinheiro, suas escolhas.</span>
+            <span class="color-brand m-0">Liberdade para conquistar seus sonhos.</span>
+        </div>
+
+        <!-- login -->
+        <div *ngIf="isLogin" class="rounded-2 form bg-white">
+            <div class="inp-options pt-3 d-flex flex-column gap-3">
+                <div class="d-flex flex-column">
+                    <span class="fw-bold inp-title">E-mail</span>
+                    <div class="input-standard gap-2">
+                        <i class="ph ph-envelope-simple"></i>
+                        <input type="email" name="email" placeholder="Digite seu E-mail" />
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <span class="fw-bold inp-title">Senha</span>
+                    <div class="input-standard justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="ph ph-lock"></i>
+                            <input [type]="isPasswordVisible ? 'text' : 'password'" name="password"
+                                placeholder="Digite sua senha" />
+                        </div>
+
+                        <button class="d-flex align-items-center" (click)="changePasswordVisibility()">
+                            <i [ngClass]="isPasswordVisible ? 'ph ph-eye-slash' : 'ph ph-eye'"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <p class="d-flex justify-content-end">
+                    <a href="#" class="color-green-regular">Esqueceu sua senha?</a>
+                </p>
+
+                <button class="btn btn-fi-success w-100" (click)="login()">Entrar</button>
+
+                <hr />
+
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn input-border w-50 d-flex justify-content-center fw-bold">
+                        <img src="assets/images/google.svg" alt="Google" class="me-2" width="18" />
+                        Google
+                    </button>
+
+                    <div style="display: none">
+                        <asl-google-signin-button #googleBtn></asl-google-signin-button>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center mt-3 d-flex align-items-center">
+                    <p class="text-secondary">Ainda não tem uma conta?
+                        <a href="#" class="color-green-regular">Criar conta</a>
+                    </p>
+                    <i class="ph ph-arrow-right color-green-regular"></i>
+                </div>
+            </div>
+        </div>
+        <!-- end login -->
+
+        <!-- register -->
+        <div *ngIf="!isLogin" class="rounded-2 form bg-white">
+            <div class="inp-options pt-3 d-flex flex-column gap-3">
+
+                <div class="mt-3">
+                    <h3 class="color-green-regular fw-bold d-flex align-items-center gap-2">
+                        <i class="ph ph-user-circle fs-2 color-green-regular"></i>
+                        Crie sua conta
+                    </h3>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <span class="fw-bold inp-title">Nome</span>
+                    <div class="input-standard gap-2">
+                        <i class="ph ph-identification-card"></i>
+                        <input type="text" name="name" placeholder="Digite seu nome" />
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <span class="fw-bold inp-title">E-mail</span>
+                    <div class="input-standard gap-2">
+                        <i class="ph ph-envelope-simple"></i>
+                        <input type="email" name="email" placeholder="Digite seu E-mail" />
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <span class="fw-bold inp-title">Senha</span>
+                    <div class="input-standard gap-2 justify-content-between">
+                        <i class="ph ph-lock"></i>
+                        <input [type]="isPasswordVisible ? 'text' : 'password'" name="password"
+                            placeholder="Digite sua senha" />
+
+                        <button class="d-flex align-items-center" (click)="changePasswordVisibility()">
+                            <i [ngClass]="isPasswordVisible ? 'ph ph-eye-slash' : 'ph ph-eye'"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-12 col-md-6 d-flex flex-column">
+                        <span class="fw-bold inp-title">Data de nascimento</span>
+                        <div class="input-standard gap-2">
+                            <i class="ph ph-calendar-dots"></i>
+                            <input type="date" name="date" />
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 d-flex flex-column">
+                        <span class="fw-bold inp-title">Telefone</span>
+                        <div class="input-standard gap-2">
+                            <i class="ph ph-phone"></i>
+                            <input type="tel" name="tel" placeholder="(00) 00000-0000" mask="tel" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <span class="fw-bold inp-title">Renda Mensal <small>(opcional)</small></span>
+                    <div class="input-standard gap-2">
+                        <i class="ph ph-currency-circle-dollar"></i>
+                        <input type="int" name="fixed-income" placeholder="Digite sua renda" />
+                    </div>
+                </div>
+
+                <button class="btn btn-fi-success w-100" (click)="login()">Criar Conta</button>
+
+                <hr />
+
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn input-border w-50 d-flex justify-content-center fw-bold">
+                        <img src="assets/images/google.svg" alt="Google" class="me-2" width="18" />
+                        Google
+                    </button>
+
+                    <div style="display: none">
+                        <asl-google-signin-button #googleBtn></asl-google-signin-button>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center mt-3 d-flex align-items-center">
+                    <p class="text-secondary">Já possui uma conta?
+                        <a href="#" class="color-green-regular">Fazer login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- end register -->
+    </section>
+
+    <div class="wave-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path fill="#2bb375" fill-opacity="0.4"
+                d="M0,160L60,176C120,192,240,224,360,224C480,224,600,192,720,186.7C840,181,960,203,1080,197.3C1200,192,1320,160,1380,144L1440,128L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
+            </path>
+
+            <path fill="#1b8552" fill-opacity="1"
+                d="M0,192L60,202.7C120,213,240,235,360,224C480,213,600,171,720,165.3C840,160,960,192,1080,202.7C1200,213,1320,203,1380,197.3L1440,192L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
+            </path>
+        </svg>
+    </div>
+</main>
