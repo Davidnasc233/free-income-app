@@ -56,6 +56,7 @@ export class AuthLoginComponent {
   }
 
   async onSubmit() {
+    console.log('click');
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;

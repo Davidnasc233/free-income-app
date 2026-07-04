@@ -1,5 +1,5 @@
 <div class="rounded-2 form bg-white">
-    <form [formGroup]="loginForm"  (submit)="onSubmit()">
+    <form [formGroup]="loginForm" (submit)="onSubmit()">
         <div class="inp-options pt-3 d-flex flex-column gap-3">
             <div class="d-flex flex-column">
                 <span class="fw-bold inp-title">E-mail</span>
@@ -16,7 +16,7 @@
                     <input [type]="isPasswordVisible ? 'text' : 'password'" name="password"
                         placeholder="Digite sua senha" formControlName="password" />
 
-                    <button type="submit" class="d-flex align-items-center" (click)="changePasswordVisibility()">
+                    <button class="d-flex align-items-center" (click)="changePasswordVisibility()">
                         <i [ngClass]="isPasswordVisible ? 'ph ph-eye-slash' : 'ph ph-eye'"></i>
                     </button>
                 </div>
@@ -27,7 +27,7 @@
                 <a href="#" class="color-green-regular">Esqueceu sua senha?</a>
             </p>
 
-            <button type="button" class="btn btn-fi-success w-100">Entrar</button>
+            <button type="button" class="btn btn-fi-success w-100" type="submit">Entrar</button>
 
             <hr />
 

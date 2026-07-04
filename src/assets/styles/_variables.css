@@ -1,169 +1,169 @@
 :root {
-   /* ===========================
+    /* ===========================
      Brand
   ============================ */
 
-   --color-primary-50: #F1FCF6;
-   --color-primary-100: #DCF8E8;
-   --color-primary-200: #B9F0D0;
-   --color-primary-300: #8EE5B0;
-   --color-primary-400: #52D386;
-   --color-primary-500: #18A957;
-   --color-primary-600: #0D944A;
-   --color-primary-700: #08753A;
-   --color-primary-800: #06592C;
-   --color-primary-900: #043D1E;
+    --color-primary-50: #F1FCF6;
+    --color-primary-100: #DCF8E8;
+    --color-primary-200: #B9F0D0;
+    --color-primary-300: #8EE5B0;
+    --color-primary-400: #52D386;
+    --color-primary-500: #18A957;
+    --color-primary-600: #0D944A;
+    --color-primary-700: #08753A;
+    --color-primary-800: #06592C;
+    --color-primary-900: #043D1E;
 
-   .color-green-light {
-      color: var(--color-primary-100);
-   }
+    .color-green-light {
+        color: var(--color-primary-100);
+    }
 
-   .color-green-regular {
-      color: var(--color-primary-600);
-   }
+    .color-green-regular {
+        color: var(--color-primary-600);
+    }
 
-   .color-green-dark {
-      color: var(--color-primary-900);
-   }
+    .color-green-dark {
+        color: var(--color-primary-900);
+    }
 
-   /* Cor principal da interface */
-   --color-brand: var(--color-primary-600);
-   --color-brand-hover: var(--color-primary-700);
-   --color-brand-light: var(--color-primary-100);
+    /* Cor principal da interface */
+    --color-brand: var(--color-primary-600);
+    --color-brand-hover: var(--color-primary-700);
+    --color-brand-light: var(--color-primary-100);
 
-   /* ===========================
+    /* ===========================
      Neutros
   ============================ */
 
-   --color-white: #FFFFFF;
+    --color-white: #FFFFFF;
 
-   --color-gray-50: #FAFAFA;
-   --color-gray-100: #F5F5F5;
-   --color-gray-200: #EAEAEA;
-   --color-gray-300: #D7D7D7;
-   --color-gray-400: #B5B5B5;
-   --color-gray-500: #8B8B8B;
-   --color-gray-600: #666666;
-   --color-gray-700: #4A4A4A;
-   --color-gray-800: #2E2E2E;
-   --color-gray-900: #171717;
+    --color-gray-50: #FAFAFA;
+    --color-gray-100: #F5F5F5;
+    --color-gray-200: #EAEAEA;
+    --color-gray-300: #D7D7D7;
+    --color-gray-400: #B5B5B5;
+    --color-gray-500: #8B8B8B;
+    --color-gray-600: #666666;
+    --color-gray-700: #4A4A4A;
+    --color-gray-800: #2E2E2E;
+    --color-gray-900: #171717;
 
-   .color-gray-light {
-      color: var(--color-gray-400);
-   }
+    .color-gray-light {
+        color: var(--color-gray-400);
+    }
 
-   .color-gray-regular {
-      color: var(--color-gray-600);
-   }
+    .color-gray-regular {
+        color: var(--color-gray-600);
+    }
 
-   .color-gray-dark {
-      color: var(--color-gray-800);
-   }
+    .color-gray-dark {
+        color: var(--color-gray-800);
+    }
 
-   /* ===========================
+    /* ===========================
      Estados
   ============================ */
 
-   --color-success: #16A34A;
-   --color-warning: #F59E0B;
-   --color-error: #DC2626;
-   --color-info: #2563EB;
+    --color-success: #16A34A;
+    --color-warning: #F59E0B;
+    --color-error: #DC2626;
+    --color-info: #2563EB;
 
-   .color-success {
-      color: var(--color-success);
-   }
+    .color-success {
+        color: var(--color-success);
+    }
 
-   .color-warning {
-      color: var(--color-warning);
-   }
+    .color-warning {
+        color: var(--color-warning);
+    }
 
-   .color-error {
-      color: var(--color-error);
-   }
+    .color-error {
+        color: var(--color-error);
+    }
 
-   .color-info {
-      color: var(--color-info);
-   }
+    .color-info {
+        color: var(--color-info);
+    }
 
-   /* ===========================
+    /* ===========================
      Backgrounds
   ============================ */
 
-   --background-primary: #FFFFFF;
-   --background-secondary: #F8FAF9;
-   --background-brand: var(--color-brand);
+    --background-primary: #FFFFFF;
+    --background-secondary: #F8FAF9;
+    --background-brand: var(--color-brand);
 
-   .background-color-primary {
-      color: var(--background-primary);
-   }
+    .background-color-primary {
+        color: var(--background-primary);
+    }
 
-   .background-color-secondary {
-      color: var(--background-secondary);
-   }
+    .background-color-secondary {
+        color: var(--background-secondary);
+    }
 
-   .background-brand {
-      color: var(--background-brand);
-   }
+    .background-brand {
+        color: var(--background-brand);
+    }
 
-   /* ===========================
+    /* ===========================
      Textos
   ============================ */
 
-   --text-primary: #1E1E1E;
-   --text-secondary: #6B7280;
-   --text-placeholder: #9CA3AF;
-   --text-on-brand: #FFFFFF;
+    --text-primary: #1E1E1E;
+    --text-secondary: #6B7280;
+    --text-placeholder: #9CA3AF;
+    --text-on-brand: #FFFFFF;
 
-   .text-color-primary {
-      color: var(--text-primary);
-   }
+    .text-color-primary {
+        color: var(--text-primary);
+    }
 
-   .text-color-secondary {
-      color: var(--text-secondary);
-   }
+    .text-color-secondary {
+        color: var(--text-secondary);
+    }
 
-   .text-color-placeholder {
-      color: var(--text-placeholder);
-   }
+    .text-color-placeholder {
+        color: var(--text-placeholder);
+    }
 
-   .text-on-brand {
-      color: var(--text-on-brand);
-   }
+    .text-on-brand {
+        color: var(--text-on-brand);
+    }
 
-   /* ===========================
+    /* ===========================
      Bordas
   ============================ */
 
-   --border-default: #E5E7EB;
-   --border-focus: var(--color-brand);
-   --border-light: #F1F5F9;
+    --border-default: #E5E7EB;
+    --border-focus: var(--color-brand);
+    --border-light: #F1F5F9;
 
-   /* ===========================
+    /* ===========================
      Inputs
   ============================ */
 
-   --input-background: #FFFFFF;
-   --input-border: #E5E7EB;
-   --input-placeholder: #9CA3AF;
-   --input-focus: var(--color-brand);
+    --input-background: #FFFFFF;
+    --input-border: #E5E7EB;
+    --input-placeholder: #9CA3AF;
+    --input-focus: var(--color-brand);
 
-   /* ===========================
+    /* ===========================
      Sombras
   ============================ */
 
-   --shadow-sm: 0 2px 8px rgba(0, 0, 0, .05);
-   --shadow-md: 0 6px 20px rgba(0, 0, 0, .08);
-   --shadow-lg: 0 12px 32px rgba(0, 0, 0, .12);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, .05);
+    --shadow-md: 0 6px 20px rgba(0, 0, 0, .08);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, .12);
 
-   /* ===========================
+    /* ===========================
      Radius
   ============================ */
 
-   --radius-sm: 8px;
-   --radius-md: 12px;
-   --radius-lg: 20px;
-   --radius-xl: 28px;
-   --radius-full: 999px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --radius-full: 999px;
 }
 
 /* ===========================
@@ -172,65 +172,70 @@
 
 /* Bordas */
 .border-default {
-   border: 1px solid var(--border-default);
+    border: 1px solid var(--border-default);
 }
 
 .border-focus {
-   border-color: var(--border-focus);
+    border-color: var(--border-focus);
 }
 
 .border-light {
-   border-color: var(--border-light);
+    border-color: var(--border-light);
 }
 
 /* Inputs */
 .input-background {
-   background-color: var(--input-background);
+    background-color: var(--input-background);
 }
 
 .input-border {
-   border-color: var(--input-border);
+    border-color: var(--input-border);
 }
 
 .input-focus:focus {
-   border-color: var(--input-focus);
-   outline-color: var(--input-focus);
+    border-color: var(--input-focus);
+    outline-color: var(--input-focus);
 }
 
-.input-placeholder::placeholder {
-   color: var(--input-placeholder);
+.input-placeholder {
+    border-color: var(--input-placeholder);
+
+    &:hover {
+        border-color: var(--input-placeholder);
+        background-color: var(--color-gray-300);
+    }
 }
 
 /* Sombras */
 .shadow-sm {
-   box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-sm);
 }
 
 .shadow-md {
-   box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-md);
 }
 
 .shadow-lg {
-   box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-lg);
 }
 
 /* Radius */
 .radius-sm {
-   border-radius: var(--radius-sm);
+    border-radius: var(--radius-sm);
 }
 
 .radius-md {
-   border-radius: var(--radius-md);
+    border-radius: var(--radius-md);
 }
 
 .radius-lg {
-   border-radius: var(--radius-lg);
+    border-radius: var(--radius-lg);
 }
 
 .radius-xl {
-   border-radius: var(--radius-xl);
+    border-radius: var(--radius-xl);
 }
 
 .radius-full {
-   border-radius: var(--radius-full);
+    border-radius: var(--radius-full);
 }
