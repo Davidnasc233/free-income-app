@@ -11,23 +11,16 @@ import { filter } from 'rxjs/operators';
   styleUrl: './auth.component.css',
 })
 export class AuthComponent {
-  isLoginView = true;
-  private readonly router: Router;
+  isLoginView: boolean = true;
 
-  constructor(router: Router) {
-    this.router = router;
-    this.syncView(router.url);
-
+  constructor(private readonly router: Router) {
+    this.isLoginRoute();
     this.router.events
-      .pipe(
-        filter(
-          (event): event is NavigationEnd => event instanceof NavigationEnd,
-        ),
-      )
-      .subscribe((event) => this.syncView(event.urlAfterRedirects));
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => this.isLoginRoute());
   }
 
-  private syncView(url: string) {
-    this.isLoginView = url.endsWith('/login') || url === '/auth' || url === '/';
+  isLoginRoute() {
+    this.isLoginView = this.router.url.includes('/auth/login');
   }
 }

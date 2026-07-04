@@ -5,8 +5,14 @@ import {
   GoogleSigninButtonModule,
   SocialLoginModule,
 } from '@abacritt/angularx-social-login';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth as firebaseAuth } from '../../../firebase.config';
 
 @Component({
   selector: 'app-auth-login',
@@ -22,13 +28,19 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 })
 export class AuthLoginComponent {
   private readonly router: Router;
-  private auth = getAuth();
+  private auth = firebaseAuth;
   isPasswordVisible = false;
-  errorMessage: string | null = null
+  errorMessage: string | null = null;
 
   loginForm = new FormGroup({
-    email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email]}),
-    password: new FormControl('', { nonNullable:true, validators: [Validators.required, Validators.minLength(6)]}),
+    email: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.email],
+    }),
+    password: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(6)],
+    }),
   });
 
   constructor(router: Router) {
@@ -45,21 +57,24 @@ export class AuthLoginComponent {
 
   async onSubmit() {
     if (this.loginForm.invalid) {
-        this.loginForm.markAllAsTouched();
-        return
+      this.loginForm.markAllAsTouched();
+      return;
     }
 
     const { email, password } = this.loginForm.getRawValue();
 
     try {
-        this.errorMessage = null
-        const userCredential = await signInWithEmailAndPassword(this.auth, email, password)
+      this.errorMessage = null;
+      const userCredential = await signInWithEmailAndPassword(
+        this.auth,
+        email,
+        password,
+      );
 
-        console.log(userCredential)
-        this.router.navigate(['/dashboard']);
-
+      console.log(userCredential);
+      this.router.navigate(['/dashboard']);
     } catch (error) {
-        throw error
+      throw error;
     }
   }
 }

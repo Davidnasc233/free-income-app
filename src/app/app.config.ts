@@ -4,7 +4,6 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import {
   GoogleLoginProvider,
-  SOCIAL_AUTH_CONFIG,
   SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
 
@@ -12,7 +11,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     {
-      provide: SOCIAL_AUTH_CONFIG,
+      provide: 'SocialAuthServiceConfig',
       useValue: {
         autoLogin: false,
         providers: [
