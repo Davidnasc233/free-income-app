@@ -38,7 +38,6 @@ kbd,
 q,
 s,
 samp,
-small,
 strike,
 strong,
 sub,
@@ -174,3 +173,4 @@ textarea {
 .text-secondary {
     color: var(--text-secondary);
 }
+

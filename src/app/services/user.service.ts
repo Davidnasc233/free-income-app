@@ -15,9 +15,9 @@ export class UserService {
       await setDoc(newUser, {
         name: user.name,
         email: user.email,
-        age: user.age,
+        birthDay: user.birthDay,
         phone: user.phone,
-        salary: user.salary,
+        income: user.income,
         created_at: new Date().toISOString(),
         updated_at: null,
       });

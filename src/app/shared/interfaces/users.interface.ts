@@ -1,10 +1,10 @@
 export interface User {
-  id: string;
+  id?: string;
   name: string;
   email: string;
-  age?: string;
-  phone?: string;
-  salary: string;
-  createdAt: number;
-  updatedAt: string;
+  birthDay: Date;
+  phone: number;
+  income?: number;
+  createdAt?: number;
+  updatedAt?: string;
 }

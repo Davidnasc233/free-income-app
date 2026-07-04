@@ -49,3 +49,18 @@ input {
     margin-left: 4px;
     text-decoration: underline;
 }
+
+.invalid-error {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid var(--color-error);
+    border-radius: var(--radius-sm);
+    z-index: 10;
+}
+
+.invalid-error input {
+    border: none;
+    outline: none;
+}
