@@ -1,0 +1,56 @@
+<div class="rounded-2 form bg-white">
+    <form [formGroup]="loginForm"  (submit)="onSubmit()">
+        <div class="inp-options pt-3 d-flex flex-column gap-3">
+            <div class="d-flex flex-column">
+                <span class="fw-bold inp-title">E-mail</span>
+                <div class="input-standard gap-2">
+                    <i class="ph ph-envelope-simple"></i>
+                    <input type="email" name="email" placeholder="Digite seu E-mail" formControlName="email" />
+                </div>
+            </div>
+
+            <div class="d-flex flex-column">
+                <span class="fw-bold inp-title">Senha</span>
+                <div class="input-standard gap-2 justify-content-between">
+                    <i class="ph ph-lock"></i>
+                    <input [type]="isPasswordVisible ? 'text' : 'password'" name="password"
+                        placeholder="Digite sua senha" formControlName="password" />
+
+                    <button type="submit" class="d-flex align-items-center" (click)="changePasswordVisibility()">
+                        <i [ngClass]="isPasswordVisible ? 'ph ph-eye-slash' : 'ph ph-eye'"></i>
+                    </button>
+                </div>
+            </div>
+
+
+            <p class="d-flex justify-content-end m-0">
+                <a href="#" class="color-green-regular">Esqueceu sua senha?</a>
+            </p>
+
+            <button type="button" class="btn btn-fi-success w-100">Entrar</button>
+
+            <hr />
+
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn input-placeholder w-50 d-flex justify-content-center fw-bold">
+                    <img src="assets/images/google.svg" alt="Google" class="me-2" width="18" />
+                    Google
+                </button>
+
+                <div style="display: none">
+                    <asl-google-signin-button #googleBtn></asl-google-signin-button>
+                </div>
+            </div>
+
+            <div class="d-flex create-account justify-content-center mt-3 align-items-center">
+                <p class="text-secondary m-0">
+                    Ainda não tem uma conta?
+                    <button type="button" class="switch-link color-green-regular" (click)="goToRegister()">
+                        Criar conta
+                    </button>
+                </p>
+                <i class="ph ph-arrow-right color-green-regular ms-2"></i>
+            </div>
+        </div>
+    </form>
+</div>

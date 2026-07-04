@@ -1,0 +1,52 @@
+.inp-title {
+    margin: 0 0 8px;
+}
+
+.input-standard {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid var(--input-placeholder);
+    border-radius: var(--radius-sm);
+    z-index: 10;
+}
+
+.input-standard input {
+    border: none;
+    outline: none;
+}
+
+.create-account:hover .switch-link,
+.create-account:hover i {
+    color: var(--color-primary-900);
+}
+
+i {
+    color: var(--text-primary);
+    font-size: 1.3rem;
+}
+
+input {
+    width: 100%;
+}
+
+.inp-options {
+    border-radius: var(--radius-sm);
+    margin: 0 24px;
+}
+
+.btn-fi-success:active {
+    background-color: var(--color-brand-hover);
+    border-radius: var(--radius-sm);
+    color: var(--color-white);
+    padding: 8px 0;
+}
+
+.switch-link {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin-left: 4px;
+    text-decoration: underline;
+}

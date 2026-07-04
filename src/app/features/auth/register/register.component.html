@@ -1,0 +1,89 @@
+<div class="rounded-2 form bg-white">
+    <div class="inp-options pt-3 d-flex flex-column gap-3">
+        <div class="mt-3">
+            <h3 class="color-green-regular fw-bold d-flex align-items-center gap-2">
+                <i class="ph ph-user-circle fs-2 color-green-regular"></i>
+                Crie sua conta
+            </h3>
+        </div>
+
+        <div class="d-flex flex-column">
+            <span class="fw-bold inp-title">Nome</span>
+            <div class="input-standard gap-2">
+                <i class="ph ph-identification-card"></i>
+                <input type="text" name="name" placeholder="Digite seu nome" />
+            </div>
+        </div>
+
+        <div class="d-flex flex-column">
+            <span class="fw-bold inp-title">E-mail</span>
+            <div class="input-standard gap-2">
+                <i class="ph ph-envelope-simple"></i>
+                <input type="email" name="email" placeholder="Digite seu E-mail" />
+            </div>
+        </div>
+
+        <div class="d-flex flex-column">
+            <span class="fw-bold inp-title">Senha</span>
+            <div class="input-standard gap-2 justify-content-between">
+                <i class="ph ph-lock"></i>
+                <input [type]="isPasswordVisible ? 'text' : 'password'" name="password"
+                    placeholder="Digite sua senha" />
+
+                <button type="button" class="d-flex align-items-center" (click)="changePasswordVisibility()">
+                    <i [ngClass]="isPasswordVisible ? 'ph ph-eye-slash' : 'ph ph-eye'"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-12 col-md-6 d-flex flex-column">
+                <span class="fw-bold inp-title">Data de nascimento</span>
+                <div class="input-standard gap-2">
+                    <i class="ph ph-calendar-dots"></i>
+                    <input type="date" name="date" />
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 d-flex flex-column">
+                <span class="fw-bold inp-title">Telefone</span>
+                <div class="input-standard gap-2">
+                    <i class="ph ph-phone"></i>
+                    <input type="tel" name="tel" placeholder="(00) 00000-0000" />
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column">
+            <span class="fw-bold inp-title">Renda Mensal <small>(opcional)</small></span>
+            <div class="input-standard gap-2">
+                <i class="ph ph-currency-circle-dollar"></i>
+                <input type="number" name="fixed-income" placeholder="Digite sua renda" />
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-fi-success w-100" (click)="register()">Criar Conta</button>
+
+        <hr />
+
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn input-placeholder w-50 d-flex justify-content-center fw-bold">
+                <img src="assets/images/google.svg" alt="Google" class="me-2" width="18" />
+                Google
+            </button>
+
+            <div style="display: none">
+                <asl-google-signin-button #googleBtn></asl-google-signin-button>
+            </div>
+        </div>
+
+        <div class="d-flex switch-account justify-content-center mt-3 align-items-center">
+            <p class="text-secondary m-0">
+                Ja possui uma conta?
+                <button type="button" class="switch-link color-green-regular" (click)="goToLogin()">
+                    Fazer login
+                </button>
+            </p>
+        </div>
+    </div>
+</div>
