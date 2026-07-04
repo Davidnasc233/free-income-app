@@ -11,8 +11,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth as firebaseAuth } from '../../../firebase.config';
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-auth-login',
@@ -28,7 +27,7 @@ import { auth as firebaseAuth } from '../../../firebase.config';
 })
 export class AuthLoginComponent {
   private readonly router: Router;
-  private auth = firebaseAuth;
+  private readonly auth: Auth;
   isPasswordVisible = false;
   errorMessage: string | null = null;
 
@@ -43,8 +42,9 @@ export class AuthLoginComponent {
     }),
   });
 
-  constructor(router: Router) {
+  constructor(router: Router, auth: Auth) {
     this.router = router;
+    this.auth = auth;
   }
 
   changePasswordVisibility() {
