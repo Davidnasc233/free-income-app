@@ -1,4 +1,4 @@
-<div class="rounded-2 form bg-white">
+<div class="form bg-white">
     <form [formGroup]="registerForm" (submit)="onSubmit()" novalidate>
         <div class="inp-options pt-3 d-flex flex-column gap-3">
             <div class="mt-3">
@@ -142,9 +142,9 @@
                 }
             </div>
 
-            @if (errorMessage) {
+            @if (authError) {
             <div class="color-error" role="alert">
-                <small>{{ errorMessage }}</small>
+                <small>Nao foi possivel concluir o cadastro. Tente novamente.</small>
             </div>
             }
 

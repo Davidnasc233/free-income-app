@@ -17,7 +17,8 @@ export class UserService {
         email: user.email,
         birthDay: user.birthDay,
         phone: user.phone,
-        income: user.income,
+        wallet: 0,
+        income: user.income ? user.income : 0,
         created_at: new Date().toISOString(),
         updated_at: null,
       });

@@ -4,6 +4,7 @@ export interface User {
   email: string;
   birthDay: Date;
   phone: number;
+  wallet?: number;
   income?: number;
   createdAt?: number;
   updatedAt?: string;

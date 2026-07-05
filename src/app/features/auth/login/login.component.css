@@ -17,6 +17,10 @@
     outline: none;
 }
 
+.form {
+    border-radius: 12px;
+}
+
 .create-account:hover .switch-link,
 .create-account:hover i {
     color: var(--color-primary-900);
@@ -25,6 +29,15 @@
 i {
     color: var(--text-primary);
     font-size: 1.3rem;
+}
+
+.ph-sign-in {
+    font-size: 1.3rem;
+    color: white !important;
+}
+
+.btn-fi-success:disabled .ph-sign-in {
+    color: var(--color-gray-800) !important;
 }
 
 input {
@@ -49,4 +62,26 @@ input {
     padding: 0;
     margin-left: 4px;
     text-decoration: underline;
+}
+
+.invalid-error {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid var(--color-error);
+    border-radius: var(--radius-sm);
+    z-index: 10;
+}
+
+.invalid-error input {
+    border: none;
+    outline: none;
+}
+
+@media (min-width: 576px) {
+    .form {
+        border-radius: 0 12px 12px 0;
+        padding: 24px 12px;
+    }
 }

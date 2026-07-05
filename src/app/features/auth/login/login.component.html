@@ -1,4 +1,4 @@
-<div class="rounded-2 form bg-white">
+<div class="form bg-white">
     <form [formGroup]="loginForm" (submit)="onSubmit()">
         <div class="inp-options pt-3 d-flex flex-column gap-3">
             <div class="d-flex flex-column">
@@ -16,18 +16,25 @@
                     <input [type]="isPasswordVisible ? 'text' : 'password'" name="password"
                         placeholder="Digite sua senha" formControlName="password" />
 
-                    <button class="d-flex align-items-center" (click)="changePasswordVisibility()">
+                    <button type="button" class="d-flex align-items-center" (click)="changePasswordVisibility()">
                         <i [ngClass]="isPasswordVisible ? 'ph ph-eye-slash' : 'ph ph-eye'"></i>
                     </button>
                 </div>
             </div>
+
+            <app-firebase-auth-error [error]="authError"
+                fallbackMessage="Nao foi possivel realizar o login. Tente novamente."></app-firebase-auth-error>
 
 
             <p class="d-flex justify-content-end m-0">
                 <a href="#" class="color-green-regular">Esqueceu sua senha?</a>
             </p>
 
-            <button type="button" class="btn btn-fi-success w-100" type="submit">Entrar</button>
+            <button type="submit" class="btn btn-fi-success w-100 d-flex align-items-center justify-content-center gap-1"
+                [disabled]="!loginForm.controls.email.value || !loginForm.controls.password.value">
+                <i class="ph ph-sign-in"></i>
+                Entrar
+            </button>
 
             <hr />
 
@@ -49,7 +56,6 @@
                         Criar conta
                     </button>
                 </p>
-                <i class="ph ph-arrow-right color-green-regular ms-2"></i>
             </div>
         </div>
     </form>

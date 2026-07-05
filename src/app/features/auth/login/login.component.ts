@@ -12,6 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { FirebaseAuthErrorComponent } from '../../../shared/components/firebase-auth-error/firebase-auth-error.component';
 
 @Component({
   selector: 'app-auth-login',
@@ -21,6 +22,7 @@ import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
     GoogleSigninButtonModule,
     SocialLoginModule,
     ReactiveFormsModule,
+    FirebaseAuthErrorComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -29,7 +31,7 @@ export class AuthLoginComponent {
   private readonly router: Router;
   private readonly auth: Auth;
   isPasswordVisible = false;
-  errorMessage: string | null = null;
+  authError: unknown = null;
 
   loginForm = new FormGroup({
     email: new FormControl('', {
@@ -56,7 +58,6 @@ export class AuthLoginComponent {
   }
 
   async onSubmit() {
-    console.log('click');
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -65,17 +66,12 @@ export class AuthLoginComponent {
     const { email, password } = this.loginForm.getRawValue();
 
     try {
-      this.errorMessage = null;
-      const userCredential = await signInWithEmailAndPassword(
-        this.auth,
-        email,
-        password,
-      );
+      this.authError = null;
+      await signInWithEmailAndPassword(this.auth, email, password);
 
-      console.log(userCredential);
       this.router.navigate(['/dashboard']);
     } catch (error) {
-      throw error;
+      this.authError = error;
     }
   }
 }

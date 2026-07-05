@@ -25,7 +25,7 @@ import { PhoneMaskDirective } from '../../../shared/directive/phone-mask.directi
     GoogleSigninButtonModule,
     SocialLoginModule,
     ReactiveFormsModule,
-    PhoneMaskDirective
+    PhoneMaskDirective,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
@@ -35,7 +35,7 @@ export class AuthRegisterComponent {
   private readonly phonePattern = /^\(\d{2}\)\s\d{4,5}-\d{4}$/;
   isPasswordVisible = false;
   auth = getAuth();
-  errorMessage: string | null = null;
+  authError: unknown = null;
 
   registerForm = new FormGroup({
     name: new FormControl('', {
@@ -108,7 +108,7 @@ export class AuthRegisterComponent {
   }
 
   async onSubmit() {
-    this.errorMessage = null;
+    this.authError = null;
 
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
@@ -117,25 +117,25 @@ export class AuthRegisterComponent {
 
     const formValue = this.registerForm.getRawValue();
 
-    const userCredentials = await createUserWithEmailAndPassword(
-      this.auth,
-      formValue.email,
-      formValue.password,
-    );
-
-    const payload = {
-      name: formValue.name,
-      email: formValue.email,
-      birthDay: new Date(formValue.birthDay),
-      phone: Number(formValue.phone.replace(/\D/g, '')),
-      income: formValue.income ? Number(formValue.income) : undefined,
-    };
-
     try {
+      const userCredentials = await createUserWithEmailAndPassword(
+        this.auth,
+        formValue.email,
+        formValue.password,
+      );
+
+      const payload = {
+        name: formValue.name,
+        email: formValue.email,
+        birthDay: new Date(formValue.birthDay),
+        phone: Number(formValue.phone.replace(/\D/g, '')),
+        income: formValue.income ? Number(formValue.income) : undefined,
+      };
+
       await this.userService.register(userCredentials.user.uid, payload);
       this.router.navigate(['/dashboard']);
     } catch (error) {
-      this.errorMessage = 'Nao foi possivel concluir o cadastro. Tente novamente.';
+      this.authError = error;
     }
   }
 }

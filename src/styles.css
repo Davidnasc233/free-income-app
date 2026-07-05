@@ -146,6 +146,14 @@ textarea {
     /* Impede o usuário de quebrar o layout expandindo para os lados */
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+    box-shadow: 0 0 0px 1000px #ffffff inset !important;
+    -webkit-text-fill-color: #000000 !important;
+}
+
 .btn-fi-success {
     background-color: var(--background-brand);
     border-radius: var(--radius-sm);
@@ -156,6 +164,18 @@ textarea {
         background-color: var(--color-brand-hover);
         color: var(--color-white);
     }
+
+    &:disabled {
+        background-color: var(--color-gray-400);
+        border-radius: var(--radius-sm);
+        color: var(--color-gray-800);
+        padding: 8px 0;
+        border: none;
+    }
+}
+
+i {
+    color: var(--color-brand) !important;
 }
 
 .input-border {
@@ -173,4 +193,3 @@ textarea {
 .text-secondary {
     color: var(--text-secondary);
 }
-
