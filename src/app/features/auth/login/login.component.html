@@ -1,5 +1,14 @@
 <div class="form bg-white">
     <form [formGroup]="loginForm" (submit)="onSubmit()">
+        <header class="title">
+            <div class="d-flex flex-row">
+                <h1 class="fw-bold">Bem vindo
+                    <span class="color-brand">de volta!</span>
+                </h1>
+            </div>
+            <p class="text-muted">Entre para continuar gerenciando sua vida financeira.</p>
+        </header>
+
         <div class="inp-options pt-3 d-flex flex-column gap-3">
             <div class="d-flex flex-column">
                 <span class="fw-bold inp-title">E-mail</span>
@@ -30,7 +39,8 @@
                 <a href="#" class="color-green-regular">Esqueceu sua senha?</a>
             </p>
 
-            <button type="submit" class="btn btn-fi-success w-100 d-flex align-items-center justify-content-center gap-1"
+            <button type="submit"
+                class="btn btn-fi-success w-100 d-flex align-items-center justify-content-center gap-1"
                 [disabled]="!loginForm.controls.email.value || !loginForm.controls.password.value">
                 <i class="ph ph-sign-in"></i>
                 Entrar

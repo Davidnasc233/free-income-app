@@ -193,3 +193,15 @@ i {
 .text-secondary {
     color: var(--text-secondary);
 }
+
+.checkbox {
+    width: 1rem !important;
+    margin-right: 8px;
+    height: 1rem;
+    accent-color: var(--color-primary-400);
+    cursor: pointer;
+}
+
+.checkbox:checked {
+    accent-color: var(--color-primary-500);
+}

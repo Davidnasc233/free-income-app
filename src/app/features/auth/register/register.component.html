@@ -1,12 +1,33 @@
 <div class="form bg-white">
+
+
     <form [formGroup]="registerForm" (submit)="onSubmit()" novalidate>
-        <div class="inp-options pt-3 d-flex flex-column gap-3">
-            <div class="mt-3">
-                <h3 class="color-green-regular fw-bold d-flex align-items-center gap-2">
-                    <i class="ph ph-user-circle fs-2 color-green-regular"></i>
-                    Crie sua conta
-                </h3>
+        <div class="d-flex align-items-center gap-1">
+            <div class="d-flex align-items-center gap-3">
+                <i class="ph ph-chart-line-up fs-1"></i>
+                <h2 class="fw-bold m-0">
+                    Renda
+                    <span class="color-brand">Livre</span>
+                </h2>
             </div>
+        </div>
+
+        <div class="inp-options pt-3 d-flex flex-column gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="back-arrow d-flex align-items-center" (click)="goToLogin()" title="Voltar">
+                    <i class="ph ph-caret-left fs-5"></i>
+                </div>
+
+                <div>
+                    <h3 class="color-green-regular m-0 fw-bold d-flex align-items-center gap-2">
+                        <i class="ph ph-user-circle fs-2 color-green-regular"></i>
+                        Crie sua conta
+                    </h3>
+                </div>
+
+            </div>
+
+            <p class="text-muted">Preencha seus dados para começar a transformar sua vida financeira.</p>
 
             <div class="d-flex flex-column">
                 <span class="fw-bold inp-title">Nome</span>
@@ -147,6 +168,15 @@
                 <small>Nao foi possivel concluir o cadastro. Tente novamente.</small>
             </div>
             }
+
+            <label class="d-flex align-items-center" for="terms-checkbox" style="cursor: pointer;">
+                <input id="terms-checkbox" type="checkbox" class="checkbox" />
+                <span>Aceitar 
+                    <span class="terms">
+                        Termos e Condições
+                    </span>
+                </span>
+            </label>
 
             <button type="submit" class="btn btn-fi-success w-100">Criar Conta</button>
 

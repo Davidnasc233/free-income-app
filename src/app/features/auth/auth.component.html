@@ -1,19 +1,106 @@
 <main class="login-page d-flex flex-column">
     <section class="container-section p-0">
         <div class="content-web">
-            <div *ngIf="isLoginView" class="section-one d-flex flex-column align-items-center justify-content-center">
-                <i class="ph ph-chart-line-up"></i>
-                <h2 class="fw-bold mb-5">
-                    Renda
-                    <span class="color-brand">Livre</span>
-                </h2>
-                <span class="fw-bold m-0">Seu dinheiro, suas escolhas.</span>
-                <span class="color-brand m-0">Liberdade para conquistar seus sonhos.</span>
+            <div *ngIf="isLoginView" class="section-one">
+                <div class="background d-flex flex-column align-items-center justify-content-start pt-5">
+                    <i class="ph ph-chart-line-up"></i>
+                    <h2 class="fw-bold mb-2">
+                        Renda
+                        <span class="color-brand">Livre</span>
+                    </h2>
+                    <span class="fw-bold m-0">Seu dinheiro, suas escolhas.</span>
+                    <span class="color-brand m-0">Liberdade para conquistar seus sonhos.</span>
+
+                    <div class="items">
+                        <div class="d-flex align-items-center gap-3">
+                            <div>
+                                <i class="ph ph-chart-line-up fs-1"></i>
+                            </div>
+                            <div>
+                                <p class="fw-bold">Tenha controle total</p>
+                                <small class="text-muted">Controle seus ganhos e gastos.</small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-3">
+                            <div>
+                                <i class="ph ph-shield-check fs-1"></i>
+                            </div>
+                            <div>
+                                <p class="fw-bold">Segurança para você</p>
+                                <small class="text-muted">Seus dados protegidos Sempre.</small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-3">
+                            <div>
+                                <i class="ph ph-target fs-1"></i>
+                            </div>
+                            <div>
+                                <p class="fw-bold">Alcance seus objetivos</p>
+                                <small class="text-muted">Planeje e realize seus sonhos.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div class="auth-container">
                 <router-outlet></router-outlet>
             </div>
+
+            @if (!isLoginView) {
+            <div class="d-flex flex-column justify-content-start pt-5 h-100">
+                <img src="/assets/images/phone.png" class="register-theme">
+
+                <div class="px-5 py-5">
+                    <h1 class="fw-bold">
+                        O primeiro passo para sua
+                        <span class="color-brand">
+                            liberdade financeira
+                        </span>
+                    </h1>
+
+                    <p class="text-muted w-50 fs-5">
+                        No Renda Livre, você tem as ferramentas certas para organizar suas finanças, investir melhor e
+                        realizar seus sonhos.
+                    </p>
+                </div>
+
+                <div class="w-100 list-items d-flex flex-column align-items-center pt-5 gap-5">
+                    <div class="d-flex align-items-center gap-3">
+                        <div>
+                            <i class="ph ph-chart-line-up"></i>
+                        </div>
+                        <div>
+                            <p class="fw-bold">Tenha controle total</p>
+                            <small class="text-muted">Controle seus ganhos e gastos.</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <div>
+                            <i class="ph ph-shield-check fs-1"></i>
+                        </div>
+                        <div>
+                            <p class="fw-bold">Segurança para você</p>
+                            <small class="text-muted">Seus dados protegidos Sempre.</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <div>
+                            <i class="ph ph-target fs-1"></i>
+                        </div>
+                        <div>
+                            <p class="fw-bold">Alcance seus objetivos</p>
+                            <small class="text-muted">Planeje e realize seus sonhos.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
         </div>
     </section>
 

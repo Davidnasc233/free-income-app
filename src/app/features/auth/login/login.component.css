@@ -17,8 +17,8 @@
     outline: none;
 }
 
-.form {
-    border-radius: 12px;
+.title {
+    padding: 0 24px 16px;
 }
 
 .create-account:hover .switch-link,
@@ -45,7 +45,6 @@ input {
 }
 
 .inp-options {
-    border-radius: var(--radius-sm);
     margin: 0 24px;
 }
 
