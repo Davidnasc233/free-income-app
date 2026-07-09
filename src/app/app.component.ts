@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { NavBarComponent } from "./shared/components/nav-bar/nav-bar.component";
+import { NavBarComponent } from './shared/components/nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +12,9 @@ import { NavBarComponent } from "./shared/components/nav-bar/nav-bar.component";
 export class AppComponent {
   title = 'my-fintech';
 
-  constructor(
-    private router: Router,
-  ) {}
+  constructor(private router: Router) {}
 
   showNavbar(): boolean {
-    return !['/login', '/register'].includes(this.router.url);
+    return !['/auth/login', '/auth/register'].includes(this.router.url);
   }
 }
