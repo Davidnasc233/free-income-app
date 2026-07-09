@@ -1,0 +1,49 @@
+<nav class="d-flex flex-row nav-bar justify-content-between">
+    <div class="d-flex flex-row m-auto nav-container">
+        <div class="d-flex align-items-center gap-2">
+            <i class="ph ph-wallet"></i>
+            <span class="fw-bold d-flex">
+                Renda
+                <strong class="ms-1 color-brand">
+                    Livre
+                </strong>
+            </span>
+        </div>
+
+        <div class="d-flex flex-row gap-4">
+            <!-- MENU LIST -->
+            <button class="menu-icon active">
+                <i class="ph ph-house"></i>
+                <p>Início</p>
+            </button>
+
+            <button class="menu-icon">
+                <i class="ph ph-arrows-left-right"></i>
+                <p>Gastos</p>
+            </button>
+
+            <button class="menu-icon">
+                <i class="ph ph-target"></i>
+                <p>Metas</p>
+            </button>
+
+            <button class="menu-icon">
+                <i class="ph ph-chart-pie-slice"></i>
+                <p>Gráficos</p>
+            </button>
+
+            <button #userButton class="d-flex align-items-center user-config" type="button"
+                (click)="openUserToolbarModal(userToolbarModal, userButton)">
+                <i class="ph ph-user"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<ng-template #userToolbarModal let-modal>
+    <div class="modal-body p-0 position-relative">
+        <button type="button" class="btn-close user-toolbar-close" aria-label="Close"
+            (click)="modal.dismiss()"></button>
+        <app-user-toolbar></app-user-toolbar>
+    </div>
+</ng-template>

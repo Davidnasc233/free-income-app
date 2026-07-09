@@ -1,0 +1,51 @@
+.user-toolbar-content {
+    padding: 16px;
+    min-width: 240px;
+}
+
+.user-toolbar-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-gray-300);
+}
+
+.user-name {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.user-toolbar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.user-toolbar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    color: var(--text-primary);
+    transition: background-color 150ms ease;
+}
+
+.user-toolbar-item i {
+    color: var(--color-primary-700);
+    font-size: 1.1rem;
+}
+
+.user-toolbar-item:hover {
+    background-color: var(--color-gray-200);
+}
+
+.user-toolbar-item.danger {
+    color: var(--color-error);
+}
+
+.user-toolbar-item.danger i {
+    color: var(--color-error);
+}

@@ -175,7 +175,11 @@ input:-webkit-autofill:focus {
 }
 
 i {
-    color: var(--color-brand) !important;
+    color: var(--color-brand);
+}
+
+i.primary-icon {
+    color: var(--color-brand);
 }
 
 .input-border {
@@ -204,4 +208,31 @@ i {
 
 .checkbox:checked {
     accent-color: var(--color-primary-500);
+}
+
+.user-toolbar-backdrop {
+    opacity: 0.1 !important;
+}
+
+.user-toolbar-modal .modal-content {
+    border: 1px solid var(--color-gray-300);
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+    overflow: hidden;
+}
+
+.user-toolbar-dialog {
+    position: fixed;
+    margin: 0;
+    top: var(--user-toolbar-top, 76px);
+    left: var(--user-toolbar-left, calc(100vw - 292px));
+    width: min(280px, calc(100vw - 24px));
+    max-width: 280px;
+}
+
+.user-toolbar-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
 }

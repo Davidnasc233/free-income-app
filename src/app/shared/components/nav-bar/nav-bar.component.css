@@ -1,0 +1,58 @@
+.nav-bar {
+    padding: 12px 64px;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.15);
+
+    i {
+        font-size: 1.2rem;
+    }
+}
+
+.nav-container {
+    width: 70%;
+    justify-content: space-between;
+}
+
+.menu-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: var(--color-gray-500);
+    padding: 4px 12px;
+    gap: 8px;
+
+    i {
+        color: var(--color-gray-500);
+    }
+}
+
+.menu-icon:hover {
+    border-radius: 24px;
+    color: var(--color-gray-800);
+    background-color: var(--color-gray-200);
+
+    i {
+        color: var(--color-gray-800);
+    }
+}
+
+.active,
+.active:hover {
+    margin: 0;
+    border-radius: 24px;
+    color: white;
+    background-color: var(--color-primary-600);
+    padding: 4px 12px;
+
+    i {
+        color: white !important;
+    }
+}
+
+.user-config i,
+.ph-wallet {
+    background-color: var(--color-primary-600);
+    padding: 4px 5px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    color: white !important;
+}
