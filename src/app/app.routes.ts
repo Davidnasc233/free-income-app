@@ -3,6 +3,7 @@ import { AuthComponent } from './features/auth/auth.component';
 import { AuthLoginComponent } from './features/auth/login/login.component';
 import { AuthRegisterComponent } from './features/auth/register/register.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { HomeComponent } from './features/home/home.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'auth/login' },
@@ -16,5 +17,6 @@ export const routes: Routes = [
     ],
   },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'home', component: HomeComponent },
   { path: '**', redirectTo: 'auth/login' },
 ];

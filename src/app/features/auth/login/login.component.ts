@@ -69,7 +69,7 @@ export class AuthLoginComponent {
       this.authError = null;
       await signInWithEmailAndPassword(this.auth, email, password);
 
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/home']);
     } catch (error) {
       this.authError = error;
     }

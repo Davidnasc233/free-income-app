@@ -1,0 +1,10 @@
+.button-balance {
+    background-color: var(--color-primary-500);
+    border-radius: var(--radius-md);
+    padding: 12px 0;
+    margin: 16px 0;
+
+    &:hover {
+        background-color: var(--color-primary-600);
+    }
+}

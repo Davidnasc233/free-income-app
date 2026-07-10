@@ -2,6 +2,10 @@
     margin: 0 0 8px;
 }
 
+.ph-chart-line-up {
+    color: var(--color-primary-600);
+}
+
 .input-standard {
     position: relative;
     display: flex;
@@ -77,5 +81,5 @@ input {
 
 .terms {
     text-decoration: underline;
-    color: blue;
+    color: var(--color-primary-600);
 }

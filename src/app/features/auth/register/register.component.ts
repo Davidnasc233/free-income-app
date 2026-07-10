@@ -133,7 +133,7 @@ export class AuthRegisterComponent {
       };
 
       await this.userService.register(userCredentials.user.uid, payload);
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/home']);
     } catch (error) {
       this.authError = error;
     }

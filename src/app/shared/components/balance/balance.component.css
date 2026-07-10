@@ -1,0 +1,78 @@
+.balance-header {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-primary-400);
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.20);
+    padding: 16px;
+
+    .title {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.2rem;
+    }
+
+    i,
+    h5,
+    small {
+        color: #fff;
+    }
+}
+
+.income-header {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-gray-200);
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.20);
+    padding: 16px;
+
+    .title {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.2rem;
+    }
+
+    i,
+    small {
+        color: var(--color-gray-600);
+    }
+
+    h5 {
+        color: var(--color-primary-500);
+    }
+}
+
+.expenses-header {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-gray-200);
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.20);
+    padding: 16px;
+
+    .title {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.2rem;
+    }
+
+    i,
+    small {
+        color: var(--color-gray-600);
+    }
+
+    h5 {
+        color: var(--color-error);
+    }
+}
+
+section {
+    width: 100%;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
