@@ -11,7 +11,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import {
+  Auth,
+  browserLocalPersistence,
+  signInWithEmailAndPassword,
+  setPersistence,
+} from '@angular/fire/auth';
 import { FirebaseAuthErrorComponent } from '../../../shared/components/firebase-auth-error/firebase-auth-error.component';
 
 @Component({
@@ -67,6 +72,7 @@ export class AuthLoginComponent {
 
     try {
       this.authError = null;
+      await setPersistence(this.auth, browserLocalPersistence);
       await signInWithEmailAndPassword(this.auth, email, password);
 
       this.router.navigate(['/home']);
