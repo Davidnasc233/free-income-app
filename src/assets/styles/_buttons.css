@@ -1,0 +1,7 @@
+.btn-view {
+    &:hover {
+        background-color: var(--color-secondary-600);
+        color: #fff;
+        border-radius: 20px;
+    }
+}

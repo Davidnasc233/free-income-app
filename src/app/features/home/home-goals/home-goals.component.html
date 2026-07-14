@@ -1,0 +1,27 @@
+<main class="d-flex flex-column gap-2">
+    <section>
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="fw-bold">
+                Metas
+            </h5>
+
+            <div>
+                <button class="btn btn-view">
+                    <small>Ver todas</small>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    @if (data && data.length > 0) {
+    <div>
+
+    </div>
+    } @else {
+    <div class="empty-list d-flex my-1">
+        <p class="text-muted m-auto">
+            Ainda não há Metas. Crie sua primeira Meta.
+        </p>
+    </div>
+    }
+</main>

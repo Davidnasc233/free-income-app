@@ -1,0 +1,5 @@
+.empty-list {
+    background-color: var(--color-gray-200);
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+}

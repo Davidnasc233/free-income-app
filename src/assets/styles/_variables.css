@@ -14,6 +14,17 @@
     --color-primary-800: #06592C;
     --color-primary-900: #043D1E;
 
+    --color-secondary-50: #F8F4FF;
+    --color-secondary-100: #EFE7FF;
+    --color-secondary-200: #DDCCFF;
+    --color-secondary-300: #C5A7FF;
+    --color-secondary-400: #A778F8;
+    --color-secondary-500: #8C4FEA;
+    --color-secondary-600: #7435CC;
+    --color-secondary-700: #5F2BA7;
+    --color-secondary-800: #4A2181;
+    --color-secondary-900: #33165A;
+
     .color-green-light {
         color: var(--color-primary-100);
     }
@@ -24,6 +35,18 @@
 
     .color-green-dark {
         color: var(--color-primary-900);
+    }
+
+    .color-secondary-light {
+        color: var(--color-secondary-100);
+    }
+
+    .color-secondary-regular {
+        color: var(--color-secondary-600);
+    }
+
+    .color-secondary-dark {
+        color: var(--color-secondary-900);
     }
 
     /* Cor principal da interface */

@@ -3,11 +3,13 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../shared/interfaces/users.interface';
 import { Auth } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
-import { BalanceComponent } from "../../shared/components/balance/balance.component";
+import { BalanceComponent } from '../../shared/components/balance/balance.component';
+import { HistoryTransactionsComponent } from './history-transactions/history-transactions.component';
+import { HomeGoalsComponent } from './home-goals/home-goals.component';
 
 @Component({
   selector: 'app-home',
-  imports: [BalanceComponent],
+  imports: [BalanceComponent, HistoryTransactionsComponent, HomeGoalsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })

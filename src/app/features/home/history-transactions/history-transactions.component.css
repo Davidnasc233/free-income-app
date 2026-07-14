@@ -1,0 +1,43 @@
+.income {
+    display: flex;
+    align-items: center;
+    background-color: rgb(193, 247, 193) !important;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.expense {
+    display: flex;
+    align-items: center;
+    background-color: rgb(245, 182, 182);
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.item-row {
+    padding: 8px 10px;
+    border-radius: var(--radius-md);
+
+    &:hover {
+        background-color: var(--color-gray-200);
+    }
+}
+
+.item-info {
+    line-height: normal;
+
+    span {
+        font-weight: 600;
+    }
+
+    small {
+        color: var(--color-gray-600);
+        font-size: 0.8rem;
+    }
+}
+
+.empty-list {
+    background-color: var(--color-gray-200);
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+}
