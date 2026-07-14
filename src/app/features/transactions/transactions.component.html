@@ -1,0 +1,59 @@
+<main class="new-transaction-container p-4">
+    <section class="d-flex justify-content-between align-items-center mb-2">
+        <h4 class="fw-bold m-0">Nova Transação</h4>
+
+        <button type="button" class="btn-close" aria-label="Fechar" (click)="closeModal()"></button>
+    </section>
+
+    <form [formGroup]="transactionForm" (submit)="onSubmit()" novalidate class="d-flex flex-column gap-3">
+        <div class="d-flex flex-column">
+            <span class="fw-bold inp-title">Descrição</span>
+            <div class="input-standard" [class.invalid-error]="transactionForm.controls.description.invalid &&
+			(transactionForm.controls.description.dirty || transactionForm.controls.description.touched)">
+                <input type="text" name="description" placeholder="Ex: Almoco, Freelance..."
+                    formControlName="description" />
+            </div>
+        </div>
+
+        <div class="d-flex flex-column">
+            <span class="fw-bold inp-title">Valor (R$)</span>
+            <div class="input-standard" [class.invalid-error]="transactionForm.controls.value.invalid &&
+			(transactionForm.controls.value.dirty || transactionForm.controls.value.touched)">
+                <input type="number" name="value" step="0.01" min="0" placeholder="50.00" formControlName="value" />
+            </div>
+        </div>
+
+        <div class="d-flex flex-column">
+            <span class="fw-bold inp-title">Tipo</span>
+            <div class="input-standard select-wrapper" [class.invalid-error]="transactionForm.controls.type.invalid &&
+			(transactionForm.controls.type.dirty || transactionForm.controls.type.touched)">
+                <select formControlName="type" name="type" class="w-100">
+                    <option [value]="transactionType.EXPENSE">Despesa</option>
+                    <option [value]="transactionType.INCOME">Receita</option>
+                </select>
+                <i class="ph ph-caret-down"></i>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column">
+            <span class="fw-bold inp-title">Categoria</span>
+            <div class="input-standard select-wrapper" [class.invalid-error]="transactionForm.controls.categoryId.invalid &&
+			(transactionForm.controls.categoryId.dirty || transactionForm.controls.categoryId.touched)">
+                <select formControlName="categoryId" name="categoryId" class="w-100">
+                    @for (category of categories; track category.id) {
+                    <option [value]="category.id">{{ category.label }}</option>
+                    }
+                </select>
+                <i class="ph ph-caret-down"></i>
+            </div>
+        </div>
+
+        @if (submitError) {
+        <small class="color-error">{{ submitError }}</small>
+        }
+
+        <button type="submit" class="btn btn-fi-success w-100" [disabled]="isSubmitting">
+            {{ isSubmitting ? 'Adicionando...' : 'Adicionar' }}
+        </button>
+    </form>
+</main>

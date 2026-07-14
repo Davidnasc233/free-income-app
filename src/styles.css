@@ -237,3 +237,9 @@ i.primary-icon {
     right: 10px;
     z-index: 1;
 }
+
+.transaction-modal .modal-content {
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}

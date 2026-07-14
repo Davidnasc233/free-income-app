@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   Firestore,
+  addDoc,
   collection,
   getDocs,
   limit,
@@ -8,6 +9,7 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
+import { FirebaseError } from 'firebase/app';
 import { Transaction } from '../shared/interfaces/transaction.interface';
 
 @Injectable({
@@ -16,21 +18,64 @@ import { Transaction } from '../shared/interfaces/transaction.interface';
 export class TransactionService {
   constructor(private readonly firestore: Firestore) {}
 
+  async addTransaction(
+    payload: Omit<Transaction, 'createdAt' | 'updatedAt'>,
+  ): Promise<void> {
+    const transactionsRef = collection(this.firestore, 'transactions');
+    try {
+      await addDoc(transactionsRef, {
+        ...payload,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    } catch (error) {
+      console.error('Falha ao salvar transacao no Firestore', {
+        payload,
+        error,
+      });
+      throw error;
+    }
+  }
+
   async getRecentByUserId(
     userId: string,
     maxItems = 5,
   ): Promise<Array<Transaction & { id: string }>> {
     const transactionsRef = collection(this.firestore, 'transactions');
-    const transactionsQuery = query(
+    const sortedQuery = query(
       transactionsRef,
       where('userId', '==', userId),
       orderBy('transactionDate', 'desc'),
       limit(maxItems),
     );
 
-    const snapshot = await getDocs(transactionsQuery);
+    try {
+      const snapshot = await getDocs(sortedQuery);
+      return this.mapTransactions(snapshot.docs);
+    } catch (error) {
+      if (!this.isIndexBuildingError(error)) {
+        throw error;
+      }
 
-    return snapshot.docs.map((document) => {
+      const fallbackQuery = query(
+        transactionsRef,
+        where('userId', '==', userId),
+        limit(Math.max(50, maxItems * 5)),
+      );
+      const fallbackSnapshot = await getDocs(fallbackQuery);
+
+      return this.mapTransactions(fallbackSnapshot.docs)
+        .sort(
+          (a, b) => b.transactionDate.getTime() - a.transactionDate.getTime(),
+        )
+        .slice(0, maxItems);
+    }
+  }
+
+  private mapTransactions(
+    docs: Array<{ id: string; data: () => Record<string, unknown> }>,
+  ): Array<Transaction & { id: string }> {
+    return docs.map((document) => {
       const data = document.data() as Record<string, unknown>;
 
       return {
@@ -46,6 +91,17 @@ export class TransactionService {
         updatedAt: this.toDate(data['updatedAt']),
       };
     });
+  }
+
+  private isIndexBuildingError(error: unknown): boolean {
+    if (!(error instanceof FirebaseError)) {
+      return false;
+    }
+
+    return (
+      error.code === 'failed-precondition' &&
+      /index is currently building/i.test(error.message)
+    );
   }
 
   private toDate(value: unknown): Date {

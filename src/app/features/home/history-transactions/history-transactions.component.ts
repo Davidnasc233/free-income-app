@@ -14,6 +14,7 @@ type TransactionListItem = Transaction & { id: string; category: string };
 })
 export class HistoryTransactionsComponent {
   data: TransactionListItem[] = [];
+  isLoading = false;
 
   constructor(
     private readonly transactionService: TransactionService,
@@ -21,14 +22,21 @@ export class HistoryTransactionsComponent {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    await this.refreshTransactions();
+  }
+
+  async refreshTransactions(): Promise<void> {
     await this.loadTransactions();
   }
 
   private async loadTransactions(): Promise<void> {
+    this.isLoading = true;
+    await this.auth.authStateReady();
     const uid = this.auth.currentUser?.uid;
 
     if (!uid) {
       this.data = [];
+      this.isLoading = false;
       return;
     }
 
@@ -42,6 +50,8 @@ export class HistoryTransactionsComponent {
     } catch (error) {
       console.error('Erro ao carregar transacoes', error);
       this.data = [];
+    } finally {
+      this.isLoading = false;
     }
   }
 }
