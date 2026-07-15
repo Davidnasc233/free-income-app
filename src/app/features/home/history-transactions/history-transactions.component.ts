@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import { TransactionService } from '../../../services/transaction.service';
 import { Transaction } from '../../../shared/interfaces/transaction.interface';
@@ -8,11 +8,13 @@ type TransactionListItem = Transaction & { id: string; category: string };
 
 @Component({
   selector: 'app-history-transactions',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, DatePipe],
   templateUrl: './history-transactions.component.html',
   styleUrl: './history-transactions.component.css',
 })
 export class HistoryTransactionsComponent {
+  @Output() viewAll = new EventEmitter<void>();
+
   data: TransactionListItem[] = [];
   isLoading = false;
 
@@ -27,6 +29,10 @@ export class HistoryTransactionsComponent {
 
   async refreshTransactions(): Promise<void> {
     await this.loadTransactions();
+  }
+
+  onViewAll(): void {
+    this.viewAll.emit();
   }
 
   private async loadTransactions(): Promise<void> {

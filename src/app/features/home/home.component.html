@@ -1,4 +1,4 @@
-<main class="px-5 mt-5">
+<main class="mt-5">
     <div>
         <h2 class="fw-bold m-0">E aí, {{ user?.name }}!</h2>
         <span class="text-muted">Seu resumo financeiro de hoje</span>
@@ -21,6 +21,10 @@
     </section>
 
     <section class="mt-2">
-        <app-history-transactions></app-history-transactions>
+        <app-history-transactions (viewAll)="goToTransactions()"></app-history-transactions>
+    </section>
+
+    <section class="tip-banner mt-3" role="note" aria-label="Dica financeira">
+        <span>Dica: Registrar seus gastos todos os dias é o primeiro passo para ter controle da sua grana!</span>
     </section>
 </main>

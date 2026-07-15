@@ -6,7 +6,7 @@
             </h5>
 
             <div>
-                <button class="btn btn-view">
+                <button class="btn btn-view" (click)="onViewAll()">
                     <small>Ver todas</small>
                 </button>
             </div>
@@ -33,7 +33,7 @@
                 }
                 <div class="d-flex flex-column item-info">
                     <span>{{ item.description }}</span>
-                    <small>{{ item.category }}</small>
+                    <small>{{ item.category }} · {{ item.transactionDate | date:'dd/MM/yyyy' }}</small>
                 </div>
             </div>
 

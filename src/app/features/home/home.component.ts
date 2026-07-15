@@ -6,8 +6,9 @@ import { BalanceComponent } from '../../shared/components/balance/balance.compon
 import { HistoryTransactionsComponent } from './history-transactions/history-transactions.component';
 import { HomeGoalsComponent } from './home-goals/home-goals.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TransactionsComponent } from '../transactions/transactions.component';
 import { ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { TransactionFormModalComponent } from '../transactions/transaction-form-modal/transaction-form-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -24,12 +25,13 @@ export class HomeComponent implements OnInit {
     private userService: UserService,
     private auth: Auth,
     private readonly modalService: NgbModal,
+    private readonly router: Router,
   ) {
     this.auth = auth;
   }
 
   openAddTransactionModal() {
-    const modalRef = this.modalService.open(TransactionsComponent, {
+    const modalRef = this.modalService.open(TransactionFormModalComponent, {
       centered: true,
       backdropClass: 'user-toolbar-backdrop',
       windowClass: 'transaction-modal',
@@ -40,6 +42,10 @@ export class HomeComponent implements OnInit {
         void this.historyTransactionsComponent?.refreshTransactions();
       }
     });
+  }
+
+  goToTransactions(): void {
+    void this.router.navigateByUrl('/transactions');
   }
 
   ngOnInit() {

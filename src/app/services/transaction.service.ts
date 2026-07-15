@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   Firestore,
+  QueryConstraint,
   addDoc,
   collection,
   getDocs,
@@ -10,7 +11,15 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { FirebaseError } from 'firebase/app';
+import { TransactionType } from '../shared/enum/transaction-type.enum';
 import { Transaction } from '../shared/interfaces/transaction.interface';
+
+interface GetTransactionsOptions {
+  maxItems?: number;
+  type?: TransactionType;
+  startDate?: Date;
+  endDate?: Date;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -41,30 +50,65 @@ export class TransactionService {
     userId: string,
     maxItems = 5,
   ): Promise<Array<Transaction & { id: string }>> {
+    return this.getByUserId(userId, { maxItems });
+  }
+
+  async getByUserId(
+    userId: string,
+    options: GetTransactionsOptions = {},
+  ): Promise<Array<Transaction & { id: string }>> {
+    const { maxItems = 100, type, startDate, endDate } = options;
     const transactionsRef = collection(this.firestore, 'transactions');
-    const sortedQuery = query(
-      transactionsRef,
-      where('userId', '==', userId),
-      orderBy('transactionDate', 'desc'),
-      limit(maxItems),
-    );
+    const constraints: QueryConstraint[] = [where('userId', '==', userId)];
+
+    if (type) {
+      constraints.push(where('type', '==', type));
+    }
+
+    if (startDate) {
+      constraints.push(where('transactionDate', '>=', startDate));
+    }
+
+    if (endDate) {
+      constraints.push(where('transactionDate', '<=', endDate));
+    }
+
+    constraints.push(orderBy('transactionDate', 'desc'));
+    constraints.push(limit(maxItems));
+
+    const sortedQuery = query(transactionsRef, ...constraints);
 
     try {
       const snapshot = await getDocs(sortedQuery);
       return this.mapTransactions(snapshot.docs);
     } catch (error) {
-      if (!this.isIndexBuildingError(error)) {
+      if (!this.isIndexRelatedError(error)) {
         throw error;
       }
 
       const fallbackQuery = query(
         transactionsRef,
         where('userId', '==', userId),
-        limit(Math.max(50, maxItems * 5)),
+        limit(Math.max(200, maxItems * 5)),
       );
       const fallbackSnapshot = await getDocs(fallbackQuery);
 
       return this.mapTransactions(fallbackSnapshot.docs)
+        .filter((item) => {
+          if (type && item.type !== type) {
+            return false;
+          }
+
+          if (startDate && item.transactionDate < startDate) {
+            return false;
+          }
+
+          if (endDate && item.transactionDate > endDate) {
+            return false;
+          }
+
+          return true;
+        })
         .sort(
           (a, b) => b.transactionDate.getTime() - a.transactionDate.getTime(),
         )
@@ -93,15 +137,12 @@ export class TransactionService {
     });
   }
 
-  private isIndexBuildingError(error: unknown): boolean {
+  private isIndexRelatedError(error: unknown): boolean {
     if (!(error instanceof FirebaseError)) {
       return false;
     }
 
-    return (
-      error.code === 'failed-precondition' &&
-      /index is currently building/i.test(error.message)
-    );
+    return error.code === 'failed-precondition' && /index/i.test(error.message);
   }
 
   private toDate(value: unknown): Date {

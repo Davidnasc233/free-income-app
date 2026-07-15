@@ -1,0 +1,136 @@
+.filters-shell {
+    background: linear-gradient(180deg, #ffffff, #fcfcff);
+    border: 1px solid #ececf6;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 8px 20px rgba(36, 44, 70, 0.04);
+}
+
+.search-sort-row {
+    justify-content: space-between;
+}
+
+.search-input-wrap {
+    border: 1px solid #e6e6ef;
+    border-radius: 11px;
+    padding: 10px 12px;
+    background-color: #fff;
+    flex: 1 1 420px;
+
+    i {
+        color: var(--text-secondary);
+        font-size: 1rem;
+    }
+
+    input {
+        border: none;
+        outline: none;
+        width: 100%;
+        color: var(--text-primary);
+        background: transparent;
+    }
+}
+
+.sort-select-wrap {
+    border: 1px solid #e6e6ef;
+    border-radius: 11px;
+    padding: 10px 12px;
+    background-color: #fff;
+    color: var(--text-primary);
+    min-width: 250px;
+
+    i {
+        color: var(--text-secondary);
+    }
+
+    select {
+        border: none;
+        outline: none;
+        color: var(--text-primary);
+        background: transparent;
+        appearance: none;
+        font-weight: 600;
+        width: 100%;
+    }
+}
+
+.chips-row {
+    align-items: center;
+}
+
+.chip-group {
+    flex-wrap: wrap;
+}
+
+.group-label {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-right: 4px;
+}
+
+.divider {
+    width: 1px;
+    height: 28px;
+    background-color: #e6e6ef;
+}
+
+.filter-chip,
+.period-chip {
+    border: none;
+    border-radius: 14px;
+    background-color: #f0f1f5;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 7px 16px;
+}
+
+.filter-chip.active,
+.period-chip.active {
+    background-color: var(--color-primary-500);
+    color: #fff;
+
+    i {
+        color: #fff;
+    }
+}
+
+.custom-range {
+    background-color: #f7f7fb;
+    border: 1px solid #ececf6;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.range-field label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.range-field input {
+    border: 1px solid #d9daea;
+    border-radius: 10px;
+    padding: 8px 10px;
+    min-width: 155px;
+}
+
+.btn-apply {
+    border: none;
+    border-radius: 10px;
+    padding: 8px 14px;
+    background-color: var(--color-primary-500);
+    color: #fff;
+    font-weight: 600;
+}
+
+@media (max-width: 992px) {
+    .sort-select-wrap {
+        min-width: 100%;
+    }
+
+    .divider {
+        display: none;
+    }
+}

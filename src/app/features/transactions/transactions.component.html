@@ -1,59 +1,76 @@
-<main class="new-transaction-container p-4">
-    <section class="d-flex justify-content-between align-items-center mb-2">
-        <h4 class="fw-bold m-0">Nova Transação</h4>
+<main class="transactions-container px-4 py-4">
+    <section class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex flex-column">
+            <h2 class="fw-bold m-0">Transações</h2>
+            <small class="text-muted">Acompanhe todas as suas Receitas e Despesas.</small>
+        </div>
 
-        <button type="button" class="btn-close" aria-label="Fechar" (click)="closeModal()"></button>
+        <button class="btn btn-new d-flex align-items-center gap-1" (click)="openAddTransactionModal()">
+            <i class="ph ph-plus text-white"></i>
+            <span>Nova</span>
+        </button>
     </section>
 
-    <form [formGroup]="transactionForm" (submit)="onSubmit()" novalidate class="d-flex flex-column gap-3">
-        <div class="d-flex flex-column">
-            <span class="fw-bold inp-title">Descrição</span>
-            <div class="input-standard" [class.invalid-error]="transactionForm.controls.description.invalid &&
-			(transactionForm.controls.description.dirty || transactionForm.controls.description.touched)">
-                <input type="text" name="description" placeholder="Ex: Almoco, Freelance..."
-                    formControlName="description" />
-            </div>
-        </div>
+    <app-transaction-filters [selectedType]="selectedType" [selectedPeriod]="selectedPeriod" [searchTerm]="searchTerm"
+        [sortOrder]="sortOrder" [customStartDate]="customStartDate" [customEndDate]="customEndDate"
+        (typeChange)="selectType($event)" (periodChange)="selectPeriod($event)"
+        (searchChange)="updateSearchTerm($event)" (sortOrderChange)="updateSortOrder($event)"
+        (customStartDateChange)="updateCustomStartDate($event)" (customEndDateChange)="updateCustomEndDate($event)"
+        (applyCustomRange)="applyCustomRange()"></app-transaction-filters>
 
-        <div class="d-flex flex-column">
-            <span class="fw-bold inp-title">Valor (R$)</span>
-            <div class="input-standard" [class.invalid-error]="transactionForm.controls.value.invalid &&
-			(transactionForm.controls.value.dirty || transactionForm.controls.value.touched)">
-                <input type="number" name="value" step="0.01" min="0" placeholder="50.00" formControlName="value" />
-            </div>
-        </div>
+    @if (submitError) {
+    <p class="color-error mt-2 mb-2">{{ submitError }}</p>
+    }
 
-        <div class="d-flex flex-column">
-            <span class="fw-bold inp-title">Tipo</span>
-            <div class="input-standard select-wrapper" [class.invalid-error]="transactionForm.controls.type.invalid &&
-			(transactionForm.controls.type.dirty || transactionForm.controls.type.touched)">
-                <select formControlName="type" name="type" class="w-100">
-                    <option [value]="transactionType.EXPENSE">Despesa</option>
-                    <option [value]="transactionType.INCOME">Receita</option>
-                </select>
-                <i class="ph ph-caret-down"></i>
-            </div>
-        </div>
+    @if (isLoading) {
+    <section class="loader-wrap d-flex justify-content-center py-2">
+        <div class="loader"></div>
+    </section>
+    } @else if (groupedData.length > 0) {
+    <section class="d-flex flex-column gap-3 mt-2">
+        @for (group of groupedData; track trackByGroupKey($index, group)) {
+        <article class="day-group d-flex flex-column gap-2">
+            <header class="d-flex align-items-center justify-content-between">
+                <h6 class="day-title m-0">{{ group.title }}</h6>
 
-        <div class="d-flex flex-column">
-            <span class="fw-bold inp-title">Categoria</span>
-            <div class="input-standard select-wrapper" [class.invalid-error]="transactionForm.controls.categoryId.invalid &&
-			(transactionForm.controls.categoryId.dirty || transactionForm.controls.categoryId.touched)">
-                <select formControlName="categoryId" name="categoryId" class="w-100">
-                    @for (category of categories; track category.id) {
-                    <option [value]="category.id">{{ category.label }}</option>
+                <span class="day-total" [class.positive]="group.total >= 0" [class.negative]="group.total < 0">
+                    Total: {{ getSignedAmount(group.total) }}{{ (group.total < 0 ? -group.total : group.total) |
+                        currency:'BRL' }} </span>
+            </header>
+
+            @for (item of group.items; track trackByTransactionId($index, item)) {
+            <div class="item-row d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
+                    @if (item.type == 'income') {
+                    <div class="income">
+                        <i class="ph ph-trend-up"></i>
+                    </div>
+                    } @else {
+                    <div class="expense">
+                        <i class="ph ph-trend-down color-error"></i>
+                    </div>
                     }
-                </select>
-                <i class="ph ph-caret-down"></i>
+                    <div class="d-flex flex-column item-info">
+                        <span>{{ item.description }}</span>
+                        <small>{{ item.category }}</small>
+                    </div>
+                </div>
+
+                @if (item.type === transactionType.INCOME) {
+                <p class="value-income fw-bold">+{{ item.value | currency:'BRL' }}</p>
+                } @else {
+                <p class="value-expense fw-bold">-{{ item.value | currency:'BRL' }}</p>
+                }
             </div>
-        </div>
-
-        @if (submitError) {
-        <small class="color-error">{{ submitError }}</small>
+            }
+        </article>
         }
-
-        <button type="submit" class="btn btn-fi-success w-100" [disabled]="isSubmitting">
-            {{ isSubmitting ? 'Adicionando...' : 'Adicionar' }}
-        </button>
-    </form>
+    </section>
+    } @else {
+    <div class="empty-list d-flex my-1">
+        <p class="text-muted m-auto">
+            Nenhuma transação encontrada para os filtros selecionados.
+        </p>
+    </div>
+    }
 </main>

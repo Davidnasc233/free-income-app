@@ -1,7 +1,7 @@
 .income {
     display: flex;
     align-items: center;
-    background-color: rgb(193, 247, 193) !important;
+    background-color: #2bab7c1a !important;
     padding: 8px;
     border-radius: 50%;
 }
@@ -9,7 +9,7 @@
 .expense {
     display: flex;
     align-items: center;
-    background-color: rgb(245, 182, 182);
+    background-color: #df3a3a1a;
     padding: 8px;
     border-radius: 50%;
 }
@@ -25,10 +25,6 @@
 
 .item-info {
     line-height: normal;
-
-    span {
-        font-weight: 600;
-    }
 
     small {
         color: var(--color-gray-600);

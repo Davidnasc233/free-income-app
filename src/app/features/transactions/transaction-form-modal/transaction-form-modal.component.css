@@ -1,0 +1,47 @@
+.new-transaction-container {
+    background-color: var(--background-primary);
+    border-radius: var(--radius-lg);
+}
+
+.inp-title {
+    margin: 0 0 8px;
+}
+
+.input-standard {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    z-index: 2;
+
+    &:focus-within {
+        border-color: var(--input-focus);
+    }
+}
+
+.input-standard input,
+.input-standard select {
+    border: none;
+    outline: none;
+    width: 100%;
+    background-color: transparent;
+    color: var(--text-primary);
+}
+
+.input-standard input::placeholder {
+    color: var(--text-placeholder);
+}
+
+.input-standard select {
+    appearance: none;
+}
+
+.select-wrapper i {
+    color: var(--text-secondary);
+}
+
+.invalid-error {
+    border-color: var(--color-error);
+}

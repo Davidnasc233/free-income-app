@@ -1,0 +1,70 @@
+<section class="filters-shell mb-3">
+    <section class="search-sort-row d-flex flex-wrap gap-2">
+        <div class="search-input-wrap d-flex align-items-center gap-2">
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" placeholder="Buscar transação..." [value]="searchTerm"
+                (input)="onSearchInput($any($event.target).value)" />
+        </div>
+
+        <div class="sort-select-wrap d-flex align-items-center gap-2">
+            <i class="ph ph-calendar-blank"></i>
+            <span>Ordenar:</span>
+            <select [value]="sortOrder" (change)="onSortChange($any($event.target).value)">
+                <option value="recent">Mais recentes</option>
+                <option value="oldest">Mais antigas</option>
+            </select>
+            <i class="ph ph-caret-down"></i>
+        </div>
+    </section>
+
+    <section class="chips-row d-flex flex-wrap gap-4 mt-3">
+        <div class="chip-group d-flex align-items-center gap-2">
+            <small class="group-label">Tipo</small>
+            @for (type of filterTypes; track type) {
+            <button class="filter-chip" [class.active]="selectedType === type" (click)="onTypeClick(type)">
+                @if (type === 'all') {
+                Todos
+                } @else if (type === transactionType.INCOME) {
+                Receitas
+                } @else {
+                Despesas
+                }
+            </button>
+            }
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="chip-group d-flex align-items-center gap-2">
+            <small class="group-label">Período</small>
+            @for (period of periodOptions; track period) {
+            <button class="period-chip" [class.active]="selectedPeriod === period" (click)="onPeriodClick(period)">
+                {{ period }} dias
+            </button>
+            }
+            <button class="period-chip d-flex align-items-center gap-1" [class.active]="selectedPeriod === 'custom'"
+                (click)="onPeriodClick('custom')">
+                <i class="ph ph-calendar-blank"></i>
+                <span>Customizado</span>
+            </button>
+        </div>
+    </section>
+
+    @if (selectedPeriod === 'custom') {
+    <section class="custom-range d-flex flex-wrap gap-2 align-items-end mt-3">
+        <div class="range-field d-flex flex-column">
+            <label for="transactionStartDate">Data inicial</label>
+            <input id="transactionStartDate" type="date" [value]="customStartDate"
+                (change)="onCustomStartDateChange($any($event.target).value)" />
+        </div>
+
+        <div class="range-field d-flex flex-column">
+            <label for="transactionEndDate">Data final</label>
+            <input id="transactionEndDate" type="date" [value]="customEndDate"
+                (change)="onCustomEndDateChange($any($event.target).value)" />
+        </div>
+
+        <button class="btn btn-apply" (click)="onApplyCustomRange()">Aplicar</button>
+    </section>
+    }
+</section>

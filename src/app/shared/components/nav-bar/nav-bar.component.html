@@ -12,12 +12,14 @@
 
         <div class="d-flex flex-row gap-4">
             <!-- MENU LIST -->
-            <button class="menu-icon active">
+            <button type="button" class="menu-icon" routerLink="/home" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">
                 <i class="ph ph-house"></i>
                 <p>Início</p>
             </button>
 
-            <button class="menu-icon">
+            <button type="button" class="menu-icon" routerLink="/transactions" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">
                 <i class="ph ph-arrows-left-right"></i>
                 <p>Gastos</p>
             </button>

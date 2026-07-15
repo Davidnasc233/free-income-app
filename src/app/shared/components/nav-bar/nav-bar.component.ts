@@ -1,10 +1,11 @@
 import { Component, HostListener, TemplateRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule } from '@angular/router';
 import { UserToolbarComponent } from '../user-toolbar/user-toolbar.component';
 
 @Component({
   selector: 'app-nav-bar',
-  imports: [UserToolbarComponent],
+  imports: [UserToolbarComponent, RouterModule],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css',
 })
