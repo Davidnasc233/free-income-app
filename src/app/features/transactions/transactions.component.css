@@ -1,6 +1,6 @@
 .btn-new {
     border: none;
-    border-radius: 14px;
+    border-radius: var(--radius-md);
     color: #fff;
     background: linear-gradient(145deg, #6d55f9, #4f35dd);
     padding: 8px 16px;
