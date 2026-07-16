@@ -9,15 +9,17 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TransactionFormModalComponent } from '../transactions/transaction-form-modal/transaction-form-modal.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [BalanceComponent, HistoryTransactionsComponent, HomeGoalsComponent],
+  imports: [BalanceComponent, HistoryTransactionsComponent, HomeGoalsComponent, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
   user: User | null = null;
+  today: Date = new Date();
   @ViewChild(HistoryTransactionsComponent)
   private historyTransactionsComponent?: HistoryTransactionsComponent;
 

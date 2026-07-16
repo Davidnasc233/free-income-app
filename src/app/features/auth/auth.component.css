@@ -1,3 +1,8 @@
+main {
+    margin: 0;
+    width: auto;
+}
+
 .login-page {
     display: flex;
     flex-direction: column;
