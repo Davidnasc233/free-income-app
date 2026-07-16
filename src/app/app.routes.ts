@@ -3,6 +3,7 @@ import { AuthComponent } from './features/auth/auth.component';
 import { AuthLoginComponent } from './features/auth/login/login.component';
 import { AuthRegisterComponent } from './features/auth/register/register.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { GoalsComponent } from './features/goals/goals.component';
 import { HomeComponent } from './features/home/home.component';
 import { TransactionsComponent } from './features/transactions/transactions.component';
 
@@ -19,6 +20,7 @@ export const routes: Routes = [
   },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'goals', component: GoalsComponent },
   { path: 'transactions', component: TransactionsComponent },
   { path: '**', redirectTo: 'auth/login' },
 ];

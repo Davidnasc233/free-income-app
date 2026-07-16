@@ -1,1 +1,53 @@
-<p>goals works!</p>
+<main class="goals-page mt-5">
+    <section class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="fw-bold m-0">Metas</h2>
+            <small class="text-muted">Acompanhe a evolucao dos seus objetivos financeiros</small>
+        </div>
+
+        <button class="btn btn-create-goal" type="button" (click)="onCreateGoal()">
+            <i class="ph ph-plus"></i>
+            <span>Criar meta</span>
+        </button>
+    </section>
+
+    @if (isLoading) {
+    <section class="empty-state d-flex">
+        <p class="m-auto text-muted">Carregando metas...</p>
+    </section>
+    } @else if (goals.length > 0) {
+    <section class="d-flex flex-column gap-3">
+        @for (goal of goals; track goal.id) {
+        <article class="goal-card">
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="d-flex align-items-center gap-2">
+                    <i [class]="'ph ' + goal.icon"></i>
+                    <h6 class="m-0 fw-bold">{{ goal.title }}</h6>
+                </div>
+
+                <span class="fw-semibold">{{ getProgressPercent(goal) }}%</span>
+            </div>
+
+            <div class="goal-progress mt-2">
+                <div class="goal-progress-fill" [style.width.%]="getProgressPercent(goal)"></div>
+            </div>
+
+            <div class="goal-meta mt-2 d-flex justify-content-between">
+                <small>{{ goal.actualValue | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
+                <small>de {{ goal.targetValue | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
+            </div>
+
+            <small class="goal-date d-block mt-1">Prazo: {{ goal.limitDate | date:'dd/MM/yyyy':'':'pt-BR' }}</small>
+        </article>
+        }
+    </section>
+    } @else {
+    <section class="empty-state d-flex flex-column justify-content-center align-items-center gap-2">
+        <p class="text-muted m-0">Voce ainda nao possui metas cadastradas.</p>
+        <button class="btn btn-create-goal" type="button" (click)="onCreateGoal()">
+            <i class="ph ph-plus"></i>
+            <span>Criar meta</span>
+        </button>
+    </section>
+    }
+</main>

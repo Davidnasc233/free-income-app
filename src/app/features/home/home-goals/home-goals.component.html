@@ -5,18 +5,51 @@
                 Metas
             </h5>
 
-            <div>
-                <button class="btn btn-view">
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-view" type="button" (click)="onViewAllGoals()">
                     <small>Ver todas</small>
                 </button>
             </div>
         </div>
     </section>
 
-    @if (data && data.length > 0) {
-    <div>
-
+    @if (isLoading) {
+    <div class="empty-list d-flex my-1">
+        <p class="text-muted m-auto">
+            Carregando metas...
+        </p>
     </div>
+    } @else if (goals && goals.length > 0) {
+    <section class="d-flex flex-column gap-3">
+        @for (goal of goals; track goal.id) {
+        <div class="d-flex flex-row card gap-2 px-3 py-2">
+            <div class="d-flex align-items-center">
+                <i class="goal-icon" [class]="'ph ' + goal.icon"></i>
+            </div>
+
+            <div class="w-100">
+                <div class="d-flex align-items-center justify-content-between">
+                    <span>
+                        {{ goal.title }}
+                    </span>
+
+                    <span>
+                        {{ getProgressPercent(goal) }}%
+                    </span>
+                </div>
+
+                <div class="goal-progress mt-1">
+                    <div class="goal-progress-fill" [style.width.%]="getProgressPercent(goal)"></div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-1 progress-values">
+                    <small>{{ formatCurrency(goal.actualValue) }} guardado</small>
+                    <small>Meta: {{ formatCurrency(goal.targetValue) }}</small>
+                </div>
+            </div>
+        </div>
+        }
+    </section>
     } @else {
     <div class="empty-list d-flex my-1">
         <p class="text-muted m-auto">

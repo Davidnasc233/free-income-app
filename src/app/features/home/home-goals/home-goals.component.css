@@ -3,3 +3,58 @@
     padding: 8px 12px;
     border-radius: var(--radius-md);
 }
+
+.card {
+    background-color: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    border: none;
+}
+
+.goal-progress {
+    width: 100%;
+    height: 8px;
+    border-radius: 999px;
+    background-color: var(--color-gray-300);
+    overflow: hidden;
+}
+
+.goal-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #00a86b 0%, #3ccf8e 100%);
+    transition: width 0.3s ease;
+}
+
+.progress-values {
+    color: var(--color-gray-600);
+}
+
+.goal-limit-date {
+    color: var(--color-gray-600);
+    font-size: 0.78rem;
+}
+
+.btn-create-goal {
+    border: 1px solid var(--color-primary-500);
+    color: var(--color-primary-500);
+    border-radius: 20px;
+}
+
+.btn-create-goal:hover {
+    color: #fff;
+    background-color: var(--color-primary-500);
+}
+
+.ph {
+    font-size: 1.8rem;
+}
+
+.goal-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background-color: #d4f3e8;
+}

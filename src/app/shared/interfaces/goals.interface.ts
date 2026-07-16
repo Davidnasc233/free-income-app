@@ -4,6 +4,7 @@ export interface Goals  {
     targetValue: number,
     actualValue: number,
     limitDate: Date,
+    icon: string,
     createdAt: Date,
     updatedAt: Date,
 }

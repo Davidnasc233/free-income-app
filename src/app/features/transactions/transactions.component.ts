@@ -24,7 +24,7 @@ type TransactionDayGroup = {
 
 @Component({
   selector: 'app-transactions',
-  imports: [CurrencyPipe, DatePipe, TransactionFiltersComponent],
+  imports: [CurrencyPipe, TransactionFiltersComponent],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.css',
 })
