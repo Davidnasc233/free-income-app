@@ -43,6 +43,10 @@ export class NavBarComponent {
     }
   }
 
+  closeUserToolbarModal(): void {
+    this.activeModalRef?.close();
+  }
+
   private clearModalState() {
     this.activeModalRef = null;
     this.activeAnchorElement = null;

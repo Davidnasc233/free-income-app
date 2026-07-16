@@ -104,11 +104,6 @@ body {
     font-family: "Helvetica", sans-serif;
 }
 
-main {
-    width: 70vw;
-    margin: 0 auto;
-}
-
 /* 4. Remove a marcação de bolinha/números de listas */
 ol,
 ul {
@@ -247,4 +242,42 @@ i.primary-icon {
     border: 1px solid var(--color-gray-300);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
+}
+
+.fi-loader-wrap {
+    height: 10vh;
+}
+
+.fi-loader {
+    display: block;
+    --height-of-loader: 4px;
+    width: 130px;
+    height: var(--height-of-loader);
+    border-radius: 30px;
+    background-color: rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.fi-loader::before {
+    content: "";
+    position: absolute;
+    background: var(--color-primary-600);
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    border-radius: 30px;
+    animation: fi-loading 1s ease-in-out infinite;
+}
+
+@keyframes fi-loading {
+    50% {
+        width: 100%;
+    }
+
+    100% {
+        width: 0;
+        right: 0;
+        left: unset;
+    }
 }

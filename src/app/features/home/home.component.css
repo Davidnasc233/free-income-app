@@ -29,3 +29,21 @@
     font-size: 1.1rem;
     flex-shrink: 0;
 }
+
+.mobile {
+    display: flex;
+}
+
+.desktop {
+    display: none;
+}
+
+@media (min-width: 780px) {
+    .mobile {
+        display: none;
+    }
+
+    .desktop {
+        display: flex;
+    }
+}

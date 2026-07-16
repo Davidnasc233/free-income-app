@@ -1,8 +1,9 @@
-<main class="mt-5">
+<main class="mt-5 px-3 py-2">
     <div class="d-flex flex-row align-items-center justify-content-between">
         <div>
             <h2 class="fw-bold m-0">E aí, {{ user?.name }}!</h2>
-            <span class="text-muted">{{ today | date: "EEEE, d 'de' MMMM 'de' yyyy"}}</span>
+            <span class="desktop text-muted">{{ today | date: "EEEE, d 'de' MMMM 'de' yyyy"}}</span>
+            <span class="mobile text-muted">{{ today | date: "d 'de' MMMM 'de' yyyy"}}</span>
         </div>
         <section>
             <button class="button-balance px-3 py-2 d-flex align-items-center w-100 justify-content-center gap-2"
