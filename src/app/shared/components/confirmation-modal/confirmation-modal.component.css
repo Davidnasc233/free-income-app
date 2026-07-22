@@ -1,0 +1,52 @@
+.confirmation-modal-container {
+    background-color: var(--background-primary);
+    border-radius: var(--radius-lg);
+}
+
+.description {
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.btn-cancel {
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+}
+
+.btn-confirm {
+    color: #fff;
+    border-radius: var(--radius-md);
+}
+
+.confirmation-modal-container[data-type='confirmation'] .btn-confirm {
+    background-color: var(--color-primary-600);
+}
+
+.confirmation-modal-container[data-type='confirmation'] .status-dot {
+    background-color: var(--color-primary-600);
+}
+
+.confirmation-modal-container[data-type='warning'] .btn-confirm {
+    background-color: #d97706;
+}
+
+.confirmation-modal-container[data-type='warning'] .status-dot {
+    background-color: #d97706;
+}
+
+.confirmation-modal-container[data-type='info'] .btn-confirm {
+    background-color: #0ea5e9;
+}
+
+.confirmation-modal-container[data-type='info'] .status-dot {
+    background-color: #0ea5e9;
+}
+
+.confirmation-modal-container[data-type='danger'] .btn-confirm {
+    background-color: var(--color-error);
+}
+
+.confirmation-modal-container[data-type='danger'] .status-dot {
+    background-color: var(--color-error);
+}

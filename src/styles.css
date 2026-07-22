@@ -244,6 +244,28 @@ i.primary-icon {
     box-shadow: var(--shadow-lg);
 }
 
+.goal-action-modal .modal-content {
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+.goal-action-modal .modal-dialog {
+    width: min(560px, calc(100vw - 24px));
+    max-width: 560px;
+}
+
+.confirmation-modal-window .modal-content {
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+.confirmation-modal-window .modal-dialog {
+    width: min(520px, calc(100vw - 24px));
+    max-width: 520px;
+}
+
 .fi-loader-wrap {
     height: 10vh;
 }

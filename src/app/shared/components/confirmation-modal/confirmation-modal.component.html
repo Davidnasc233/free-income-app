@@ -1,0 +1,20 @@
+<main class="confirmation-modal-container p-4" [attr.data-type]="type">
+    <section class="d-flex flex-column justify-content-center align-items-center text-center gap-2 mb-2">
+        <div class="d-flex align-items-center gap-2">
+            <h4 class="fw-bold m-0">{{ title }}</h4>
+        </div>
+
+        <p class="m-0 description text-center">{{ description }}</p>
+    </section>
+
+
+    <section class="d-flex justify-content-end gap-2 mt-4">
+        <button type="button" class="btn btn-cancel" (click)="closeModal()">
+            {{ cancelLabel }}
+        </button>
+
+        <button type="button" class="btn btn-confirm" (click)="confirm()">
+            {{ confirmLabel }}
+        </button>
+    </section>
+</main>

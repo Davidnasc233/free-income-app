@@ -16,28 +16,52 @@
         <p class="m-auto text-muted">Carregando metas...</p>
     </section>
     } @else if (goals.length > 0) {
-    <section class="d-flex flex-column gap-3">
+    @if (actionError) {
+    <p class="color-error mb-2">{{ actionError }}</p>
+    }
+    <section class="goals-grid">
         @for (goal of goals; track goal.id) {
         <article class="goal-card">
-            <div class="d-flex align-items-center justify-content-between gap-2">
+            <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
                 <div class="d-flex align-items-center gap-2">
-                    <i [class]="'ph ' + goal.icon"></i>
-                    <h6 class="m-0 fw-bold">{{ goal.title }}</h6>
+                    <i [class]="'ph ' + goal.icon" class="fs-3"></i>
+                    <div class="goal-meta mt-2 d-flex flex-column">
+                        <h6 class="m-0 fw-bold">{{ goal.title }}</h6>
+                        <div>
+                            <small>{{ goal.actualValue | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
+                            <small> de {{ goal.targetValue | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
+                        </div>
+                    </div>
                 </div>
 
+                <div class="d-flex gap-1">
+                    <button type="button" class="fs-5 btn-edit d-flex align-items-center" (click)="onEditGoal(goal)"
+                        [disabled]="isGoalActionLoading(goal.id)">
+                        <i class="ph ph-pencil-simple"></i>
+                    </button>
+                    <button type="button" class="fs-5 btn-trash d-flex align-items-center" (click)="onDeleteGoal(goal)"
+                        [disabled]="isGoalActionLoading(goal.id)">
+                        <i class="ph ph-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="d-flex gap-3">
+                <div class="goal-progress mt-2">
+                    <div class="goal-progress-fill" [style.width.%]="getProgressPercent(goal)"></div>
+                </div>
                 <span class="fw-semibold">{{ getProgressPercent(goal) }}%</span>
             </div>
 
-            <div class="goal-progress mt-2">
-                <div class="goal-progress-fill" [style.width.%]="getProgressPercent(goal)"></div>
+            <div class="container-value d-flex flex-row gap-2 mt-2">
+                <input #amountInput type="number" min="0" step="0.01" class="add-value" placeholder="Adicionar R$"
+                    (keyup.enter)="onAddValue(goal, amountInput)">
+                <button type="button" class="btn btn-add-value" (click)="onAddValue(goal, amountInput)"
+                    [disabled]="isGoalActionLoading(goal.id)">
+                    <span>{{ isGoalActionLoading(goal.id) ? 'Salvando...' : 'Guardar' }}</span>
+                </button>
             </div>
 
-            <div class="goal-meta mt-2 d-flex justify-content-between">
-                <small>{{ goal.actualValue | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
-                <small>de {{ goal.targetValue | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
-            </div>
-
-            <small class="goal-date d-block mt-1">Prazo: {{ goal.limitDate | date:'dd/MM/yyyy':'':'pt-BR' }}</small>
         </article>
         }
     </section>

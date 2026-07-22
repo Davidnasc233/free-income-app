@@ -4,10 +4,14 @@ import {
   QueryConstraint,
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   limit,
   orderBy,
   query,
+  serverTimestamp,
+  updateDoc,
   where,
 } from '@angular/fire/firestore';
 import { FirebaseError } from 'firebase/app';
@@ -28,9 +32,36 @@ export class GoalsService {
 
     await addDoc(goalsRef, {
       ...payload,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
     });
+  }
+
+  async updateGoal(
+    goalId: string,
+    payload: Partial<
+      Pick<
+        Goals,
+        | 'userId'
+        | 'title'
+        | 'targetValue'
+        | 'actualValue'
+        | 'limitDate'
+        | 'icon'
+      >
+    >,
+  ): Promise<void> {
+    const goalRef = doc(this.firestore, 'goals', goalId);
+
+    await updateDoc(goalRef, {
+      ...payload,
+      updatedAt: serverTimestamp(),
+    });
+  }
+
+  async deleteGoal(goalId: string): Promise<void> {
+    const goalRef = doc(this.firestore, 'goals', goalId);
+    await deleteDoc(goalRef);
   }
 
   async getRecentByUserId(
