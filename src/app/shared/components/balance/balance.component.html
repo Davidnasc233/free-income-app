@@ -8,7 +8,11 @@
 
             <div>
                 <h5>
-                    R$ 244,00
+                    @if (isLoading) {
+                    <span>Carregando...</span>
+                    } @else {
+                    <span>{{ totalBalance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+                    }
                 </h5>
             </div>
         </div>
@@ -23,7 +27,11 @@
 
             <div>
                 <h5>
-                    R$ 244,00
+                    @if (isLoading) {
+                    <span>Carregando...</span>
+                    } @else {
+                    <span>{{ totalIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+                    }
                 </h5>
             </div>
         </div>
@@ -38,7 +46,11 @@
 
             <div>
                 <h5>
-                    R$ 244,00
+                    @if (isLoading) {
+                    <span>Carregando...</span>
+                    } @else {
+                    <span>{{ totalExpense | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+                    }
                 </h5>
             </div>
         </div>

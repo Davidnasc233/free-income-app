@@ -1,4 +1,4 @@
-<main class="mt-5 px-3 py-2">
+<main class="home-page mt-5">
     <div class="d-flex flex-row align-items-center justify-content-between">
         <div>
             <h2 class="fw-bold m-0">E aí, {{ user?.name }}!</h2>
@@ -24,7 +24,7 @@
     </section>
 
     <section class="mt-3">
-        <app-history-transactions (viewAll)="goToTransactions()"></app-history-transactions>
+        <app-history-transactions (viewAll)="redirectTo('transactions')"></app-history-transactions>
     </section>
 
     <section class="tip-banner mt-3" role="note" aria-label="Dica financeira">

@@ -13,13 +13,20 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [BalanceComponent, HistoryTransactionsComponent, HomeGoalsComponent, CommonModule],
+  imports: [
+    BalanceComponent,
+    HistoryTransactionsComponent,
+    HomeGoalsComponent,
+    CommonModule,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
   user: User | null = null;
   today: Date = new Date();
+  @ViewChild(BalanceComponent)
+  private balanceComponent?: BalanceComponent;
   @ViewChild(HistoryTransactionsComponent)
   private historyTransactionsComponent?: HistoryTransactionsComponent;
 
@@ -42,12 +49,13 @@ export class HomeComponent implements OnInit {
     modalRef.closed.subscribe((result) => {
       if (result === 'created') {
         void this.historyTransactionsComponent?.refreshTransactions();
+        void this.balanceComponent?.refreshBalance();
       }
     });
   }
 
-  goToTransactions(): void {
-    void this.router.navigateByUrl('/transactions');
+  redirectTo(url: string): void {
+    void this.router.navigateByUrl(`/${url}`);
   }
 
   ngOnInit() {

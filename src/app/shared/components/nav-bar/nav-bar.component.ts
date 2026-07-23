@@ -1,6 +1,6 @@
 import { Component, HostListener, TemplateRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UserToolbarComponent } from '../user-toolbar/user-toolbar.component';
 
 @Component({
@@ -13,7 +13,22 @@ export class NavBarComponent {
   private activeModalRef: NgbModalRef | null = null;
   private activeAnchorElement: HTMLElement | null = null;
 
-  constructor(private readonly modalService: NgbModal) {}
+  constructor(
+    private readonly modalService: NgbModal,
+    private readonly router: Router,
+  ) {}
+
+  isHomeRoute(): boolean {
+    return this.router.url === '/home' || this.router.url.startsWith('/home?');
+  }
+
+  goToHomeIfNeeded(): void {
+    if (this.isHomeRoute()) {
+      return;
+    }
+
+    void this.router.navigateByUrl('/home');
+  }
 
   openUserToolbarModal(
     content: TemplateRef<unknown>,

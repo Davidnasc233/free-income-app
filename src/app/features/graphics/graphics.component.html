@@ -1,0 +1,44 @@
+<main class="graphics-container px-4 py-4">
+    <section class="d-flex flex-column mb-3">
+        <h2 class="fw-bold m-0">Análise Financeira</h2>
+        <small class="text-muted">
+            Período de {{ periodStart | date: 'dd/MM/yyyy' }} até
+            {{ periodEnd | date: 'dd/MM/yyyy' }} (30 dias)
+        </small>
+    </section>
+
+    @if (submitError) {
+    <p class="color-error mt-2 mb-2">{{ submitError }}</p>
+    }
+
+    @if (isLoading) {
+    <section class="loader-wrap d-flex justify-content-center py-2">
+        <div class="loader"></div>
+    </section>
+    } @else {
+    <section class="charts-grid">
+        <article class="chart-card">
+            <header class="mb-2">
+                <h5 class="m-0">Gastos por Categoria</h5>
+            </header>
+            <app-expenses-doughnut-chart [data]="expensesByCategoryData"></app-expenses-doughnut-chart>
+        </article>
+
+        <article class="chart-card">
+            <header class="mb-2">
+                <h5 class="m-0">Receitas vs Despesas</h5>
+                <small class="text-muted">Comparativo total dos últimos 30 dias</small>
+            </header>
+            <app-income-expense-bar-chart [data]="incomeVsExpensesData"></app-income-expense-bar-chart>
+        </article>
+
+        <article class="chart-card chart-card-full">
+            <header class="mb-2">
+                <h5 class="m-0">Evolução do Saldo</h5>
+                <small class="text-muted">Linha de saldo acumulado diário</small>
+            </header>
+            <app-balance-evolution-line-chart [data]="balanceEvolutionData"></app-balance-evolution-line-chart>
+        </article>
+    </section>
+    }
+</main>

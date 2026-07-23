@@ -10,6 +10,7 @@ import {
   SOCIAL_AUTH_CONFIG,
   SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    provideCharts(withDefaultRegisterables()),
     {
       provide: SOCIAL_AUTH_CONFIG,
       useValue: {

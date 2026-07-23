@@ -1,6 +1,7 @@
 <nav class="d-flex flex-row nav-bar justify-content-between">
     <div class="d-flex flex-row m-auto nav-container">
-        <button class="d-flex align-items-center gap-2">
+        <button type="button" class="d-flex align-items-center gap-2" (click)="goToHomeIfNeeded()"
+            [attr.aria-current]="isHomeRoute() ? 'page' : null">
             <i class="ph ph-wallet"></i>
             <span class="fw-bold d-flex">
                 Renda
@@ -30,7 +31,8 @@
                 <p>Metas</p>
             </button>
 
-            <button class="menu-icon">
+            <button class="menu-icon" routerLink="/graphics" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">
                 <i class="ph ph-chart-pie-slice"></i>
                 <p>Gráficos</p>
             </button>

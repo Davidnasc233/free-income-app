@@ -1,3 +1,8 @@
+.home-page {
+    width: min(920px, 100%);
+    margin: auto;
+}
+
 .button-balance {
     background-color: var(--color-primary-500);
     border-radius: var(--radius-md);
