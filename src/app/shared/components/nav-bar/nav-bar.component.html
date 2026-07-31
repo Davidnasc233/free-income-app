@@ -1,7 +1,7 @@
-<nav class="d-flex flex-row nav-bar justify-content-between">
+<nav class="d-flex flex-row nav-bar justify-content-between" aria-label="Navegação principal">
     <div class="d-flex flex-row m-auto nav-container">
-        <button type="button" class="d-flex align-items-center gap-2" (click)="goToHomeIfNeeded()"
-            [attr.aria-current]="isHomeRoute() ? 'page' : null">
+        <button type="button" class="d-flex align-items-center gap-2 brand-link" (click)="goToHomeIfNeeded()"
+            aria-label="Ir para a página inicial" [attr.aria-current]="isHomeRoute() ? 'page' : null">
             <i class="ph ph-wallet"></i>
             <span class="fw-bold d-flex">
                 Renda
@@ -11,34 +11,34 @@
             </span>
         </button>
 
-        <div class="d-flex flex-row gap-4">
+        <div class="d-flex flex-row gap-4" role="group" aria-label="Seções do aplicativo">
             <!-- MENU LIST -->
-            <button type="button" class="menu-icon" routerLink="/home" routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }">
+            <button type="button" class="menu-icon menu-icon-home" routerLink="/home" routerLinkActive="active"
+                aria-label="Abrir Início" [routerLinkActiveOptions]="{ exact: true }">
                 <i class="ph ph-house"></i>
                 <p>Início</p>
             </button>
 
-            <button type="button" class="menu-icon" routerLink="/transactions" routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }">
+            <button type="button" class="menu-icon menu-icon-transactions" routerLink="/transactions"
+                routerLinkActive="active" aria-label="Abrir Gastos" [routerLinkActiveOptions]="{ exact: true }">
                 <i class="ph ph-arrows-left-right"></i>
                 <p>Gastos</p>
             </button>
 
             <button type="button" class="menu-icon" routerLink="/goals" routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }">
+                aria-label="Abrir Metas" [routerLinkActiveOptions]="{ exact: true }">
                 <i class="ph ph-target"></i>
                 <p>Metas</p>
             </button>
 
-            <button class="menu-icon" routerLink="/graphics" routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }">
+            <button type="button" class="menu-icon menu-icon-graphics" routerLink="/graphics" routerLinkActive="active"
+                aria-label="Abrir Gráficos" [routerLinkActiveOptions]="{ exact: true }">
                 <i class="ph ph-chart-pie-slice"></i>
                 <p>Gráficos</p>
             </button>
 
             <button #userButton class="d-flex align-items-center user-config" type="button"
-                (click)="openUserToolbarModal(userToolbarModal, userButton)">
+                aria-label="Abrir menu da conta" (click)="openUserToolbarModal(userToolbarModal, userButton)">
                 <i class="ph ph-user"></i>
             </button>
         </div>
@@ -47,11 +47,9 @@
 
 <ng-template #userToolbarModal let-modal>
     <div class="modal-body p-0 position-relative">
-        <button type="button" class="btn-close user-toolbar-close" aria-label="Close"
+        <button type="button" class="btn-close user-toolbar-close" aria-label="Fechar"
             (click)="modal.dismiss()"></button>
-        <app-user-toolbar
-            (logoutSuccess)="closeUserToolbarModal()"
-            (closeRequested)="closeUserToolbarModal()"
-        ></app-user-toolbar>
+        <app-user-toolbar (logoutSuccess)="closeUserToolbarModal()"
+            (closeRequested)="closeUserToolbarModal()"></app-user-toolbar>
     </div>
 </ng-template>

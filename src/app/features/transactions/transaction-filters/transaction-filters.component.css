@@ -117,12 +117,26 @@
 }
 
 .btn-apply {
-    border: none;
-    border-radius: 10px;
+    border: 1px solid var(--color-primary-600);
+    border-radius: 999px;
+    min-height: 38px;
     padding: 8px 14px;
-    background-color: var(--color-primary-500);
+    background-color: var(--color-primary-600);
     color: #fff;
     font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-apply:hover {
+    background-color: var(--color-primary-700);
+    border-color: var(--color-primary-700);
+}
+
+.btn-apply:focus-visible {
+    outline: 2px solid var(--color-primary-700);
+    outline-offset: 2px;
 }
 
 @media (max-width: 992px) {

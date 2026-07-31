@@ -37,12 +37,25 @@
 .btn-create-goal {
     border: 1px solid var(--color-primary-500);
     color: var(--color-primary-500);
-    border-radius: 20px;
+    background-color: #fff;
+    border-radius: 999px;
+    min-height: 38px;
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-create-goal:hover {
     color: #fff;
     background-color: var(--color-primary-500);
+}
+
+.btn-create-goal:focus-visible {
+    outline: 2px solid var(--color-primary-700);
+    outline-offset: 2px;
 }
 
 .ph {

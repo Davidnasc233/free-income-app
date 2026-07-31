@@ -1,5 +1,8 @@
 .graphics-container {
     min-height: 100%;
+    width: min(920px, 100%);
+    margin: auto;
+    padding-inline: 16px;
 }
 
 .charts-grid {
@@ -27,5 +30,11 @@
 
     .chart-card-full {
         grid-column: auto;
+    }
+}
+
+@media (min-width: 780px) {
+    .graphics-container {
+        padding-inline: 20px;
     }
 }

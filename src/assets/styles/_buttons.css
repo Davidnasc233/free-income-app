@@ -1,7 +1,32 @@
 .btn-view {
+    border: 1px solid var(--color-primary-500);
+    color: var(--color-primary-500);
+    background-color: #fff;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 6px 12px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+
+    small {
+        font-size: 0.88rem;
+        line-height: 1;
+        font-weight: 600;
+    }
+
     &:hover {
-        background-color: var(--color-secondary-600);
+        background-color: var(--color-primary-500);
         color: #fff;
-        border-radius: 20px;
+        border-color: var(--color-primary-500);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-primary-700);
+        outline-offset: 2px;
     }
 }

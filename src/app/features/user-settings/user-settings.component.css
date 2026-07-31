@@ -1,75 +1,81 @@
 .settings-page {
-  width: min(640px, 100%);
-  margin: auto;
-  padding: 0 16px 32px;
+    width: min(640px, 100%);
+    margin: auto;
+    padding: 0 16px 32px;
+}
+
+@media (max-width: 768px) {
+    .settings-page.mt-5 {
+        margin-top: 1rem !important;
+    }
 }
 
 .back-arrow {
-  background-color: var(--color-gray-200);
-  border-radius: 50%;
-  padding: 8px;
-  cursor: pointer;
-  border: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+    background-color: var(--color-gray-200);
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .empty-state {
-  min-height: 180px;
+    min-height: 180px;
 }
 
 .settings-form {
-  background: var(--color-white);
-  border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-md, 12px);
-  padding: 24px;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md, 12px);
+    padding: 24px;
 }
 
 .inp-title {
-  margin: 0 0 8px;
+    margin: 0 0 8px;
 }
 
 .input-standard {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  border: 1px solid var(--input-placeholder, var(--color-gray-300));
-  border-radius: var(--radius-sm, 8px);
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid var(--input-placeholder, var(--color-gray-300));
+    border-radius: var(--radius-sm, 8px);
 }
 
 .input-standard i {
-  color: var(--text-primary);
-  font-size: 1.2rem;
+    color: var(--text-primary);
+    font-size: 1.2rem;
 }
 
 .input-standard input {
-  border: none;
-  outline: none;
-  width: 100%;
-  background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    background: transparent;
 }
 
 .invalid-error {
-  border-color: var(--color-error);
+    border-color: var(--color-error);
 }
 
 .btn-save {
-  width: 100%;
-  padding: 12px 16px;
-  border: 0;
-  border-radius: var(--radius-sm, 8px);
-  background: var(--color-primary-500);
-  color: var(--color-white);
-  font-weight: 700;
+    width: 100%;
+    padding: 12px 16px;
+    border: 0;
+    border-radius: var(--radius-sm, 8px);
+    background: var(--color-primary-500);
+    color: var(--color-white);
+    font-weight: 700;
 }
 
 .btn-save:hover:not(:disabled) {
-  background: var(--color-primary-600);
+    background: var(--color-primary-600);
 }
 
 .btn-save:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+    opacity: 0.7;
+    cursor: not-allowed;
 }

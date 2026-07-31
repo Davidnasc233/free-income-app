@@ -1,6 +1,10 @@
 .nav-bar {
     padding: 12px 64px;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.15);
+    background-color: var(--background-primary);
+    position: sticky;
+    top: 0;
+    z-index: 40;
 
     i {
         font-size: 1.2rem;
@@ -16,22 +20,25 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    color: var(--color-gray-500);
+    color: var(--color-gray-700);
     padding: 4px 12px;
     gap: 8px;
+    border-radius: 24px;
+    min-height: 40px;
+    transition: background-color 0.2s ease, color 0.2s ease;
 
     i {
-        color: var(--color-gray-500);
+        color: var(--color-gray-700);
     }
 }
 
 .menu-icon:hover {
     border-radius: 24px;
-    color: var(--color-gray-800);
+    color: var(--color-gray-900);
     background-color: var(--color-gray-200);
 
     i {
-        color: var(--color-gray-800);
+        color: var(--color-gray-900);
     }
 }
 
@@ -61,4 +68,74 @@
     outline: none;
     box-shadow: none;
     border: none;
+}
+
+@media (max-width: 1080px) {
+    .nav-bar {
+        padding: 10px 20px;
+    }
+
+    .nav-container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-bar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: auto;
+        bottom: 0;
+        padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid var(--color-gray-300);
+        box-shadow: 0 -8px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-container {
+        width: 100%;
+    }
+
+    .brand-link {
+        display: none !important;
+    }
+
+    .nav-container>div {
+        width: 100%;
+        justify-content: space-between;
+        gap: 0 !important;
+    }
+
+    .menu-icon {
+        flex-direction: column;
+        justify-content: center;
+        gap: 3px;
+        padding: 6px 6px;
+        min-width: 60px;
+        min-height: 52px;
+
+        p {
+            font-size: 0.7rem;
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+
+        i {
+            font-size: 1.1rem;
+        }
+    }
+
+    .menu-icon-home,
+    .menu-icon-transactions,
+    .menu-icon-graphics {
+        min-width: 62px;
+    }
+
+    .user-config {
+        min-height: 52px;
+        min-width: 56px;
+        justify-content: center;
+    }
 }

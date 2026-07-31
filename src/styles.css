@@ -104,6 +104,13 @@ body {
     font-family: "Helvetica", sans-serif;
 }
 
+/* 3.1. Evita que a navegação inferior fixa cubra conteúdo em mobile */
+@media (max-width: 768px) {
+    body {
+        padding-bottom: calc(76px + env(safe-area-inset-bottom));
+    }
+}
+
 /* 4. Remove a marcação de bolinha/números de listas */
 ol,
 ul {
@@ -134,6 +141,18 @@ button {
     background: none;
     border: none;
     cursor: pointer;
+}
+
+/* 7.1 Foco visível consistente para navegação por teclado */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role='button']:focus-visible {
+    outline: 3px solid var(--color-primary-700);
+    outline-offset: 2px;
+    border-radius: 8px;
 }
 
 a {
