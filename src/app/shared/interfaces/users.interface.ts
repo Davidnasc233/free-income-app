@@ -3,9 +3,15 @@ export interface User {
   name: string;
   email: string;
   birthDay: Date;
-  phone: number;
+  /** Dígitos do telefone (ex.: 11999998888). Pode vir como number em docs antigos. */
+  phone: string;
   wallet?: number;
   income?: number;
-  createdAt?: number;
-  updatedAt?: string;
+  createdAt?: string;
+  updatedAt?: string | null;
 }
+
+export type UserProfileUpdate = Pick<
+  User,
+  'name' | 'email' | 'birthDay' | 'phone' | 'income'
+>;

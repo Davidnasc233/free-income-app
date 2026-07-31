@@ -7,6 +7,7 @@ import { GoalsComponent } from './features/goals/goals.component';
 import { HomeComponent } from './features/home/home.component';
 import { TransactionsComponent } from './features/transactions/transactions.component';
 import { GraphicsComponent } from './features/graphics/graphics.component';
+import { UserSettingsComponent } from './features/user-settings/user-settings.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'auth/login' },
@@ -24,5 +25,6 @@ export const routes: Routes = [
   { path: 'goals', component: GoalsComponent },
   { path: 'transactions', component: TransactionsComponent },
   { path: 'graphics', component: GraphicsComponent },
+  { path: 'settings', component: UserSettingsComponent },
   { path: '**', redirectTo: 'auth/login' },
 ];

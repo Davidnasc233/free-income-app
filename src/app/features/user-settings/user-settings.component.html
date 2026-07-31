@@ -1,1 +1,133 @@
-<p>user-settings works!</p>
+<main class="settings-page mt-5">
+  <section class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex align-items-center gap-3">
+      <button type="button" class="back-arrow" (click)="goBack()" title="Voltar">
+        <i class="ph ph-caret-left fs-5"></i>
+      </button>
+      <div>
+        <h2 class="fw-bold m-0">Configurações</h2>
+        <small class="text-muted">Atualize seus dados pessoais</small>
+      </div>
+    </div>
+  </section>
+
+  @if (isLoading) {
+  <section class="empty-state d-flex">
+    <p class="m-auto text-muted">Carregando perfil...</p>
+  </section>
+  } @else if (loadError) {
+  <section class="empty-state d-flex">
+    <p class="m-auto color-error">{{ loadError }}</p>
+  </section>
+  } @else {
+  <form class="settings-form" [formGroup]="settingsForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="fields d-flex flex-column gap-3">
+      <div class="d-flex flex-column">
+        <span class="fw-bold inp-title">Nome</span>
+        <div class="input-standard gap-2"
+          [class.invalid-error]="settingsForm.controls.name.invalid && (settingsForm.controls.name.dirty || settingsForm.controls.name.touched)">
+          <i class="ph ph-identification-card"></i>
+          <input type="text" formControlName="name" placeholder="Seu nome" />
+        </div>
+        @if (settingsForm.controls.name.invalid && (settingsForm.controls.name.dirty ||
+        settingsForm.controls.name.touched)) {
+        <div class="color-error">
+          @if (settingsForm.controls.name.hasError('required')) {
+          <small>Nome é obrigatório.</small>
+          }
+          @if (settingsForm.controls.name.hasError('minlength')) {
+          <small>Nome deve ter no mínimo 3 caracteres.</small>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="d-flex flex-column">
+        <span class="fw-bold inp-title">E-mail</span>
+        <div class="input-standard gap-2"
+          [class.invalid-error]="settingsForm.controls.email.invalid && (settingsForm.controls.email.dirty || settingsForm.controls.email.touched)">
+          <i class="ph ph-envelope-simple"></i>
+          <input type="email" formControlName="email" placeholder="Seu e-mail" />
+        </div>
+        @if (settingsForm.controls.email.invalid && (settingsForm.controls.email.dirty ||
+        settingsForm.controls.email.touched)) {
+        <div class="color-error">
+          @if (settingsForm.controls.email.hasError('required')) {
+          <small>E-mail é obrigatório.</small>
+          }
+          @if (settingsForm.controls.email.hasError('email')) {
+          <small>E-mail inválido.</small>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="d-flex flex-column">
+        <span class="fw-bold inp-title">Data de aniversário</span>
+        <div class="input-standard gap-2"
+          [class.invalid-error]="settingsForm.controls.birthDay.invalid && (settingsForm.controls.birthDay.dirty || settingsForm.controls.birthDay.touched)">
+          <i class="ph ph-cake"></i>
+          <input type="date" formControlName="birthDay" />
+        </div>
+        @if (settingsForm.controls.birthDay.invalid && (settingsForm.controls.birthDay.dirty ||
+        settingsForm.controls.birthDay.touched)) {
+        <div class="color-error">
+          @if (settingsForm.controls.birthDay.hasError('required')) {
+          <small>Data de aniversário é obrigatória.</small>
+          }
+          @if (settingsForm.controls.birthDay.hasError('minimumAge')) {
+          <small>É necessário ter pelo menos 13 anos.</small>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="d-flex flex-column">
+        <span class="fw-bold inp-title">Telefone</span>
+        <div class="input-standard gap-2"
+          [class.invalid-error]="settingsForm.controls.phone.invalid && (settingsForm.controls.phone.dirty || settingsForm.controls.phone.touched)">
+          <i class="ph ph-phone"></i>
+          <input type="tel" formControlName="phone" phoneMask placeholder="(11) 99999-9999" />
+        </div>
+        @if (settingsForm.controls.phone.invalid && (settingsForm.controls.phone.dirty ||
+        settingsForm.controls.phone.touched)) {
+        <div class="color-error">
+          @if (settingsForm.controls.phone.hasError('required')) {
+          <small>Telefone é obrigatório.</small>
+          }
+          @if (settingsForm.controls.phone.hasError('pattern')) {
+          <small>Telefone inválido.</small>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="d-flex flex-column">
+        <span class="fw-bold inp-title">Renda mensal</span>
+        <div class="input-standard gap-2"
+          [class.invalid-error]="settingsForm.controls.income.invalid && (settingsForm.controls.income.dirty || settingsForm.controls.income.touched)">
+          <i class="ph ph-currency-circle-dollar"></i>
+          <input type="number" formControlName="income" min="0" step="0.01" placeholder="0,00" />
+        </div>
+        @if (settingsForm.controls.income.invalid && (settingsForm.controls.income.dirty ||
+        settingsForm.controls.income.touched)) {
+        <div class="color-error">
+          <small>Renda não pode ser negativa.</small>
+        </div>
+        }
+      </div>
+    </div>
+
+    @if (saveError) {
+    <p class="color-error mt-3 mb-0">{{ saveError }}</p>
+    }
+    @if (saveSuccess) {
+    <p class="color-green-regular mt-3 mb-0">{{ saveSuccess }}</p>
+    }
+
+    <button class="btn-save mt-4" type="submit" [disabled]="isSaving">
+      {{ isSaving ? 'Salvando...' : 'Salvar alterações' }}
+    </button>
+  </form>
+  }
+</main>

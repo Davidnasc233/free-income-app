@@ -128,7 +128,7 @@ export class AuthRegisterComponent {
         name: formValue.name,
         email: formValue.email,
         birthDay: new Date(formValue.birthDay),
-        phone: Number(formValue.phone.replace(/\D/g, '')),
+        phone: formValue.phone.replace(/\D/g, ''),
         income: formValue.income ? Number(formValue.income) : undefined,
       };
 

@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class UserToolbarComponent {
   @Output() logoutSuccess = new EventEmitter<void>();
+  @Output() closeRequested = new EventEmitter<void>();
 
   isLoggingOut = false;
   logoutError: string | null = null;
@@ -18,6 +19,11 @@ export class UserToolbarComponent {
     private readonly auth: Auth,
     private readonly router: Router,
   ) {}
+
+  goToSettings(): void {
+    this.closeRequested.emit();
+    void this.router.navigateByUrl('/settings');
+  }
 
   async onLogout(): Promise<void> {
     if (this.isLoggingOut) {
