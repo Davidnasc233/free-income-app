@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
   Auth,
+  EmailAuthProvider,
+  GoogleAuthProvider,
+  reauthenticateWithCredential,
+  reauthenticateWithPopup,
   updateEmail,
   updateProfile,
 } from '@angular/fire/auth';
@@ -59,31 +63,74 @@ export class UserService {
     }
   }
 
+  hasPasswordProvider(): boolean {
+    return (
+      this.auth.currentUser?.providerData.some(
+        (provider) => provider.providerId === 'password',
+      ) ?? false
+    );
+  }
+
+  hasGoogleProvider(): boolean {
+    return (
+      this.auth.currentUser?.providerData.some(
+        (provider) => provider.providerId === 'google.com',
+      ) ?? false
+    );
+  }
+
+  async reauthenticateWithPassword(password: string): Promise<void> {
+    const currentUser = this.auth.currentUser;
+    if (!currentUser?.email) {
+      throw new Error('Usuário não autenticado.');
+    }
+
+    const credential = EmailAuthProvider.credential(
+      currentUser.email,
+      password,
+    );
+    await reauthenticateWithCredential(currentUser, credential);
+  }
+
+  async reauthenticateWithGoogle(): Promise<void> {
+    const currentUser = this.auth.currentUser;
+    if (!currentUser) {
+      throw new Error('Usuário não autenticado.');
+    }
+
+    await reauthenticateWithPopup(currentUser, new GoogleAuthProvider());
+  }
+
   async updateProfile(uid: string, data: UserProfileUpdate): Promise<void> {
-    const userRef = doc(this.firestore, 'users', uid);
-    const phone = this.normalizePhone(data.phone);
-
-    await updateDoc(userRef, {
-      name: data.name.trim(),
-      email: data.email.trim().toLowerCase(),
-      birthDay: data.birthDay,
-      phone,
-      income: data.income ?? 0,
-      updatedAt: new Date().toISOString(),
-    });
-
     const currentAuthUser = this.auth.currentUser;
     if (!currentAuthUser || currentAuthUser.uid !== uid) {
-      return;
+      throw new Error('Usuário não autenticado.');
+    }
+
+    const nextEmail = data.email.trim().toLowerCase();
+    const currentEmail = (currentAuthUser.email ?? '').toLowerCase();
+    const emailChanged = currentEmail !== nextEmail;
+
+    // Auth first so Firestore never diverges if email update fails.
+    if (emailChanged) {
+      await updateEmail(currentAuthUser, nextEmail);
     }
 
     await updateProfile(currentAuthUser, {
       displayName: data.name.trim(),
     });
 
-    if (currentAuthUser.email !== data.email.trim().toLowerCase()) {
-      await updateEmail(currentAuthUser, data.email.trim().toLowerCase());
-    }
+    const userRef = doc(this.firestore, 'users', uid);
+    const phone = this.normalizePhone(data.phone);
+
+    await updateDoc(userRef, {
+      name: data.name.trim(),
+      email: nextEmail,
+      birthDay: data.birthDay,
+      phone,
+      income: data.income ?? 0,
+      updatedAt: new Date().toISOString(),
+    });
   }
 
   private mapUser(id: string, data: DocumentData): User {

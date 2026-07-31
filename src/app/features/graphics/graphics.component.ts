@@ -22,7 +22,8 @@ import { IncomeExpenseBarChartComponent } from './income-expense-bar-chart/incom
 })
 export class GraphicsComponent {
   isLoading = false;
-  submitError: string | null = null;
+  loadError: string | null = null;
+  hasData = false;
 
   readonly daysWindow = 30;
   periodStart!: Date;
@@ -88,14 +89,14 @@ export class GraphicsComponent {
 
   async loadCharts(): Promise<void> {
     this.isLoading = true;
-    this.submitError = null;
+    this.loadError = null;
+    this.hasData = false;
 
     await this.auth.authStateReady();
     const uid = this.auth.currentUser?.uid;
 
     if (!uid) {
-      this.submitError =
-        'Voce precisa estar logado para visualizar os graficos.';
+      this.loadError = 'Voce precisa estar logado para visualizar os graficos.';
       this.isLoading = false;
       return;
     }
@@ -114,9 +115,11 @@ export class GraphicsComponent {
       this.buildExpensesByCategoryChart(transactions);
       this.buildIncomeVsExpensesChart(transactions);
       this.buildBalanceEvolutionChart(transactions);
+      this.hasData = transactions.length > 0;
     } catch (error) {
       console.error('Erro ao carregar dados dos graficos', error);
-      this.submitError = this.mapLoadError(error);
+      this.loadError = this.mapLoadError(error);
+      this.hasData = false;
     } finally {
       this.isLoading = false;
     }

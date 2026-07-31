@@ -1,33 +1,35 @@
 <main class="home-page mt-5">
-    <div class="d-flex flex-row align-items-center justify-content-between">
-        <div>
-            <h2 class="fw-bold m-0">E aí, {{ user?.name }}!</h2>
-            <span class="desktop text-muted">{{ today | date: "EEEE, d 'de' MMMM 'de' yyyy"}}</span>
-            <span class="mobile text-muted">{{ today | date: "d 'de' MMMM 'de' yyyy"}}</span>
+    <app-page-state [loading]="isLoading" [error]="loadError" loadingMessage="Carregando pagina inicial...">
+        <div class="d-flex flex-row align-items-center justify-content-between">
+            <div>
+                <h2 class="fw-bold m-0">E aí, {{ user?.name }}!</h2>
+                <span class="desktop text-muted">{{ today | date: "EEEE, d 'de' MMMM 'de' yyyy"}}</span>
+                <span class="mobile text-muted">{{ today | date: "d 'de' MMMM 'de' yyyy"}}</span>
+            </div>
+            <section>
+                <button class="button-balance px-3 py-2 d-flex align-items-center w-100 justify-content-center gap-2"
+                    (click)="openAddTransactionModal()">
+                    <i class="ph ph-plus text-white"></i>
+                    <span class="text-white">Nova Transação</span>
+                </button>
+            </section>
         </div>
-        <section>
-            <button class="button-balance px-3 py-2 d-flex align-items-center w-100 justify-content-center gap-2"
-                (click)="openAddTransactionModal()">
-                <i class="ph ph-plus text-white"></i>
-                <span class="text-white">Nova Transação</span>
-            </button>
+
+        <section class="mt-3">
+            <app-balance></app-balance>
         </section>
-    </div>
-
-    <section class="mt-3">
-        <app-balance></app-balance>
-    </section>
 
 
-    <section class="mt-3">
-        <app-home-goals></app-home-goals>
-    </section>
+        <section class="mt-3">
+            <app-home-goals></app-home-goals>
+        </section>
 
-    <section class="mt-3">
-        <app-history-transactions (viewAll)="redirectTo('transactions')"></app-history-transactions>
-    </section>
+        <section class="mt-3">
+            <app-history-transactions (viewAll)="redirectTo('transactions')"></app-history-transactions>
+        </section>
 
-    <section class="tip-banner mt-3" role="note" aria-label="Dica financeira">
-        <span>Dica: Registrar seus gastos todos os dias é o primeiro passo para ter controle da sua grana!</span>
-    </section>
+        <section class="tip-banner mt-3" role="note" aria-label="Dica financeira">
+            <span>Dica: Registrar seus gastos todos os dias é o primeiro passo para ter controle da sua grana!</span>
+        </section>
+    </app-page-state>
 </main>

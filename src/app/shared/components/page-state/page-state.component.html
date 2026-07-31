@@ -1,0 +1,20 @@
+@if (loading) {
+<section class="page-state page-state--loading" role="status">
+  <div class="page-state-loader"></div>
+  <p class="page-state-text text-muted m-0">{{ loadingMessage }}</p>
+</section>
+} @else if (error) {
+<section class="page-state page-state--error" role="alert">
+  <i class="ph ph-warning-circle page-state-icon"></i>
+  <p class="page-state-text color-error m-0">{{ error }}</p>
+</section>
+} @else if (empty) {
+<section class="page-state page-state--empty">
+  @if (emptyMessage) {
+  <p class="page-state-text text-muted m-0">{{ emptyMessage }}</p>
+  }
+  <ng-content select="[pageEmpty]"></ng-content>
+</section>
+} @else {
+<ng-content></ng-content>
+}

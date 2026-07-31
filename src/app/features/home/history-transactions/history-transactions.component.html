@@ -13,49 +13,41 @@
         </div>
     </section>
 
-    @if (isLoading) {
-    <section class="fi-loader-wrap d-flex justify-content-center py-2">
-        <div class="fi-loader m-auto"></div>
-    </section>
-    } @else if (data && data.length > 0) {
-    <section class="d-flex flex-column gap-1">
-        @for (item of data; track item.id) {
-        <div class="d-flex justify-content-between item-row">
-            <div class="d-flex align-items-center gap-3">
-                @if (item.type == 'income') {
-                <div class="income">
-                    <i class="ph ph-trend-up"></i>
+    <app-page-state [loading]="isLoading" [error]="loadError" [empty]="data.length === 0"
+        loadingMessage="Carregando transações recentes..."
+        emptyMessage="Ainda não há transações. Registre uma transação para ser exibida.">
+        <section class="d-flex flex-column gap-1">
+            @for (item of data; track item.id) {
+            <div class="d-flex justify-content-between item-row">
+                <div class="d-flex align-items-center gap-3">
+                    @if (item.type == 'income') {
+                    <div class="income">
+                        <i class="ph ph-trend-up"></i>
+                    </div>
+                    } @else {
+                    <div class="expense">
+                        <i class="ph ph-trend-down color-error"></i>
+                    </div>
+                    }
+                    <div class="d-flex flex-column item-info">
+                        <span>{{ item.description }}</span>
+                        <small>{{ item.category }} · {{ item.transactionDate | date:'dd/MM/yyyy' }}</small>
+                    </div>
                 </div>
-                } @else {
-                <div class="expense">
-                    <i class="ph ph-trend-down color-error"></i>
-                </div>
-                }
-                <div class="d-flex flex-column item-info">
-                    <span>{{ item.description }}</span>
-                    <small>{{ item.category }} · {{ item.transactionDate | date:'dd/MM/yyyy' }}</small>
-                </div>
-            </div>
 
-            <div class="d-flex align-items-center">
-                @if (item.type == 'income') {
-                <p class="color-brand fw-bold">
-                    + {{ item.value | currency:'BRL' }}
-                </p>
-                } @else {
-                <p class="color-error fw-bold">
-                    - {{ item.value | currency:'BRL' }}
-                </p>
-                }
+                <div class="d-flex align-items-center">
+                    @if (item.type == 'income') {
+                    <p class="color-brand fw-bold">
+                        + {{ item.value | currency:'BRL' }}
+                    </p>
+                    } @else {
+                    <p class="color-error fw-bold">
+                        - {{ item.value | currency:'BRL' }}
+                    </p>
+                    }
+                </div>
             </div>
-        </div>
-        }
-    </section>
-    } @else {
-    <div class="empty-list d-flex my-1">
-        <p class="text-muted m-auto">
-            Ainda não há transações. Registre uma transação para ser exibida.
-        </p>
-    </div>
-    }
+            }
+        </section>
+    </app-page-state>
 </main>

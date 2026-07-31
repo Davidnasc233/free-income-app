@@ -1,0 +1,15 @@
+<div class="toast-host" aria-live="polite" aria-atomic="true">
+  @for (toast of toastService.toasts(); track toast.id) {
+  <div class="app-toast" [attr.data-type]="toast.type" role="status">
+    <span class="app-toast-message">{{ toast.message }}</span>
+    <button
+      type="button"
+      class="app-toast-close"
+      (click)="toastService.dismiss(toast.id)"
+      aria-label="Fechar"
+    >
+      <i class="ph ph-x"></i>
+    </button>
+  </div>
+  }
+</div>

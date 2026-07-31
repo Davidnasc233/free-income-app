@@ -1,77 +1,93 @@
 <main class="goals-page mt-5">
-    <section class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-            <h2 class="fw-bold m-0">Metas</h2>
-            <small class="text-muted">Acompanhe a evolucao dos seus objetivos financeiros</small>
+  <section class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h2 class="fw-bold m-0">Metas</h2>
+      <small class="text-muted">Acompanhe a evolução dos seus objetivos financeiros</small>
+    </div>
+
+    <button class="btn btn-create-goal" type="button" (click)="onCreateGoal()">
+      <i class="ph ph-plus"></i>
+      <span>Criar meta</span>
+    </button>
+  </section>
+
+  <app-page-state
+    [loading]="isLoading"
+    [error]="loadError"
+    [empty]="goals.length === 0"
+    loadingMessage="Carregando metas..."
+    emptyMessage="Você ainda não possui metas cadastradas."
+  >
+    <div pageEmpty>
+      <button class="btn btn-create-goal" type="button" (click)="onCreateGoal()">
+        <i class="ph ph-plus"></i>
+        <span>Criar meta</span>
+      </button>
+    </div>
+
+    <section class="goals-grid">
+      @for (goal of goals; track goal.id) {
+      <article class="goal-card">
+        <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+          <div class="d-flex align-items-center gap-2">
+            <i [class]="'ph ' + goal.icon" class="fs-3"></i>
+            <div class="goal-meta mt-2 d-flex flex-column">
+              <h6 class="m-0 fw-bold">{{ goal.title }}</h6>
+              <div>
+                <small>{{ goal.actualValue | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
+                <small> de {{ goal.targetValue | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex gap-1">
+            <button
+              type="button"
+              class="fs-5 btn-edit d-flex align-items-center"
+              (click)="onEditGoal(goal)"
+              [disabled]="isGoalActionLoading(goal.id)"
+            >
+              <i class="ph ph-pencil-simple"></i>
+            </button>
+            <button
+              type="button"
+              class="fs-5 btn-trash d-flex align-items-center"
+              (click)="onDeleteGoal(goal)"
+              [disabled]="isGoalActionLoading(goal.id)"
+            >
+              <i class="ph ph-trash"></i>
+            </button>
+          </div>
         </div>
 
-        <button class="btn btn-create-goal" type="button" (click)="onCreateGoal()">
-            <i class="ph ph-plus"></i>
-            <span>Criar meta</span>
-        </button>
+        <div class="d-flex gap-3">
+          <div class="goal-progress mt-2">
+            <div class="goal-progress-fill" [style.width.%]="getProgressPercent(goal)"></div>
+          </div>
+          <span class="fw-semibold">{{ getProgressPercent(goal) }}%</span>
+        </div>
+
+        <div class="container-value d-flex flex-row gap-2 mt-2">
+          <input
+            #amountInput
+            type="number"
+            min="0"
+            step="0.01"
+            class="add-value"
+            placeholder="Adicionar R$"
+            (keyup.enter)="onAddValue(goal, amountInput)"
+          />
+          <button
+            type="button"
+            class="btn btn-add-value"
+            (click)="onAddValue(goal, amountInput)"
+            [disabled]="isGoalActionLoading(goal.id)"
+          >
+            <span>{{ isGoalActionLoading(goal.id) ? 'Salvando...' : 'Guardar' }}</span>
+          </button>
+        </div>
+      </article>
+      }
     </section>
-
-    @if (isLoading) {
-    <section class="empty-state d-flex">
-        <p class="m-auto text-muted">Carregando metas...</p>
-    </section>
-    } @else if (goals.length > 0) {
-    @if (actionError) {
-    <p class="color-error mb-2">{{ actionError }}</p>
-    }
-    <section class="goals-grid">
-        @for (goal of goals; track goal.id) {
-        <article class="goal-card">
-            <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
-                <div class="d-flex align-items-center gap-2">
-                    <i [class]="'ph ' + goal.icon" class="fs-3"></i>
-                    <div class="goal-meta mt-2 d-flex flex-column">
-                        <h6 class="m-0 fw-bold">{{ goal.title }}</h6>
-                        <div>
-                            <small>{{ goal.actualValue | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
-                            <small> de {{ goal.targetValue | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex gap-1">
-                    <button type="button" class="fs-5 btn-edit d-flex align-items-center" (click)="onEditGoal(goal)"
-                        [disabled]="isGoalActionLoading(goal.id)">
-                        <i class="ph ph-pencil-simple"></i>
-                    </button>
-                    <button type="button" class="fs-5 btn-trash d-flex align-items-center" (click)="onDeleteGoal(goal)"
-                        [disabled]="isGoalActionLoading(goal.id)">
-                        <i class="ph ph-trash"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="d-flex gap-3">
-                <div class="goal-progress mt-2">
-                    <div class="goal-progress-fill" [style.width.%]="getProgressPercent(goal)"></div>
-                </div>
-                <span class="fw-semibold">{{ getProgressPercent(goal) }}%</span>
-            </div>
-
-            <div class="container-value d-flex flex-row gap-2 mt-2">
-                <input #amountInput type="number" min="0" step="0.01" class="add-value" placeholder="Adicionar R$"
-                    (keyup.enter)="onAddValue(goal, amountInput)">
-                <button type="button" class="btn btn-add-value" (click)="onAddValue(goal, amountInput)"
-                    [disabled]="isGoalActionLoading(goal.id)">
-                    <span>{{ isGoalActionLoading(goal.id) ? 'Salvando...' : 'Guardar' }}</span>
-                </button>
-            </div>
-
-        </article>
-        }
-    </section>
-    } @else {
-    <section class="empty-state d-flex flex-column justify-content-center align-items-center gap-2">
-        <p class="text-muted m-0">Voce ainda nao possui metas cadastradas.</p>
-        <button class="btn btn-create-goal" type="button" (click)="onCreateGoal()">
-            <i class="ph ph-plus"></i>
-            <span>Criar meta</span>
-        </button>
-    </section>
-    }
+  </app-page-state>
 </main>

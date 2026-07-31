@@ -3,18 +3,20 @@ import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { GoalsService } from '../../../services/goals.service';
 import { Goals } from '../../../shared/interfaces/goals.interface';
+import { PageStateComponent } from '../../../shared/components/page-state/page-state.component';
 
 type GoalsList = Goals & { id: string };
 
 @Component({
   selector: 'app-home-goals',
-  imports: [],
+  imports: [PageStateComponent],
   templateUrl: './home-goals.component.html',
   styleUrl: './home-goals.component.css',
 })
 export class HomeGoalsComponent {
   goals: GoalsList[] = [];
   isLoading = false;
+  loadError: string | null = null;
 
   constructor(
     private readonly goalsService: GoalsService,
@@ -28,6 +30,7 @@ export class HomeGoalsComponent {
 
   async refreshGoals(): Promise<void> {
     this.isLoading = true;
+    this.loadError = null;
     await this.auth.authStateReady();
     const uid = this.auth.currentUser?.uid;
 
@@ -41,6 +44,7 @@ export class HomeGoalsComponent {
       this.goals = await this.goalsService.getRecentByUserId(uid, 3);
     } catch (error) {
       console.error('Erro ao carregar metas', error);
+      this.loadError = 'Nao foi possivel carregar as metas. Tente novamente.';
       this.goals = [];
     } finally {
       this.isLoading = false;

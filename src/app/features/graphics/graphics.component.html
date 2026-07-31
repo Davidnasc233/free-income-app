@@ -7,13 +7,17 @@
         </small>
     </section>
 
-    @if (submitError) {
-    <p class="color-error mt-2 mb-2">{{ submitError }}</p>
-    }
-
     @if (isLoading) {
     <section class="loader-wrap d-flex justify-content-center py-2">
         <div class="loader"></div>
+    </section>
+    } @else if (loadError) {
+    <section class="d-flex justify-content-center py-2">
+        <p class="color-error m-0">{{ loadError }}</p>
+    </section>
+    } @else if (!hasData) {
+    <section class="d-flex justify-content-center py-2">
+        <p class="text-muted m-0">Nao ha dados suficientes para montar os graficos neste periodo.</p>
     </section>
     } @else {
     <section class="charts-grid">

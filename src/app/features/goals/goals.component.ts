@@ -8,26 +8,29 @@ import {
   GoalsModalService,
 } from '../../services/goals-modal.service';
 import { ConfirmationModalService } from '../../services/confirmation-modal.service';
+import { ToastService } from '../../services/toast.service';
 import { Goals } from '../../shared/interfaces/goals.interface';
+import { PageStateComponent } from '../../shared/components/page-state/page-state.component';
 
 type GoalItem = Goals & { id: string };
 
 @Component({
   selector: 'app-goals',
-  imports: [CommonModule],
+  imports: [CommonModule, PageStateComponent],
   templateUrl: './goals.component.html',
   styleUrl: './goals.component.css',
 })
 export class GoalsComponent {
   goals: GoalItem[] = [];
   isLoading = false;
-  actionError: string | null = null;
+  loadError: string | null = null;
   private readonly actionInProgress = new Set<string>();
 
   constructor(
     private readonly goalsService: GoalsService,
     private readonly goalsModalService: GoalsModalService,
     private readonly confirmationModalService: ConfirmationModalService,
+    private readonly toast: ToastService,
     private readonly auth: Auth,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
@@ -40,11 +43,13 @@ export class GoalsComponent {
 
   async loadGoals(): Promise<void> {
     this.isLoading = true;
+    this.loadError = null;
     await this.auth.authStateReady();
     const uid = this.auth.currentUser?.uid;
 
     if (!uid) {
       this.goals = [];
+      this.loadError = 'Usuário não autenticado.';
       this.isLoading = false;
       return;
     }
@@ -54,6 +59,7 @@ export class GoalsComponent {
     } catch (error) {
       console.error('Erro ao carregar metas', error);
       this.goals = [];
+      this.loadError = 'Não foi possível carregar as metas. Tente novamente.';
     } finally {
       this.isLoading = false;
     }
@@ -63,6 +69,7 @@ export class GoalsComponent {
     const modalRef = this.goalsModalService.openCreate();
     modalRef.closed.subscribe((result) => {
       if (result === 'created') {
+        this.toast.success('Meta criada com sucesso.');
         void this.loadGoals();
       }
     });
@@ -72,6 +79,7 @@ export class GoalsComponent {
     const modalRef = this.goalsModalService.openEdit(goal);
     modalRef.closed.subscribe((result) => {
       if (result === 'updated') {
+        this.toast.success('Meta atualizada com sucesso.');
         void this.loadGoals();
       }
     });
@@ -81,15 +89,13 @@ export class GoalsComponent {
     goal: GoalItem,
     amountInput: HTMLInputElement,
   ): Promise<void> {
-    this.actionError = null;
-
     if (this.actionInProgress.has(goal.id)) {
       return;
     }
 
     const amount = this.parseAmount(amountInput.value);
     if (!Number.isFinite(amount) || amount <= 0) {
-      this.actionError = 'Informe um valor valido maior que zero.';
+      this.toast.warning('Informe um valor válido maior que zero.');
       return;
     }
 
@@ -107,19 +113,19 @@ export class GoalsComponent {
       });
 
       amountInput.value = '';
+      this.toast.success('Valor guardado na meta.');
       await this.loadGoals();
     } catch (error) {
       console.error('Erro ao adicionar valor na meta', error);
-      this.actionError =
-        'Nao foi possivel guardar esse valor agora. Tente novamente.';
+      this.toast.error(
+        'Não foi possível guardar esse valor agora. Tente novamente.',
+      );
     } finally {
       this.actionInProgress.delete(goal.id);
     }
   }
 
   async onDeleteGoal(goal: GoalItem): Promise<void> {
-    this.actionError = null;
-
     if (this.actionInProgress.has(goal.id)) {
       return;
     }
@@ -127,7 +133,7 @@ export class GoalsComponent {
     const confirmed = await this.confirmationModalService.confirm({
       type: 'danger',
       title: 'Excluir meta',
-      description: `Deseja realmente excluir a meta \"${goal.title}\"? Essa acao nao pode ser desfeita.`,
+      description: `Deseja realmente excluir a meta "${goal.title}"? Essa ação não pode ser desfeita.`,
       cancelLabel: 'Retornar',
       confirmLabel: 'Excluir',
     });
@@ -141,10 +147,12 @@ export class GoalsComponent {
     try {
       await this.goalsService.deleteGoal(goal.id);
       this.goals = this.goals.filter((item) => item.id !== goal.id);
+      this.toast.success('Meta excluída.');
     } catch (error) {
       console.error('Erro ao excluir meta', error);
-      this.actionError =
-        'Nao foi possivel excluir a meta agora. Tente novamente.';
+      this.toast.error(
+        'Não foi possível excluir a meta agora. Tente novamente.',
+      );
     } finally {
       this.actionInProgress.delete(goal.id);
     }

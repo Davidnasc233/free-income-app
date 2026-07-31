@@ -1,0 +1,15 @@
+.reauth-modal-container .description {
+  font-size: 0.95rem;
+}
+
+.reauth-modal-container .btn-cancel {
+  background: transparent;
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+}
+
+.reauth-modal-container .btn-confirm {
+  background: var(--color-brand);
+  border: 0;
+  color: var(--text-on-brand);
+}

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { ConfirmationModalService } from '../../../services/confirmation-modal.service';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-user-toolbar',
@@ -13,11 +15,12 @@ export class UserToolbarComponent {
   @Output() closeRequested = new EventEmitter<void>();
 
   isLoggingOut = false;
-  logoutError: string | null = null;
 
   constructor(
     private readonly auth: Auth,
     private readonly router: Router,
+    private readonly confirmationModal: ConfirmationModalService,
+    private readonly toast: ToastService,
   ) {}
 
   goToSettings(): void {
@@ -30,16 +33,28 @@ export class UserToolbarComponent {
       return;
     }
 
+    const confirmed = await this.confirmationModal.confirm({
+      type: 'warning',
+      title: 'Sair da conta',
+      description: 'Deseja realmente encerrar sua sessão agora?',
+      confirmLabel: 'Sair',
+      cancelLabel: 'Cancelar',
+    });
+
+    if (!confirmed) {
+      return;
+    }
+
     this.isLoggingOut = true;
-    this.logoutError = null;
 
     try {
       await this.auth.signOut();
+      this.toast.success('Sessao encerrada com sucesso.');
       this.logoutSuccess.emit();
       await this.router.navigateByUrl('/auth/login');
     } catch (error) {
       console.error('Erro ao fazer logout', error);
-      this.logoutError = 'Nao foi possivel sair. Tente novamente.';
+      this.toast.error('Nao foi possivel sair. Tente novamente.');
     } finally {
       this.isLoggingOut = false;
     }

@@ -3,12 +3,13 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import { TransactionService } from '../../../services/transaction.service';
 import { Transaction } from '../../../shared/interfaces/transaction.interface';
+import { PageStateComponent } from '../../../shared/components/page-state/page-state.component';
 
 type TransactionListItem = Transaction & { id: string; category: string };
 
 @Component({
   selector: 'app-history-transactions',
-  imports: [CurrencyPipe, DatePipe],
+  imports: [CurrencyPipe, DatePipe, PageStateComponent],
   templateUrl: './history-transactions.component.html',
   styleUrl: './history-transactions.component.css',
 })
@@ -17,6 +18,7 @@ export class HistoryTransactionsComponent {
 
   data: TransactionListItem[] = [];
   isLoading = false;
+  loadError: string | null = null;
 
   constructor(
     private readonly transactionService: TransactionService,
@@ -37,6 +39,7 @@ export class HistoryTransactionsComponent {
 
   private async loadTransactions(): Promise<void> {
     this.isLoading = true;
+    this.loadError = null;
     await this.auth.authStateReady();
     const uid = this.auth.currentUser?.uid;
 
@@ -55,6 +58,8 @@ export class HistoryTransactionsComponent {
       }));
     } catch (error) {
       console.error('Erro ao carregar transacoes', error);
+      this.loadError =
+        'Nao foi possivel carregar as transacoes. Tente novamente.';
       this.data = [];
     } finally {
       this.isLoading = false;

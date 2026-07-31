@@ -10,14 +10,24 @@ import {
 } from '@angular/forms';
 import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { ConfirmationModalService } from '../../services/confirmation-modal.service';
+import { ReauthModalService } from '../../services/reauth-modal.service';
+import { ToastService } from '../../services/toast.service';
 import { UserService } from '../../services/user.service';
+import { PageStateComponent } from '../../shared/components/page-state/page-state.component';
 import { PhoneMaskDirective } from '../../shared/directive/phone-mask.directive';
 import { User } from '../../shared/interfaces/users.interface';
+import { ReauthMode } from '../../shared/components/reauth-modal/reauth-modal.component';
 
 @Component({
   selector: 'app-user-settings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PhoneMaskDirective],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PhoneMaskDirective,
+    PageStateComponent,
+  ],
   templateUrl: './user-settings.component.html',
   styleUrl: './user-settings.component.css',
 })
@@ -28,8 +38,6 @@ export class UserSettingsComponent implements OnInit {
   isLoading = true;
   isSaving = false;
   loadError: string | null = null;
-  saveError: string | null = null;
-  saveSuccess: string | null = null;
 
   settingsForm = new FormGroup({
     name: new FormControl('', {
@@ -57,6 +65,9 @@ export class UserSettingsComponent implements OnInit {
     private readonly auth: Auth,
     private readonly userService: UserService,
     private readonly router: Router,
+    private readonly toast: ToastService,
+    private readonly confirmationModal: ConfirmationModalService,
+    private readonly reauthModal: ReauthModalService,
   ) {}
 
   ngOnInit(): void {
@@ -64,9 +75,6 @@ export class UserSettingsComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    this.saveError = null;
-    this.saveSuccess = null;
-
     if (this.settingsForm.invalid) {
       this.settingsForm.markAllAsTouched();
       return;
@@ -76,15 +84,38 @@ export class UserSettingsComponent implements OnInit {
     const uid = this.auth.currentUser?.uid;
 
     if (!uid || !this.user) {
-      this.saveError = 'Sessão expirada. Faça login novamente.';
+      this.toast.error('Sessão expirada. Faça login novamente.');
       return;
+    }
+
+    const formValue = this.settingsForm.getRawValue();
+    const nextEmail = formValue.email.trim().toLowerCase();
+    const emailChanged = this.user.email.trim().toLowerCase() !== nextEmail;
+
+    if (emailChanged) {
+      const confirmed = await this.confirmationModal.confirm({
+        type: 'warning',
+        title: 'Alterar e-mail',
+        description:
+          'Você precisará confirmar sua identidade. Continuar com a troca de e-mail?',
+        confirmLabel: 'Continuar',
+        cancelLabel: 'Cancelar',
+      });
+
+      if (!confirmed) {
+        this.toast.info('Alteracao de e-mail cancelada.');
+        return;
+      }
+
+      const reauthed = await this.ensureRecentLogin();
+      if (!reauthed) {
+        return;
+      }
     }
 
     this.isSaving = true;
 
     try {
-      const formValue = this.settingsForm.getRawValue();
-
       await this.userService.updateProfile(uid, {
         name: formValue.name,
         email: formValue.email,
@@ -94,10 +125,34 @@ export class UserSettingsComponent implements OnInit {
       });
 
       await this.loadCurrentUser();
-      this.saveSuccess = 'Perfil atualizado com sucesso.';
+      this.toast.success('Perfil atualizado com sucesso.');
     } catch (error) {
       console.error('Erro ao salvar perfil:', error);
-      this.saveError = this.resolveSaveError(error);
+
+      if (this.getErrorCode(error) === 'auth/requires-recent-login') {
+        const reauthed = await this.ensureRecentLogin();
+        if (reauthed) {
+          try {
+            await this.userService.updateProfile(uid, {
+              name: formValue.name,
+              email: formValue.email,
+              birthDay: new Date(formValue.birthDay),
+              phone: formValue.phone,
+              income: formValue.income ?? 0,
+            });
+            await this.loadCurrentUser();
+            this.toast.success('Perfil atualizado com sucesso.');
+            return;
+          } catch (retryError) {
+            console.error('Erro ao salvar perfil após reauth:', retryError);
+            this.toast.error(this.resolveSaveError(retryError));
+            return;
+          }
+        }
+        return;
+      }
+
+      this.toast.error(this.resolveSaveError(error));
     } finally {
       this.isSaving = false;
     }
@@ -105,6 +160,56 @@ export class UserSettingsComponent implements OnInit {
 
   goBack(): void {
     void this.router.navigateByUrl('/home');
+  }
+
+  private async ensureRecentLogin(): Promise<boolean> {
+    const mode = this.resolveReauthMode();
+    if (!mode) {
+      this.toast.error(
+        'Não foi possível confirmar sua identidade. Saia e entre novamente.',
+      );
+      return false;
+    }
+
+    const result = await this.reauthModal.prompt({
+      mode,
+      title: 'Confirme sua identidade',
+      description:
+        'Por segurança, confirme sua conta antes de alterar o e-mail.',
+    });
+
+    if (!result) {
+      return false;
+    }
+
+    try {
+      if (result.method === 'password') {
+        await this.userService.reauthenticateWithPassword(result.password);
+      } else {
+        await this.userService.reauthenticateWithGoogle();
+      }
+      return true;
+    } catch (error) {
+      console.error('Falha na reautenticação:', error);
+      this.toast.error(this.resolveReauthError(error));
+      return false;
+    }
+  }
+
+  private resolveReauthMode(): ReauthMode | null {
+    const hasPassword = this.userService.hasPasswordProvider();
+    const hasGoogle = this.userService.hasGoogleProvider();
+
+    if (hasPassword && hasGoogle) {
+      return 'both';
+    }
+    if (hasPassword) {
+      return 'password';
+    }
+    if (hasGoogle) {
+      return 'google';
+    }
+    return null;
   }
 
   private async loadCurrentUser(): Promise<void> {
@@ -197,17 +302,23 @@ export class UserSettingsComponent implements OnInit {
     return '';
   }
 
-  private resolveSaveError(error: unknown): string {
-    const code =
+  private getErrorCode(error: unknown): string | null {
+    if (
       typeof error === 'object' &&
       error !== null &&
       'code' in error &&
       typeof (error as { code: unknown }).code === 'string'
-        ? (error as { code: string }).code
-        : null;
+    ) {
+      return (error as { code: string }).code;
+    }
+    return null;
+  }
+
+  private resolveSaveError(error: unknown): string {
+    const code = this.getErrorCode(error);
 
     if (code === 'auth/requires-recent-login') {
-      return 'Por segurança, saia e entre novamente para alterar o e-mail.';
+      return 'É necessário confirmar sua identidade para alterar o e-mail.';
     }
     if (code === 'auth/email-already-in-use') {
       return 'Este e-mail já está em uso por outra conta.';
@@ -215,7 +326,26 @@ export class UserSettingsComponent implements OnInit {
     if (code === 'auth/invalid-email') {
       return 'E-mail inválido.';
     }
+    if (code === 'auth/operation-not-allowed') {
+      return 'A alteração de e-mail não está disponível para este tipo de conta.';
+    }
 
     return 'Não foi possível salvar as alterações. Tente novamente.';
+  }
+
+  private resolveReauthError(error: unknown): string {
+    const code = this.getErrorCode(error);
+
+    if (code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
+      return 'Senha incorreta. Tente novamente.';
+    }
+    if (code === 'auth/too-many-requests') {
+      return 'Muitas tentativas. Aguarde um momento e tente de novo.';
+    }
+    if (code === 'auth/popup-closed-by-user') {
+      return 'Confirmação cancelada.';
+    }
+
+    return 'Não foi possível confirmar sua identidade. Tente novamente.';
   }
 }

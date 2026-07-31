@@ -11,6 +11,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FirebaseError } from 'firebase/app';
 import { GoalsService } from '../../../services/goals.service';
 import { GoalListItem } from '../../../services/goals-modal.service';
+import { ToastService } from '../../../services/toast.service';
 
 type GoalActionMode = 'create' | 'edit';
 type GoalResult = 'created' | 'updated';
@@ -58,6 +59,7 @@ export class ModalActionGoalComponent {
   constructor(
     private readonly goalsService: GoalsService,
     private readonly auth: Auth,
+    private readonly toast: ToastService,
   ) {}
 
   configureForCreate(): void {
@@ -106,6 +108,7 @@ export class ModalActionGoalComponent {
 
     if (!userId) {
       this.submitError = 'Voce precisa estar logado para salvar metas.';
+      this.toast.error(this.submitError);
       return;
     }
 
@@ -145,6 +148,7 @@ export class ModalActionGoalComponent {
     } catch (error) {
       console.error('Erro ao salvar meta', error);
       this.submitError = this.mapSubmitError(error);
+      this.toast.error(this.submitError);
     } finally {
       this.isSubmitting = false;
     }

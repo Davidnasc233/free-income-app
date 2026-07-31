@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FirebaseError } from 'firebase/app';
+import { ToastService } from '../../../services/toast.service';
 import { TransactionService } from '../../../services/transaction.service';
 import { TransactionType } from '../../../shared/enum/transaction-type.enum';
 
@@ -52,6 +53,7 @@ export class TransactionFormModalComponent {
   constructor(
     private readonly transactionService: TransactionService,
     private readonly auth: Auth,
+    private readonly toast: ToastService,
   ) {}
 
   closeModal() {
@@ -70,6 +72,7 @@ export class TransactionFormModalComponent {
 
     if (!userId) {
       this.submitError = 'Voce precisa estar logado para adicionar transacoes.';
+      this.toast.error(this.submitError);
       return;
     }
 
@@ -98,6 +101,7 @@ export class TransactionFormModalComponent {
     } catch (error) {
       console.error('Erro ao adicionar transacao', error);
       this.submitError = this.mapSubmitError(error);
+      this.toast.error(this.submitError);
     } finally {
       this.isSubmitting = false;
     }

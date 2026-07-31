@@ -1,0 +1,56 @@
+<main class="reauth-modal-container p-4">
+  <section class="d-flex flex-column gap-2 mb-3 text-center">
+    <h4 class="fw-bold m-0">{{ title }}</h4>
+    <p class="m-0 text-muted description">{{ description }}</p>
+  </section>
+
+  @if (showPassword) {
+  <form [formGroup]="form" (ngSubmit)="confirmPassword()" novalidate>
+    <div class="d-flex flex-column mb-3">
+      <span class="fw-bold inp-title mb-1">Senha atual</span>
+      <div
+        class="input-standard gap-2"
+        [class.invalid-error]="
+          form.controls.password.invalid &&
+          (form.controls.password.dirty || form.controls.password.touched)
+        "
+      >
+        <i class="ph ph-lock-key"></i>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Digite sua senha"
+          autocomplete="current-password"
+        />
+      </div>
+    </div>
+
+    @if (submitError) {
+    <p class="color-error mb-2">{{ submitError }}</p>
+    }
+
+    <div class="d-flex justify-content-end gap-2">
+      <button type="button" class="btn btn-cancel" (click)="closeModal()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-confirm">Confirmar</button>
+    </div>
+  </form>
+  }
+
+  @if (showGoogle) {
+  <div class="d-flex flex-column gap-2" [class.mt-3]="showPassword">
+    @if (showPassword) {
+    <p class="text-muted text-center m-0"><small>ou</small></p>
+    }
+    <button type="button" class="btn btn-confirm w-100" (click)="confirmGoogle()">
+      Continuar com Google
+    </button>
+    @if (!showPassword) {
+    <button type="button" class="btn btn-cancel w-100" (click)="closeModal()">
+      Cancelar
+    </button>
+    }
+  </div>
+  }
+</main>

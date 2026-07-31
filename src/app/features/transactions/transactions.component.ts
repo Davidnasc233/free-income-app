@@ -1,8 +1,10 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from '../../services/toast.service';
 import { TransactionService } from '../../services/transaction.service';
+import { PageStateComponent } from '../../shared/components/page-state/page-state.component';
 import { TransactionType } from '../../shared/enum/transaction-type.enum';
 import { Transaction } from '../../shared/interfaces/transaction.interface';
 import { TransactionFiltersComponent } from './transaction-filters/transaction-filters.component';
@@ -24,7 +26,7 @@ type TransactionDayGroup = {
 
 @Component({
   selector: 'app-transactions',
-  imports: [CurrencyPipe, TransactionFiltersComponent],
+  imports: [CurrencyPipe, TransactionFiltersComponent, PageStateComponent],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.css',
 })
@@ -41,7 +43,7 @@ export class TransactionsComponent {
   groupedData: TransactionDayGroup[] = [];
   allFilteredData: TransactionListItem[] = [];
   isLoading = false;
-  submitError: string | null = null;
+  loadError: string | null = null;
   appliedFilterDescription = 'Ultimos 30 dias';
 
   readonly categories = [
@@ -56,6 +58,7 @@ export class TransactionsComponent {
     private readonly transactionService: TransactionService,
     private readonly auth: Auth,
     private readonly modalService: NgbModal,
+    private readonly toast: ToastService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -63,7 +66,7 @@ export class TransactionsComponent {
   }
 
   async refreshTransactions(): Promise<void> {
-    this.submitError = null;
+    this.loadError = null;
     this.isLoading = true;
 
     await this.auth.authStateReady();
@@ -71,6 +74,8 @@ export class TransactionsComponent {
 
     if (!uid) {
       this.data = [];
+      this.groupedData = [];
+      this.loadError = 'Usuário não autenticado.';
       this.isLoading = false;
       return;
     }
@@ -93,9 +98,10 @@ export class TransactionsComponent {
       this.applyClientFilters();
     } catch (error) {
       console.error('Erro ao carregar transacoes', error);
-      this.submitError = this.mapLoadError(error);
+      this.loadError = this.mapLoadError(error);
       this.allFilteredData = [];
       this.data = [];
+      this.groupedData = [];
     } finally {
       this.isLoading = false;
     }
@@ -147,6 +153,7 @@ export class TransactionsComponent {
 
     modalRef.closed.subscribe((result) => {
       if (result === 'created') {
+        this.toast.success('Transação adicionada.');
         void this.refreshTransactions();
       }
     });
