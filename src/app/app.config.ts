@@ -31,13 +31,10 @@ export const appConfig: ApplicationConfig = {
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '729686077156-qr3ihchb320rmir1jin284r00airmtvc.apps.googleusercontent.com',
-              {
-                oneTapEnabled: false,
-                prompt: 'select_account',
-              },
-            ),
+            provider: new GoogleLoginProvider(environment.googleClientId, {
+              oneTapEnabled: false,
+              prompt: 'select_account',
+            }),
           },
         ],
         onError: (err) => {

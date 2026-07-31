@@ -8,23 +8,42 @@ import { HomeComponent } from './features/home/home.component';
 import { TransactionsComponent } from './features/transactions/transactions.component';
 import { GraphicsComponent } from './features/graphics/graphics.component';
 import { UserSettingsComponent } from './features/user-settings/user-settings.component';
+import { authGuard } from './guards/auth.guard';
+import { guestGuard } from './guards/guest.guard';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'auth/login' },
   {
     path: 'auth',
     component: AuthComponent,
+    canActivate: [guestGuard],
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'login' },
       { path: 'login', component: AuthLoginComponent },
       { path: 'register', component: AuthRegisterComponent },
     ],
   },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'goals', component: GoalsComponent },
-  { path: 'transactions', component: TransactionsComponent },
-  { path: 'graphics', component: GraphicsComponent },
-  { path: 'settings', component: UserSettingsComponent },
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [authGuard],
+  },
+  { path: 'home', component: HomeComponent, canActivate: [authGuard] },
+  { path: 'goals', component: GoalsComponent, canActivate: [authGuard] },
+  {
+    path: 'transactions',
+    component: TransactionsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'graphics',
+    component: GraphicsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'settings',
+    component: UserSettingsComponent,
+    canActivate: [authGuard],
+  },
   { path: '**', redirectTo: 'auth/login' },
 ];
