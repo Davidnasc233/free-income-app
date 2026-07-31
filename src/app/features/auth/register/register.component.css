@@ -36,6 +36,15 @@ input {
 
 .form {
     padding: 0 24px;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+@media (max-width: 575.98px) {
+    .form {
+        margin-top: 12px;
+    }
 }
 
 .back-arrow {
@@ -82,4 +91,22 @@ input {
 .terms {
     text-decoration: underline;
     color: var(--color-primary-600);
+}
+
+.register-google-btn {
+    width: min(260px, 100%);
+}
+
+@media (max-width: 768px) {
+    .form {
+        padding: 0 14px 12px;
+    }
+
+    .inp-options {
+        gap: 0.9rem !important;
+    }
+
+    .register-google-btn {
+        width: 100%;
+    }
 }

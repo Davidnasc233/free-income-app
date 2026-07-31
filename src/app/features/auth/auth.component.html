@@ -1,6 +1,6 @@
 <main class="login-page d-flex flex-column">
     <section class="container-section p-0">
-        <div class="content-web">
+        <div class="content-web" [class.register-view]="!isLoginView" [class.login-view]="isLoginView">
             <div *ngIf="isLoginView" class="section-one">
                 <div class="background d-flex flex-column align-items-center justify-content-start pt-5">
                     <i class="ph ph-chart-line-up"></i>
@@ -51,10 +51,10 @@
             </div>
 
             @if (!isLoginView) {
-            <div class="d-flex flex-column justify-content-start pt-5 h-100">
-                <img src="/assets/images/phone.png" class="register-theme">
+            <div class="register-side-panel d-flex flex-column justify-content-start pt-5 h-100">
+                <img src="/assets/images/phone.png" class="register-theme" alt="Ilustração de celular" />
 
-                <div class="px-5 py-5">
+                <div class="register-copy px-5 py-5">
                     <h1 class="fw-bold">
                         O primeiro passo para sua
                         <span class="color-brand">
@@ -62,7 +62,7 @@
                         </span>
                     </h1>
 
-                    <p class="text-muted w-50 fs-5">
+                    <p class="text-muted fs-5 register-copy-text">
                         No Renda Livre, você tem as ferramentas certas para organizar suas finanças, investir melhor e
                         realizar seus sonhos.
                     </p>

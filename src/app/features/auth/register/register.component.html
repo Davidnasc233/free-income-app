@@ -170,20 +170,29 @@
             }
 
             <label class="d-flex align-items-center" for="terms-checkbox" style="cursor: pointer;">
-                <input id="terms-checkbox" type="checkbox" class="checkbox" />
-                <span>Aceitar 
+                <input id="terms-checkbox" type="checkbox" class="checkbox" formControlName="termsAccepted"
+                    [attr.aria-invalid]="registerForm.controls.termsAccepted.invalid" aria-describedby="terms-error" />
+                <span>Aceitar
                     <span class="terms">
                         Termos e Condições
                     </span>
                 </span>
             </label>
 
+            @if (registerForm.controls.termsAccepted.invalid && (registerForm.controls.termsAccepted.dirty ||
+            registerForm.controls.termsAccepted.touched)) {
+            <div class="color-error" id="terms-error" role="alert">
+                <small>Voce precisa aceitar os Termos e Condicoes para criar sua conta.</small>
+            </div>
+            }
+
             <button type="submit" class="btn btn-fi-success w-100">Criar Conta</button>
 
             <hr />
 
-            <div class="d-flex justify-content-center">
-                <button type="button" class="btn input-placeholder w-50 d-flex justify-content-center fw-bold">
+            <div class="d-flex justify-content-center w-100">
+                <button type="button"
+                    class="btn input-placeholder register-google-btn d-flex justify-content-center fw-bold">
                     <img src="assets/images/google.svg" alt="Google" class="me-2" width="18" />
                     Google
                 </button>

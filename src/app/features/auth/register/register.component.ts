@@ -61,6 +61,10 @@ export class AuthRegisterComponent {
     income: new FormControl('', {
       validators: [Validators.min(0)],
     }),
+    termsAccepted: new FormControl(false, {
+      nonNullable: true,
+      validators: [Validators.requiredTrue],
+    }),
   });
 
   constructor(

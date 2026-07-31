@@ -10,9 +10,7 @@ main {
 }
 
 .container-section {
-    background: linear-gradient(145deg,
-            var(--color-primary-100),
-            color-mix(in srgb, var(--color-primary-100) 75%, white));
+    background: #fff;
     transition:
         transform 260ms ease,
         box-shadow 260ms ease,
@@ -20,9 +18,25 @@ main {
     animation: card-fade-in 420ms ease-out;
 }
 
+.content-web {
+    width: 100%;
+}
+
+.auth-container {
+    width: 100%;
+    background-color: #fff;
+}
+
+.register-side-panel {
+    display: none !important;
+}
+
 .section-one {
     height: 35vh;
     z-index: 10;
+    background: linear-gradient(145deg,
+            var(--color-primary-100),
+            color-mix(in srgb, var(--color-primary-100) 75%, white));
 }
 
 .wave-container {
@@ -63,17 +77,18 @@ main {
         margin: auto;
         display: flex;
         position: relative;
-        height: 100vh;
-        width: 100vw;
+        min-height: 100vh;
+        height: auto;
+        width: 100%;
     }
 
     .content-web {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        align-items: stretch;
         border-radius: 12px;
-        height: 100%;
+        min-height: 100vh;
         width: 100%;
     }
 
@@ -108,12 +123,19 @@ main {
     }
 
     .auth-container {
-        height: stretch;
+        min-height: 100vh;
         background-color: #fff;
         width: 50%;
         display: flex;
         flex-direction: column;
+        justify-content: flex-start;
+        padding-block: 1.25rem;
+        overflow-y: auto;
+    }
+
+    .content-web.login-view .auth-container {
         justify-content: center;
+        padding-block: 0;
     }
 
     input {
@@ -124,16 +146,34 @@ main {
         margin: 0;
     }
 
+    .register-side-panel {
+        display: flex !important;
+        width: 50%;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(145deg,
+                var(--color-primary-100),
+                color-mix(in srgb, var(--color-primary-100) 75%, white));
+    }
+
     .register-theme {
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
         position: absolute;
-        width: 650px;
-        height: 450px;
+        width: clamp(360px, 46vw, 650px);
+        height: auto;
         right: 0;
         bottom: 0;
         z-index: 1;
+    }
+
+    .register-copy {
+        z-index: 10;
+    }
+
+    .register-copy-text {
+        width: min(520px, 100%);
     }
 
     .list-items {
@@ -146,4 +186,47 @@ main {
         }
     }
 
+}
+
+@media (max-width: 1200px) and (min-width: 576px) {
+    .content-web.register-view {
+        display: block;
+    }
+
+    .content-web.register-view .auth-container {
+        width: 100%;
+        min-height: 100vh;
+    }
+
+    .content-web.register-view .register-side-panel {
+        display: none !important;
+    }
+}
+
+@media (max-width: 920px) and (min-width: 576px) {
+    .register-side-panel {
+        padding-top: 2rem !important;
+    }
+
+    .register-copy {
+        padding-inline: 1.5rem !important;
+        padding-block: 1.5rem !important;
+    }
+
+    .register-copy h1 {
+        font-size: 1.75rem;
+    }
+
+    .register-copy-text {
+        font-size: 1rem !important;
+    }
+
+    .register-theme {
+        width: clamp(280px, 42vw, 460px);
+    }
+
+    .list-items {
+        gap: 1.5rem !important;
+        padding-top: 1.5rem !important;
+    }
 }
