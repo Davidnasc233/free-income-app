@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Auth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationModalService } from '../../services/confirmation-modal.service';
 import { ReauthModalService } from '../../services/reauth-modal.service';
 import { ToastService } from '../../services/toast.service';
@@ -65,12 +65,14 @@ export class UserSettingsComponent implements OnInit {
     private readonly auth: Auth,
     private readonly userService: UserService,
     private readonly router: Router,
+    private readonly route: ActivatedRoute,
     private readonly toast: ToastService,
     private readonly confirmationModal: ConfirmationModalService,
     private readonly reauthModal: ReauthModalService,
   ) {}
 
   ngOnInit(): void {
+    this.notifyProfileCompletionIfNeeded();
     void this.loadCurrentUser();
   }
 
@@ -126,6 +128,10 @@ export class UserSettingsComponent implements OnInit {
 
       await this.loadCurrentUser();
       this.toast.success('Perfil atualizado com sucesso.');
+
+      if (this.mustCompleteProfile()) {
+        await this.router.navigate(['/home']);
+      }
     } catch (error) {
       console.error('Erro ao salvar perfil:', error);
 
@@ -347,5 +353,19 @@ export class UserSettingsComponent implements OnInit {
     }
 
     return 'Não foi possível confirmar sua identidade. Tente novamente.';
+  }
+
+  private mustCompleteProfile(): boolean {
+    return this.route.snapshot.queryParamMap.get('completeProfile') === '1';
+  }
+
+  private notifyProfileCompletionIfNeeded(): void {
+    if (!this.mustCompleteProfile()) {
+      return;
+    }
+
+    this.toast.info(
+      'Complete seu cadastro para acessar todas as funcionalidades.',
+    );
   }
 }

@@ -192,9 +192,10 @@
 
             <div class="d-flex justify-content-center w-100">
                 <button type="button"
-                    class="btn input-placeholder register-google-btn d-flex justify-content-center fw-bold">
+                    class="btn input-placeholder register-google-btn d-flex justify-content-center fw-bold"
+                    (click)="onGoogleRegister()" [disabled]="isGoogleLoading">
                     <img src="assets/images/google.svg" alt="Google" class="me-2" width="18" />
-                    Google
+                    {{ isGoogleLoading ? 'Conectando...' : 'Google' }}
                 </button>
 
                 <div style="display: none">

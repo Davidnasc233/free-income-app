@@ -285,6 +285,18 @@ i.primary-icon {
     max-width: 520px;
 }
 
+.transaction-modal .btn-close:focus,
+.transaction-modal .btn-close:focus-visible,
+.goal-action-modal .btn-close:focus,
+.goal-action-modal .btn-close:focus-visible,
+.confirmation-modal-window .btn-close:focus,
+.confirmation-modal-window .btn-close:focus-visible,
+.user-toolbar-modal .btn-close:focus,
+.user-toolbar-modal .btn-close:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
 .fi-loader-wrap {
     height: 10vh;
 }

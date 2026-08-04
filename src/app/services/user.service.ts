@@ -3,6 +3,7 @@ import {
   Auth,
   EmailAuthProvider,
   GoogleAuthProvider,
+  User as AuthUser,
   reauthenticateWithCredential,
   reauthenticateWithPopup,
   updateEmail,
@@ -45,6 +46,63 @@ export class UserService {
       console.error('Erro ao criar usuário:', error);
       throw error;
     }
+  }
+
+  async ensureGoogleUserProfile(authUser: AuthUser): Promise<void> {
+    const uid = authUser.uid;
+    const userRef = doc(this.firestore, 'users', uid);
+    const docSnap = await getDoc(userRef);
+
+    const displayName = authUser.displayName?.trim() ?? '';
+    const email = authUser.email?.trim().toLowerCase() ?? '';
+
+    if (!docSnap.exists()) {
+      await setDoc(userRef, {
+        name: displayName,
+        email,
+        birthDay: null,
+        phone: '',
+        wallet: 0,
+        income: 0,
+        createdAt: new Date().toISOString(),
+        updatedAt: null,
+      });
+      return;
+    }
+
+    const currentData = docSnap.data();
+    const patch: Record<string, unknown> = {};
+
+    if (!this.isNonEmptyString(currentData['name']) && displayName) {
+      patch['name'] = displayName;
+    }
+
+    if (!this.isNonEmptyString(currentData['email']) && email) {
+      patch['email'] = email;
+    }
+
+    if (Object.keys(patch).length > 0) {
+      patch['updatedAt'] = new Date().toISOString();
+      await updateDoc(userRef, patch);
+    }
+  }
+
+  async isProfileComplete(uid: string): Promise<boolean> {
+    const userRef = doc(this.firestore, 'users', uid);
+    const docSnap = await getDoc(userRef);
+
+    if (!docSnap.exists()) {
+      return false;
+    }
+
+    const data = docSnap.data();
+
+    return (
+      this.isNonEmptyString(data['name'], 3) &&
+      this.isValidEmail(data['email']) &&
+      this.isValidBirthDay(data['birthDay']) &&
+      this.isValidPhone(data['phone'])
+    );
   }
 
   async getUser(uid: string): Promise<User | null> {
@@ -176,5 +234,68 @@ export class UserService {
 
   private normalizePhone(phone: unknown): string {
     return String(phone ?? '').replace(/\D/g, '');
+  }
+
+  private isNonEmptyString(value: unknown, minLength = 1): boolean {
+    return typeof value === 'string' && value.trim().length >= minLength;
+  }
+
+  private isValidEmail(value: unknown): boolean {
+    if (typeof value !== 'string') {
+      return false;
+    }
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+  }
+
+  private isValidPhone(value: unknown): boolean {
+    const digits = this.normalizePhone(value);
+    return digits.length === 10 || digits.length === 11;
+  }
+
+  private isValidBirthDay(value: unknown): boolean {
+    const date = this.toDateOrNull(value);
+
+    if (!date) {
+      return false;
+    }
+
+    const today = new Date();
+    let age = today.getFullYear() - date.getFullYear();
+    const monthDiff = today.getMonth() - date.getMonth();
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < date.getDate())
+    ) {
+      age--;
+    }
+
+    return age >= 13;
+  }
+
+  private toDateOrNull(value: unknown): Date | null {
+    if (!value) {
+      return null;
+    }
+
+    if (value instanceof Date) {
+      return Number.isNaN(value.getTime()) ? null : value;
+    }
+
+    if (
+      typeof value === 'object' &&
+      value !== null &&
+      'toDate' in value &&
+      typeof (value as { toDate: () => Date }).toDate === 'function'
+    ) {
+      const parsedFromTimestamp = (value as { toDate: () => Date }).toDate();
+      return Number.isNaN(parsedFromTimestamp.getTime())
+        ? null
+        : parsedFromTimestamp;
+    }
+
+    const parsed = new Date(value as string | number);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
   }
 }

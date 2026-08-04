@@ -13,7 +13,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { createUserWithEmailAndPassword, getAuth } from '@angular/fire/auth';
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithPopup,
+} from '@angular/fire/auth';
 import { UserService } from '../../../services/user.service';
 import { PhoneMaskDirective } from '../../../shared/directive/phone-mask.directive';
 
@@ -34,6 +39,7 @@ export class AuthRegisterComponent {
   private readonly router: Router;
   private readonly phonePattern = /^\(\d{2}\)\s\d{4,5}-\d{4}$/;
   isPasswordVisible = false;
+  isGoogleLoading = false;
   auth = getAuth();
   authError: unknown = null;
 
@@ -137,9 +143,45 @@ export class AuthRegisterComponent {
       };
 
       await this.userService.register(userCredentials.user.uid, payload);
-      this.router.navigate(['/home']);
+      await this.redirectAfterAuthentication(userCredentials.user.uid);
     } catch (error) {
       this.authError = error;
     }
+  }
+
+  async onGoogleRegister(): Promise<void> {
+    if (this.isGoogleLoading) {
+      return;
+    }
+
+    this.authError = null;
+    this.isGoogleLoading = true;
+
+    try {
+      const credentials = await signInWithPopup(
+        this.auth,
+        new GoogleAuthProvider(),
+      );
+
+      await this.userService.ensureGoogleUserProfile(credentials.user);
+      await this.redirectAfterAuthentication(credentials.user.uid);
+    } catch (error) {
+      this.authError = error;
+    } finally {
+      this.isGoogleLoading = false;
+    }
+  }
+
+  private async redirectAfterAuthentication(uid: string): Promise<void> {
+    const profileComplete = await this.userService.isProfileComplete(uid);
+
+    if (profileComplete) {
+      await this.router.navigate(['/home']);
+      return;
+    }
+
+    await this.router.navigate(['/settings'], {
+      queryParams: { completeProfile: '1' },
+    });
   }
 }

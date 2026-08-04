@@ -13,11 +13,14 @@ import {
 } from '@angular/forms';
 import {
   Auth,
+  GoogleAuthProvider,
   browserLocalPersistence,
   signInWithEmailAndPassword,
+  signInWithPopup,
   setPersistence,
 } from '@angular/fire/auth';
 import { FirebaseAuthErrorComponent } from '../../../shared/components/firebase-auth-error/firebase-auth-error.component';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-auth-login',
@@ -36,6 +39,7 @@ export class AuthLoginComponent {
   private readonly router: Router;
   private readonly auth: Auth;
   isPasswordVisible = false;
+  isGoogleLoading = false;
   authError: unknown = null;
 
   loginForm = new FormGroup({
@@ -49,7 +53,11 @@ export class AuthLoginComponent {
     }),
   });
 
-  constructor(router: Router, auth: Auth) {
+  constructor(
+    router: Router,
+    auth: Auth,
+    private readonly userService: UserService,
+  ) {
     this.router = router;
     this.auth = auth;
   }
@@ -73,11 +81,52 @@ export class AuthLoginComponent {
     try {
       this.authError = null;
       await setPersistence(this.auth, browserLocalPersistence);
-      await signInWithEmailAndPassword(this.auth, email, password);
+      const credentials = await signInWithEmailAndPassword(
+        this.auth,
+        email,
+        password,
+      );
 
-      this.router.navigate(['/home']);
+      await this.redirectAfterAuthentication(credentials.user.uid);
     } catch (error) {
       this.authError = error;
     }
+  }
+
+  async onGoogleLogin(): Promise<void> {
+    if (this.isGoogleLoading) {
+      return;
+    }
+
+    this.authError = null;
+    this.isGoogleLoading = true;
+
+    try {
+      await setPersistence(this.auth, browserLocalPersistence);
+      const credentials = await signInWithPopup(
+        this.auth,
+        new GoogleAuthProvider(),
+      );
+
+      await this.userService.ensureGoogleUserProfile(credentials.user);
+      await this.redirectAfterAuthentication(credentials.user.uid);
+    } catch (error) {
+      this.authError = error;
+    } finally {
+      this.isGoogleLoading = false;
+    }
+  }
+
+  private async redirectAfterAuthentication(uid: string): Promise<void> {
+    const profileComplete = await this.userService.isProfileComplete(uid);
+
+    if (profileComplete) {
+      await this.router.navigate(['/home']);
+      return;
+    }
+
+    await this.router.navigate(['/settings'], {
+      queryParams: { completeProfile: '1' },
+    });
   }
 }

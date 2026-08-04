@@ -49,9 +49,10 @@
             <hr />
 
             <div class="d-flex justify-content-center">
-                <button type="button" class="btn input-placeholder w-50 d-flex justify-content-center fw-bold">
+                <button type="button" class="btn input-placeholder w-50 d-flex justify-content-center fw-bold"
+                    (click)="onGoogleLogin()" [disabled]="isGoogleLoading">
                     <img src="assets/images/google.svg" alt="Google" class="me-2" width="18" />
-                    Google
+                    {{ isGoogleLoading ? 'Conectando...' : 'Google' }}
                 </button>
 
                 <div style="display: none">
