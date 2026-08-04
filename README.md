@@ -1,27 +1,168 @@
-# MyFintech
+# My Fintech
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+Aplicativo de controle financeiro pessoal com autenticação, gestão de transações, metas e visualização gráfica de dados.
 
-## Development server
+## Stack
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Angular 20 (standalone components)
+- Firebase Authentication
+- Cloud Firestore
+- Chart.js + ng2-charts
+- Bootstrap 5 + ng-bootstrap
 
-## Code scaffolding
+## Funcionalidades
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Cadastro e login de usuários (incluindo login social)
+- Dashboard com visão geral financeira
+- Cadastro e gerenciamento de transações
+- Definição e acompanhamento de metas financeiras
+- Gráficos de evolução e comparação de receitas/despesas
+- Configurações de perfil do usuário
 
-## Build
+## Pré-requisitos
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Node.js 20+
+- npm 10+
+- Conta e projeto no Firebase
 
-## Running unit tests
+## Instalação
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Clone o repositório.
+2. Instale as dependências:
 
-## Running end-to-end tests
+```bash
+npm install
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Configuração de ambiente
 
-## Further help
+1. Copie o arquivo de exemplo:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```bash
+copy src\environments\environment.example.ts src\environments\environment.ts
+```
+
+2. Preencha o arquivo `src/environments/environment.ts` com:
+
+- `googleClientId` do OAuth 2.0 (Google)
+- Chaves do projeto Firebase (`apiKey`, `authDomain`, `projectId`, etc.)
+
+Exemplo (resumo):
+
+```ts
+export const environment = {
+  production: false,
+  googleClientId: "YOUR_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+  firebase: {
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.firebasestorage.app",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID",
+    measurementId: "YOUR_MEASUREMENT_ID",
+  },
+};
+```
+
+## Como executar
+
+```bash
+npm start
+```
+
+Aplicação disponível em `http://localhost:4200`.
+
+## Scripts disponíveis
+
+- `npm start`: inicia o servidor de desenvolvimento
+- `npm run build`: gera build de produção
+- `npm run watch`: build em modo watch para desenvolvimento
+- `npm test`: executa testes unitários (Karma)
+- `npm run ai:sync`: atualiza o esqueleto de documentação/agentes via `scripts/generate-skeleton.ts`
+
+## Rotas principais
+
+- `/auth/login`
+- `/auth/register`
+- `/dashboard`
+- `/home`
+- `/transactions`
+- `/goals`
+- `/graphics`
+- `/settings`
+
+Rotas protegidas usam `authGuard`, e o fluxo de autenticação usa `guestGuard` para evitar acesso indevido às páginas de login/cadastro.
+
+## Regras do Firestore
+
+As regras em `firestore.rules` restringem acesso por usuário autenticado (`request.auth.uid`) para:
+
+- `users`: leitura/escrita somente do próprio documento
+- `transactions`: leitura/criação/edição/remoção apenas dos próprios registros
+- `goals`: leitura/criação/edição/remoção apenas dos próprios registros
+- `contactMessages`: criação e leitura apenas das próprias mensagens (sem update/delete)
+
+Se alterar regras, publique no Firebase para surtir efeito:
+
+```bash
+npx firebase-tools deploy --only firestore:rules --project financial-app-bf30b
+```
+
+## Estrutura do projeto
+
+```text
+src/
+	app/
+		features/
+			auth/
+			dashboard/
+			home/
+			transactions/
+			goals/
+			graphics/
+			user-settings/
+		guards/
+		services/
+		shared/
+	assets/
+		styles/
+			_variables.css
+			_buttons.css
+```
+
+## Padrões de UI
+
+- Estilos globais centralizados em `src/assets/styles/_variables.css` e `src/assets/styles/_buttons.css`
+- Layout de páginas com utilitários globais como `.fi-page` e `.fi-page--narrow`
+- Botões padrão: `.fi-btn--primary`, `.fi-btn--secondary`, `.fi-btn--destructive`
+
+## Deploy e Firebase
+
+O projeto contém `firebase.json` e `firestore.rules` para configuração de regras do banco.
+
+Passos gerais de deploy:
+
+1. Build da aplicação:
+
+```bash
+npm run build
+```
+
+2. Deploy com Firebase CLI (após `firebase login` e `firebase init`):
+
+```bash
+firebase deploy
+```
+
+## Testes
+
+Para rodar os testes unitários:
+
+```bash
+npm test
+```
+
+## Licença
+
+Defina a licença do projeto conforme a política do time/empresa.

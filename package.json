@@ -7,7 +7,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "ai:sync": "tsx scripts/generate-skeleton.ts"
+    "ai:sync": "tsx scripts/generate-skeleton.ts",
+    "firebase:rules": "npx firebase-tools deploy --only firestore:rules --project financial-app-bf30b",
+    "firebase:rules:all": "npx firebase-tools deploy --only firestore:rules,storage --project financial-app-bf30b"
   },
   "private": true,
   "dependencies": {

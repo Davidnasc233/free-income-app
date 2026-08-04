@@ -28,13 +28,18 @@ export class UserToolbarComponent {
     void this.router.navigateByUrl('/settings');
   }
 
+  goToContact(): void {
+    this.closeRequested.emit();
+    void this.router.navigateByUrl('/contact');
+  }
+
   async onLogout(): Promise<void> {
     if (this.isLoggingOut) {
       return;
     }
 
     const confirmed = await this.confirmationModal.confirm({
-      type: 'warning',
+      type: 'danger',
       title: 'Sair da conta',
       description: 'Deseja realmente encerrar sua sessão agora?',
       confirmLabel: 'Sair',

@@ -8,6 +8,7 @@ import { HomeComponent } from './features/home/home.component';
 import { TransactionsComponent } from './features/transactions/transactions.component';
 import { GraphicsComponent } from './features/graphics/graphics.component';
 import { UserSettingsComponent } from './features/user-settings/user-settings.component';
+import { ContactComponent } from './features/contact/contact.component';
 import { authGuard } from './guards/auth.guard';
 import { guestGuard } from './guards/guest.guard';
 
@@ -43,6 +44,11 @@ export const routes: Routes = [
   {
     path: 'settings',
     component: UserSettingsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'contact',
+    component: ContactComponent,
     canActivate: [authGuard],
   },
   { path: '**', redirectTo: 'auth/login' },

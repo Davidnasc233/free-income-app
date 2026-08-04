@@ -1,0 +1,134 @@
+<main class="contact-page mt-5">
+    <section class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-3">
+            <button type="button" class="back-arrow" (click)="goBack()" title="Voltar">
+                <i class="ph ph-caret-left fs-5"></i>
+            </button>
+            <div>
+                <h2 class="fw-bold m-0">Fale Conosco</h2>
+                <small class="text-muted">Envie duvidas, sugestoes ou reporte problemas</small>
+            </div>
+        </div>
+    </section>
+
+    <app-page-state [loading]="isLoading" [error]="loadError" loadingMessage="Carregando formulario...">
+        <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="submit()" novalidate>
+            <div class="fields d-flex flex-column gap-3">
+                <div class="d-flex flex-column">
+                    <span class="fw-bold inp-title">Nome</span>
+                    <div class="input-standard gap-2" [class.invalid-error]="
+              contactForm.controls.name.invalid &&
+              (contactForm.controls.name.dirty || contactForm.controls.name.touched)
+            ">
+                        <i class="ph ph-identification-card"></i>
+                        <input type="text" formControlName="name" placeholder="Seu nome" />
+                    </div>
+                    @if (
+                    contactForm.controls.name.invalid &&
+                    (contactForm.controls.name.dirty || contactForm.controls.name.touched)
+                    ) {
+                    <div class="color-error">
+                        @if (contactForm.controls.name.hasError('required')) {
+                        <small>Nome e obrigatorio.</small>
+                        } @if (contactForm.controls.name.hasError('minlength')) {
+                        <small>Nome deve ter no minimo 3 caracteres.</small>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div class="d-flex flex-column">
+                    <span class="fw-bold inp-title">E-mail</span>
+                    <div class="input-standard gap-2" [class.invalid-error]="
+              contactForm.controls.email.invalid &&
+              (contactForm.controls.email.dirty || contactForm.controls.email.touched)
+            ">
+                        <i class="ph ph-envelope-simple"></i>
+                        <input type="email" formControlName="email" placeholder="seuemail@dominio.com" />
+                    </div>
+                    @if (
+                    contactForm.controls.email.invalid &&
+                    (contactForm.controls.email.dirty || contactForm.controls.email.touched)
+                    ) {
+                    <div class="color-error">
+                        @if (contactForm.controls.email.hasError('required')) {
+                        <small>E-mail e obrigatorio.</small>
+                        } @if (contactForm.controls.email.hasError('email')) {
+                        <small>E-mail invalido.</small>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div class="d-flex flex-column">
+                    <span class="fw-bold inp-title">Categoria</span>
+                    <div class="input-standard gap-2">
+                        <i class="ph ph-tag"></i>
+                        <select formControlName="category" aria-label="Categoria da mensagem">
+                            @for (category of categories; track category.value) {
+                            <option [value]="category.value">{{ category.label }}</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <span class="fw-bold inp-title">Assunto</span>
+                    <div class="input-standard gap-2" [class.invalid-error]="
+              contactForm.controls.subject.invalid &&
+              (contactForm.controls.subject.dirty || contactForm.controls.subject.touched)
+            ">
+                        <i class="ph ph-text-aa"></i>
+                        <input type="text" formControlName="subject" placeholder="Ex.: Nao consigo cadastrar meta" />
+                    </div>
+                    @if (
+                    contactForm.controls.subject.invalid &&
+                    (contactForm.controls.subject.dirty || contactForm.controls.subject.touched)
+                    ) {
+                    <div class="color-error">
+                        @if (contactForm.controls.subject.hasError('required')) {
+                        <small>Assunto e obrigatorio.</small>
+                        } @if (contactForm.controls.subject.hasError('minlength')) {
+                        <small>Assunto deve ter no minimo 6 caracteres.</small>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div class="d-flex flex-column">
+                    <span class="fw-bold inp-title">Mensagem</span>
+                    <div class="textarea-standard" [class.invalid-error]="
+              contactForm.controls.message.invalid &&
+              (contactForm.controls.message.dirty || contactForm.controls.message.touched)
+            ">
+                        <textarea rows="5" formControlName="message"
+                            placeholder="Descreva seu contexto para podermos ajudar com mais rapidez."></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-1">
+                        @if (
+                        contactForm.controls.message.invalid &&
+                        (contactForm.controls.message.dirty || contactForm.controls.message.touched)
+                        ) {
+                        <div class="color-error">
+                            @if (contactForm.controls.message.hasError('required')) {
+                            <small>Mensagem e obrigatoria.</small>
+                            } @if (contactForm.controls.message.hasError('minlength')) {
+                            <small>Mensagem deve ter no minimo 20 caracteres.</small>
+                            }
+                        </div>
+                        } @else {
+                        <small class="text-muted">Seja objetivo, mas inclua detalhes importantes.</small>
+                        }
+
+                        <small class="text-muted">{{ messageLength }} caracteres</small>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-save mt-4" type="submit" [disabled]="isSubmitting">
+                {{ isSubmitting ? 'Enviando...' : 'Enviar mensagem' }}
+            </button>
+        </form>
+    </app-page-state>
+</main>

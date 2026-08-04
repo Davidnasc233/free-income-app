@@ -33,5 +33,15 @@ service cloud.firestore {
       allow create: if createsOwnResource();
       allow update: if ownsResource() && createsOwnResource();
     }
+
+    match /contactMessages/{messageId} {
+      allow create: if isSignedIn()
+                    && request.resource.data.userId is string
+                    && request.resource.data.userId == request.auth.uid;
+      allow read: if isSignedIn()
+                  && resource.data.userId is string
+                  && resource.data.userId == request.auth.uid;
+      allow update, delete: if false;
+    }
   }
 }
