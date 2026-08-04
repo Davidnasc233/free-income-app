@@ -10,6 +10,22 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
+    function isValidEmail(value) {
+      return value is string && value.matches('^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$');
+    }
+
+    function isValidPhone(value) {
+      return value is string && (value == '' || value.matches('^\\d{10,11}$'));
+    }
+
+    function isValidDateOrNull(value) {
+      return value == null || value is timestamp;
+    }
+
+    function isIsoDateStringOrNull(value) {
+      return value == null || (value is string && value.size() >= 10);
+    }
+
     function ownsResource() {
       return isSignedIn() && resource.data.userId == request.auth.uid;
     }
@@ -18,30 +34,143 @@ service cloud.firestore {
       return isSignedIn() && request.resource.data.userId == request.auth.uid;
     }
 
+    function validUserShape() {
+      return request.resource.data.keys().hasOnly([
+        'name',
+        'email',
+        'birthDay',
+        'phone',
+        'wallet',
+        'income',
+        'createdAt',
+        'updatedAt'
+      ])
+      && request.resource.data.name is string
+      && request.resource.data.name.size() >= 0
+      && isValidEmail(request.resource.data.email)
+      && isValidDateOrNull(request.resource.data.birthDay)
+      && isValidPhone(request.resource.data.phone)
+      && request.resource.data.wallet is number
+      && request.resource.data.wallet >= 0
+      && request.resource.data.income is number
+      && request.resource.data.income >= 0
+      && request.resource.data.createdAt is string
+      && isIsoDateStringOrNull(request.resource.data.updatedAt);
+    }
+
+    function validTransactionShape() {
+      return request.resource.data.keys().hasOnly([
+        'userId',
+        'categoryId',
+        'description',
+        'value',
+        'type',
+        'fixedExpense',
+        'transactionDate',
+        'createdAt',
+        'updatedAt'
+      ])
+      && request.resource.data.userId is string
+      && request.resource.data.userId == request.auth.uid
+      && request.resource.data.categoryId is string
+      && request.resource.data.categoryId.size() > 0
+      && request.resource.data.description is string
+      && request.resource.data.description.size() >= 3
+      && request.resource.data.value is number
+      && request.resource.data.value > 0
+      && request.resource.data.type in ['income', 'expense']
+      && request.resource.data.fixedExpense is bool
+      && request.resource.data.transactionDate is timestamp
+      && request.resource.data.createdAt is timestamp
+      && request.resource.data.updatedAt is timestamp;
+    }
+
+    function validGoalShape() {
+      return request.resource.data.keys().hasOnly([
+        'userId',
+        'title',
+        'targetValue',
+        'actualValue',
+        'limitDate',
+        'icon',
+        'createdAt',
+        'updatedAt'
+      ])
+      && request.resource.data.userId is string
+      && request.resource.data.userId == request.auth.uid
+      && request.resource.data.title is string
+      && request.resource.data.title.size() >= 3
+      && request.resource.data.targetValue is number
+      && request.resource.data.targetValue > 0
+      && request.resource.data.actualValue is number
+      && request.resource.data.actualValue >= 0
+      && request.resource.data.limitDate is timestamp
+      && request.resource.data.icon is string
+      && request.resource.data.icon.size() > 0
+      && request.resource.data.createdAt is timestamp
+      && request.resource.data.updatedAt is timestamp;
+    }
+
+    function validContactMessageShape() {
+      return request.resource.data.keys().hasOnly([
+        'userId',
+        'name',
+        'email',
+        'subject',
+        'message',
+        'category',
+        'createdAt'
+      ])
+      && request.resource.data.userId is string
+      && request.resource.data.userId == request.auth.uid
+      && request.resource.data.name is string
+      && request.resource.data.name.size() >= 3
+      && isValidEmail(request.resource.data.email)
+      && request.resource.data.subject is string
+      && request.resource.data.subject.size() >= 6
+      && request.resource.data.message is string
+      && request.resource.data.message.size() >= 20
+      && request.resource.data.category in ['duvida', 'sugestao', 'erro', 'parceria', 'outro']
+      && request.resource.data.createdAt is timestamp;
+    }
+
     match /users/{userId} {
-      allow read, write: if isOwner(userId);
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && validUserShape();
+      allow update: if isOwner(userId)
+                    && validUserShape()
+                    && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if false;
     }
 
     match /transactions/{transactionId} {
       allow read, delete: if ownsResource();
-      allow create: if createsOwnResource();
-      allow update: if ownsResource() && createsOwnResource();
+      allow create: if createsOwnResource() && validTransactionShape();
+      allow update: if ownsResource()
+                    && validTransactionShape()
+                    && request.resource.data.userId == resource.data.userId
+                    && request.resource.data.createdAt == resource.data.createdAt;
     }
 
     match /goals/{goalId} {
       allow read, delete: if ownsResource();
-      allow create: if createsOwnResource();
-      allow update: if ownsResource() && createsOwnResource();
+      allow create: if createsOwnResource() && validGoalShape();
+      allow update: if ownsResource()
+                    && validGoalShape()
+                    && request.resource.data.userId == resource.data.userId
+                    && request.resource.data.createdAt == resource.data.createdAt;
     }
 
     match /contactMessages/{messageId} {
-      allow create: if isSignedIn()
-                    && request.resource.data.userId is string
-                    && request.resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && validContactMessageShape();
       allow read: if isSignedIn()
                   && resource.data.userId is string
                   && resource.data.userId == request.auth.uid;
       allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

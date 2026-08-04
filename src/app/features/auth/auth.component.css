@@ -59,6 +59,32 @@ main {
     color: var(--color-brand);
 }
 
+@media (max-width: 575.98px) {
+    .section-one {
+        height: auto;
+        min-height: 220px;
+        padding-bottom: 16px;
+    }
+
+    .section-one .items {
+        display: none;
+    }
+
+    .section-one .background {
+        padding-top: 1.5rem !important;
+        text-align: center;
+        gap: 2px;
+    }
+
+    .section-one h2 {
+        font-size: 1.5rem;
+    }
+
+    .section-one span {
+        font-size: 0.92rem;
+    }
+}
+
 @keyframes card-fade-in {
     from {
         opacity: 0;

@@ -17,6 +17,13 @@
     outline: none;
 }
 
+.form {
+    padding: 0 24px;
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+}
+
 .title {
     padding: 0 24px 16px;
 }
@@ -46,6 +53,10 @@ input {
 
 .inp-options {
     margin: 0 24px;
+}
+
+.login-google-btn {
+    width: min(260px, 100%);
 }
 
 .btn-fi-success:active {
@@ -81,6 +92,40 @@ input {
 @media (min-width: 576px) {
     .form {
         border-radius: 0 12px 12px 0;
-        padding: 24px 12px;
+        padding: 24px 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .form {
+        padding: 0 14px 12px;
+    }
+
+    .title {
+        padding: 0 8px 12px;
+    }
+
+    .inp-options {
+        margin: 0 8px;
+        gap: 0.9rem !important;
+    }
+
+    .login-google-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .form {
+        margin-top: 12px;
+    }
+
+    .title h1 {
+        font-size: 1.6rem;
+        line-height: 1.2;
+    }
+
+    .title p {
+        font-size: 0.92rem;
     }
 }

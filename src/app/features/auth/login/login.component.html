@@ -10,6 +10,12 @@
         </header>
 
         <div class="inp-options pt-3 d-flex flex-column gap-3">
+            @if (isLocked) {
+            <div class="color-warning" role="status">
+                <small>Tentativas temporariamente bloqueadas. Aguarde {{ lockRemainingSeconds }}s.</small>
+            </div>
+            }
+
             <div class="d-flex flex-column">
                 <span class="fw-bold inp-title">E-mail</span>
                 <div class="input-standard gap-2">
@@ -36,12 +42,14 @@
 
 
             <p class="d-flex justify-content-end m-0">
-                <a href="#" class="color-green-regular">Esqueceu sua senha?</a>
+                <button type="button" class="switch-link color-green-regular" (click)="goToForgotPassword()">
+                    Esqueceu sua senha?
+                </button>
             </p>
 
             <button type="submit"
                 class="btn btn-fi-success w-100 d-flex align-items-center justify-content-center gap-1"
-                [disabled]="!loginForm.controls.email.value || !loginForm.controls.password.value">
+                [disabled]="!loginForm.controls.email.value || !loginForm.controls.password.value || isLocked">
                 <i class="ph ph-sign-in"></i>
                 Entrar
             </button>
@@ -49,8 +57,9 @@
             <hr />
 
             <div class="d-flex justify-content-center">
-                <button type="button" class="btn input-placeholder w-50 d-flex justify-content-center fw-bold"
-                    (click)="onGoogleLogin()" [disabled]="isGoogleLoading">
+                <button type="button"
+                    class="btn input-placeholder login-google-btn d-flex justify-content-center fw-bold"
+                    (click)="onGoogleLogin()" [disabled]="isGoogleLoading || isLocked">
                     <img src="assets/images/google.svg" alt="Google" class="me-2" width="18" />
                     {{ isGoogleLoading ? 'Conectando...' : 'Google' }}
                 </button>

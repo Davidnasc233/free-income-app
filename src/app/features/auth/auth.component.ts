@@ -21,6 +21,8 @@ export class AuthComponent {
   }
 
   isLoginRoute() {
-    this.isLoginView = this.router.url.includes('/auth/login');
+    this.isLoginView =
+      this.router.url.includes('/auth/login') ||
+      this.router.url.includes('/auth/forgot-password');
   }
 }
