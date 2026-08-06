@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { ContactService } from '../../services/contact.service';
 import { ToastService } from '../../services/toast.service';
 import { UserService } from '../../services/user.service';
@@ -16,15 +17,15 @@ import { ContactMessageCategory } from '../../shared/interfaces/contact-message.
 
 @Component({
   selector: 'app-contact',
-  imports: [CommonModule, ReactiveFormsModule, PageStateComponent],
+  imports: [CommonModule, ReactiveFormsModule, PageStateComponent, NgSelectModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.css',
 })
 export class ContactComponent implements OnInit {
   readonly categories: Array<{ value: ContactMessageCategory; label: string }> =
     [
-      { value: 'duvida', label: 'Duvida' },
-      { value: 'sugestao', label: 'Sugestao' },
+      { value: 'duvida', label: 'Dúvida' },
+      { value: 'sugestao', label: 'Sugestão' },
       { value: 'erro', label: 'Reportar erro' },
       { value: 'parceria', label: 'Parceria' },
       { value: 'outro', label: 'Outro assunto' },
@@ -83,7 +84,7 @@ export class ContactComponent implements OnInit {
     const uid = this.auth.currentUser?.uid;
 
     if (!uid) {
-      this.toast.error('Sessao expirada. Faca login novamente.');
+      this.toast.error('Sessão expirada. Faça login novamente.');
       return;
     }
 
@@ -130,14 +131,14 @@ export class ContactComponent implements OnInit {
       const uid = this.auth.currentUser?.uid;
 
       if (!uid) {
-        this.loadError = 'Usuario nao autenticado.';
+        this.loadError = 'Usuário não autenticado.';
         return;
       }
 
       const user = await this.userService.getUser(uid);
 
       if (!user) {
-        this.loadError = 'Perfil nao encontrado.';
+        this.loadError = 'Perfil não encontrado.';
         return;
       }
 
@@ -147,7 +148,7 @@ export class ContactComponent implements OnInit {
       });
     } catch (error) {
       console.error('Erro ao carregar dados para contato', error);
-      this.loadError = 'Nao foi possivel carregar os dados da tela.';
+      this.loadError = 'Não foi possível carregar os dados da tela.';
     } finally {
       this.isLoading = false;
     }
@@ -155,11 +156,11 @@ export class ContactComponent implements OnInit {
 
   private resolveSubmitError(error: unknown): string {
     if (error instanceof Error) {
-      if (error.message.includes('Permissao negada')) {
+      if (error.message.includes('Permissão negada')) {
         return error.message;
       }
     }
 
-    return 'Nao foi possivel enviar sua mensagem. Tente novamente.';
+    return 'Não foi possível enviar sua mensagem. Tente novamente.';
   }
 }

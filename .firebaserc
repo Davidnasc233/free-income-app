@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "financial-app-bf30b"
-  }
+    "default": "financial-app-bf30b",
+    "free-income": "financial-app-bf30b"
+  },
+  "targets": {},
+  "etags": {}
 }

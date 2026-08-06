@@ -11,13 +11,16 @@
     position: relative;
     display: flex;
     align-items: center;
+    min-height: 46px;
     padding: 10px 12px;
     border: 1px solid var(--input-border);
     border-radius: var(--radius-md);
-    z-index: 2;
+    background-color: var(--input-background);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
     &:focus-within {
         border-color: var(--input-focus);
+        box-shadow: 0 0 0 3px rgba(13, 148, 74, 0.14);
     }
 }
 
@@ -26,6 +29,8 @@
     border: none;
     outline: none;
     width: 100%;
+    font-size: 1rem;
+    line-height: 1.4;
     background-color: transparent;
     color: var(--text-primary);
 }
@@ -34,12 +39,80 @@
     color: var(--text-placeholder);
 }
 
-.input-standard select {
-    appearance: none;
+.ng-select-wrapper {
+    position: relative;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
-.select-wrapper i {
-    color: var(--text-secondary);
+.ng-select-wrapper:focus-within {
+    z-index: 30;
+}
+
+.ng-select-wrapper :where(.fi-ng-select) {
+    width: 100%;
+}
+
+:host ::ng-deep .fi-ng-select.ng-select {
+    width: 100%;
+}
+
+:host ::ng-deep .fi-ng-select .ng-select-container {
+    min-height: 44px;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent;
+    font-size: 1rem;
+}
+
+:host ::ng-deep .fi-ng-select .ng-value-container {
+    padding-left: 0;
+}
+
+:host ::ng-deep .fi-ng-select .ng-input {
+    padding-left: 0;
+}
+
+:host ::ng-deep .fi-ng-select .ng-arrow-wrapper {
+    padding-right: 2px;
+}
+
+:host ::ng-deep .fi-ng-select .ng-arrow {
+    border-color: var(--text-secondary) transparent transparent;
+}
+
+:host ::ng-deep .fi-ng-select.ng-select-opened .ng-arrow {
+    border-color: transparent transparent var(--color-brand);
+}
+
+:host ::ng-deep .fi-ng-select .ng-dropdown-panel {
+    left: -12px !important;
+    right: auto !important;
+    width: calc(100% + 24px) !important;
+    min-width: calc(100% + 24px) !important;
+    max-width: calc(100% + 24px) !important;
+    box-sizing: border-box;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    z-index: 1060;
+}
+
+:host ::ng-deep .fi-ng-select .ng-dropdown-panel .ng-option {
+    padding: 10px 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+:host ::ng-deep .fi-ng-select .ng-dropdown-panel .ng-option.ng-option-marked {
+    background: var(--color-primary-50);
+}
+
+:host ::ng-deep .fi-ng-select .ng-dropdown-panel .ng-option.ng-option-selected {
+    background: var(--color-primary-100);
+    color: var(--color-primary-800);
+    font-weight: 600;
 }
 
 .invalid-error {

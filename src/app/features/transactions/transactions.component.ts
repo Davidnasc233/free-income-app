@@ -44,7 +44,7 @@ export class TransactionsComponent {
   allFilteredData: TransactionListItem[] = [];
   isLoading = false;
   loadError: string | null = null;
-  appliedFilterDescription = 'Ultimos 30 dias';
+  appliedFilterDescription = 'Últimos 30 dias';
 
   readonly categories = [
     { id: 'outro', label: 'Outro' },
@@ -97,7 +97,7 @@ export class TransactionsComponent {
       }));
       this.applyClientFilters();
     } catch (error) {
-      console.error('Erro ao carregar transacoes', error);
+      console.error('Erro ao carregar transações', error);
       this.loadError = this.mapLoadError(error);
       this.allFilteredData = [];
       this.data = [];
@@ -279,13 +279,13 @@ export class TransactionsComponent {
       return {
         startDate,
         endDate,
-        description: `Ultimos ${this.selectedPeriod} dias`,
+        description: `Últimos ${this.selectedPeriod} dias`,
       };
     }
 
     if (!this.customStartDate || !this.customEndDate) {
       throw new Error(
-        'Informe a data inicial e final para o periodo customizado.',
+        'Informe a data inicial e final para o período customizado.',
       );
     }
 
@@ -293,7 +293,7 @@ export class TransactionsComponent {
     const endDate = new Date(`${this.customEndDate}T23:59:59.999`);
 
     if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
-      throw new Error('Periodo customizado invalido.');
+      throw new Error('Período customizado inválido.');
     }
 
     if (startDate > endDate) {
@@ -303,7 +303,7 @@ export class TransactionsComponent {
     return {
       startDate,
       endDate,
-      description: `${this.customStartDate} ate ${this.customEndDate}`,
+      description: `${this.customStartDate} até ${this.customEndDate}`,
     };
   }
 
@@ -319,6 +319,6 @@ export class TransactionsComponent {
       return error.message;
     }
 
-    return 'Nao foi possivel carregar as transacoes. Tente novamente.';
+    return 'Não foi possível carregar as transações. Tente novamente.';
   }
 }

@@ -44,7 +44,7 @@ export class HomeGoalsComponent {
       this.goals = await this.goalsService.getRecentByUserId(uid, 3);
     } catch (error) {
       console.error('Erro ao carregar metas', error);
-      this.loadError = 'Nao foi possivel carregar as metas. Tente novamente.';
+      this.loadError = 'Não foi possível carregar as metas. Tente novamente.';
       this.goals = [];
     } finally {
       this.isLoading = false;

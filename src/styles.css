@@ -1,5 +1,6 @@
 @import "assets/styles/_variables.css";
 @import "assets/styles/_buttons.css";
+@import "@ng-select/ng-select/themes/default.theme.css";
 
 /* ==========================================================================
    CSS Reset - Limpeza Global
@@ -256,6 +257,8 @@ i.primary-icon {
     right: 10px;
     z-index: 1;
 }
+
+/* Keeps ng-select panels (appendTo=body) above ng-bootstrap modals */
 
 .transaction-modal .modal-content {
     border: 1px solid var(--color-gray-300);

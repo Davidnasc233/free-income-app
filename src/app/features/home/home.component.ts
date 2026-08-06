@@ -76,7 +76,7 @@ export class HomeComponent implements OnInit {
     const uid = this.auth.currentUser?.uid;
 
     if (!uid) {
-      this.loadError = 'Usuario nao autenticado.';
+      this.loadError = 'Usuário não autenticado.';
       this.isLoading = false;
       return;
     }
@@ -85,15 +85,15 @@ export class HomeComponent implements OnInit {
       const userData = await this.userService.getUser(uid);
 
       if (!userData) {
-        this.loadError = 'Perfil nao encontrado.';
+        this.loadError = 'Perfil não encontrado.';
         return;
       }
 
       this.user = userData;
     } catch (err) {
       console.error('Error fetching user', err);
-      this.loadError = 'Nao foi possivel carregar a pagina inicial.';
-      this.toast.error('Nao foi possivel carregar a pagina inicial.');
+      this.loadError = 'Não foi possível carregar a página inicial.';
+      this.toast.error('Não foi possível carregar a página inicial.');
     } finally {
       this.isLoading = false;
     }

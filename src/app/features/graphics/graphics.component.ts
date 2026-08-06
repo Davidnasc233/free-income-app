@@ -96,7 +96,7 @@ export class GraphicsComponent {
     const uid = this.auth.currentUser?.uid;
 
     if (!uid) {
-      this.loadError = 'Voce precisa estar logado para visualizar os graficos.';
+      this.loadError = 'Você precisa estar logado para visualizar os gráficos.';
       this.isLoading = false;
       return;
     }
@@ -117,7 +117,7 @@ export class GraphicsComponent {
       this.buildBalanceEvolutionChart(transactions);
       this.hasData = transactions.length > 0;
     } catch (error) {
-      console.error('Erro ao carregar dados dos graficos', error);
+      console.error('Erro ao carregar dados dos gráficos', error);
       this.loadError = this.mapLoadError(error);
       this.hasData = false;
     } finally {
@@ -249,6 +249,6 @@ export class GraphicsComponent {
       return error.message;
     }
 
-    return 'Nao foi possivel carregar os graficos. Tente novamente.';
+    return 'Não foi possível carregar os gráficos. Tente novamente.';
   }
 }

@@ -15,7 +15,7 @@ import { FirebaseError } from 'firebase/app';
 export class FirebaseAuthErrorComponent {
   @Input() error: unknown = null;
   @Input() fallbackMessage =
-    'Nao foi possivel realizar a autenticacao. Tente novamente.';
+    'Não foi possível realizar a autenticação. Tente novamente.';
 
   get message(): string | null {
     if (!this.error) {
@@ -71,23 +71,23 @@ export class FirebaseAuthErrorComponent {
   private mapFirebaseErrorCodeToMessage(code: string): string {
     switch (code) {
       case 'auth/invalid-email':
-        return 'E-mail invalido.';
+        return 'E-mail inválido.';
       case 'auth/user-disabled':
-        return 'Este usuario foi desativado.';
+        return 'Este usuário foi desativado.';
       case 'auth/user-not-found':
-        return 'Usuario nao encontrado.';
+        return 'Usuário não encontrado.';
       case 'auth/wrong-password':
       case 'auth/invalid-credential':
       case 'auth/invalid-login-credentials':
         return 'E-mail ou senha incorretos.';
       case 'auth/email-already-in-use':
-        return 'Este e-mail ja esta em uso.';
+        return 'Este e-mail já está em uso.';
       case 'auth/weak-password':
         return 'Senha fraca. Use pelo menos 6 caracteres.';
       case 'auth/too-many-requests':
         return 'Muitas tentativas. Tente novamente em alguns minutos.';
       case 'auth/network-request-failed':
-        return 'Falha de conexao. Verifique sua internet e tente novamente.';
+        return 'Falha de conexão. Verifique sua internet e tente novamente.';
       default:
         return `Erro ao autenticar (${code}).`;
     }

@@ -25,26 +25,23 @@
 
         <div class="d-flex flex-column">
             <span class="fw-bold inp-title">Tipo</span>
-            <div class="input-standard select-wrapper" [class.invalid-error]="transactionForm.controls.type.invalid &&
+            <div class="input-standard ng-select-wrapper" [class.invalid-error]="transactionForm.controls.type.invalid &&
 			(transactionForm.controls.type.dirty || transactionForm.controls.type.touched)">
-                <select formControlName="type" name="type" class="w-100">
-                    <option [value]="transactionType.EXPENSE">Despesa</option>
-                    <option [value]="transactionType.INCOME">Receita</option>
-                </select>
-                <i class="ph ph-caret-down"></i>
+                <ng-select class="fi-ng-select w-100" formControlName="type" [items]="typeOptions" bindLabel="label"
+                    bindValue="value" [clearable]="false" [searchable]="false" placeholder="Selecione o tipo"
+                    aria-label="Selecionar tipo de transação">
+                </ng-select>
             </div>
         </div>
 
         <div class="d-flex flex-column">
             <span class="fw-bold inp-title">Categoria</span>
-            <div class="input-standard select-wrapper" [class.invalid-error]="transactionForm.controls.categoryId.invalid &&
+            <div class="input-standard ng-select-wrapper" [class.invalid-error]="transactionForm.controls.categoryId.invalid &&
 			(transactionForm.controls.categoryId.dirty || transactionForm.controls.categoryId.touched)">
-                <select formControlName="categoryId" name="categoryId" class="w-100">
-                    @for (category of categories; track category.id) {
-                    <option [value]="category.id">{{ category.label }}</option>
-                    }
-                </select>
-                <i class="ph ph-caret-down"></i>
+                <ng-select class="fi-ng-select w-100" formControlName="categoryId" [items]="categories"
+                    bindLabel="label" bindValue="id" [clearable]="false" [searchable]="false"
+                    placeholder="Selecione a categoria" aria-label="Selecionar categoria">
+                </ng-select>
             </div>
         </div>
 

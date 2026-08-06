@@ -91,7 +91,7 @@
                 (registerForm.controls.password.dirty || registerForm.controls.password.touched)) {
                 <div id="password-error" class="color-error" role="alert">
                     @if (registerForm.controls.password.hasError('required')) {
-                    <small>Senha é obrigatório.</small>
+                    <small>Senha é obrigatória.</small>
                     }
                     @if (registerForm.controls.password.hasError('minlength')) {
                     <small>
@@ -117,10 +117,10 @@
                     registerForm.controls.birthDay.touched)) {
                     <div class="color-error" id="birthDay-error">
                         @if (registerForm.controls.birthDay.hasError('required')) {
-                        <small>Data de nascimento é obrigatório.</small>
+                        <small>Data de nascimento é obrigatória.</small>
                         }
                         @if (registerForm.controls.birthDay.hasError('minimumAge')) {
-                        <small>Voce precisa ter pelo menos 13 anos.</small>
+                        <small>Você precisa ter pelo menos 13 anos.</small>
                         }
                     </div>
                     }
@@ -158,14 +158,14 @@
                 @if (registerForm.controls.income.invalid && (registerForm.controls.income.dirty ||
                 registerForm.controls.income.touched)) {
                 <div class="color-error" id="income-error">
-                    <small>Renda nao pode ser negativa.</small>
+                    <small>Renda não pode ser negativa.</small>
                 </div>
                 }
             </div>
 
             @if (authError) {
             <div class="color-error" role="alert">
-                <small>Nao foi possivel concluir o cadastro. Tente novamente.</small>
+                <small>Não foi possível concluir o cadastro. Tente novamente.</small>
             </div>
             }
 
@@ -182,7 +182,7 @@
             @if (registerForm.controls.termsAccepted.invalid && (registerForm.controls.termsAccepted.dirty ||
             registerForm.controls.termsAccepted.touched)) {
             <div class="color-error" id="terms-error" role="alert">
-                <small>Voce precisa aceitar os Termos e Condicoes para criar sua conta.</small>
+                <small>Você precisa aceitar os Termos e Condições para criar sua conta.</small>
             </div>
             }
 
@@ -205,7 +205,7 @@
 
             <div class="d-flex switch-account justify-content-center mt-3 align-items-center">
                 <p class="text-secondary m-0">
-                    Ja possui uma conta?
+                    Já possui uma conta?
                     <button type="button" class="switch-link color-green-regular" (click)="goToLogin()">
                         Fazer login
                     </button>

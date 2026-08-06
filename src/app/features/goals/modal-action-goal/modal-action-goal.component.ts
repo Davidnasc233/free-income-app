@@ -107,7 +107,7 @@ export class ModalActionGoalComponent {
     const userId = this.auth.currentUser?.uid;
 
     if (!userId) {
-      this.submitError = 'Voce precisa estar logado para salvar metas.';
+      this.submitError = 'Você precisa estar logado para salvar metas.';
       this.toast.error(this.submitError);
       return;
     }
@@ -181,20 +181,20 @@ export class ModalActionGoalComponent {
 
   private mapSubmitError(error: unknown): string {
     if (!(error instanceof FirebaseError)) {
-      return 'Nao foi possivel salvar a meta. Tente novamente.';
+      return 'Não foi possível salvar a meta. Tente novamente.';
     }
 
     switch (error.code) {
       case 'permission-denied':
-        return 'Sem permissao para salvar. Verifique as regras do Firebase.';
+        return 'Sem permissão para salvar. Verifique as regras do Firebase.';
       case 'unauthenticated':
-        return 'Sua sessao expirou. Faca login novamente.';
+        return 'Sua sessão expirou. Faça login novamente.';
       case 'unavailable':
-        return 'Firebase indisponivel no momento. Tente novamente em instantes.';
+        return 'Firebase indisponível no momento. Tente novamente em instantes.';
       case 'failed-precondition':
-        return 'Indice do Firestore ausente. Crie o indice sugerido no console.';
+        return 'Índice do Firestore ausente. Crie o índice sugerido no console.';
       default:
-        return 'Nao foi possivel salvar a meta. Tente novamente.';
+        return 'Não foi possível salvar a meta. Tente novamente.';
     }
   }
 }

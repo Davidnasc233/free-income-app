@@ -54,12 +54,12 @@ export class UserToolbarComponent {
 
     try {
       await this.auth.signOut();
-      this.toast.success('Sessao encerrada com sucesso.');
+      this.toast.success('Sessão encerrada com sucesso.');
       this.logoutSuccess.emit();
       await this.router.navigateByUrl('/auth/login');
     } catch (error) {
       console.error('Erro ao fazer logout', error);
-      this.toast.error('Nao foi possivel sair. Tente novamente.');
+      this.toast.error('Não foi possível sair. Tente novamente.');
     } finally {
       this.isLoggingOut = false;
     }

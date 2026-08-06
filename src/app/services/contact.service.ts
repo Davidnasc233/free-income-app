@@ -20,7 +20,7 @@ export class ContactService {
     } catch (error) {
       if (this.isPermissionDenied(error)) {
         throw new Error(
-          'Permissao negada para enviar mensagem. Atualize as regras do Firestore e tente novamente.',
+          'Permissão negada para enviar mensagem. Atualize as regras do Firestore e tente novamente.',
         );
       }
 

@@ -57,9 +57,9 @@ export class HistoryTransactionsComponent {
         category: item.categoryId || 'Sem categoria',
       }));
     } catch (error) {
-      console.error('Erro ao carregar transacoes', error);
+      console.error('Erro ao carregar transações', error);
       this.loadError =
-        'Nao foi possivel carregar as transacoes. Tente novamente.';
+        'Não foi possível carregar as transações. Tente novamente.';
       this.data = [];
     } finally {
       this.isLoading = false;

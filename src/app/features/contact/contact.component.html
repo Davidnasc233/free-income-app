@@ -6,12 +6,12 @@
             </button>
             <div>
                 <h2 class="fw-bold m-0">Fale Conosco</h2>
-                <small class="text-muted">Envie duvidas, sugestoes ou reporte problemas</small>
+                <small class="text-muted">Envie dúvidas, sugestões ou reporte problemas</small>
             </div>
         </div>
     </section>
 
-    <app-page-state [loading]="isLoading" [error]="loadError" loadingMessage="Carregando formulario...">
+    <app-page-state [loading]="isLoading" [error]="loadError" loadingMessage="Carregando formulário...">
         <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="submit()" novalidate>
             <div class="fields d-flex flex-column gap-3">
                 <div class="d-flex flex-column">
@@ -29,9 +29,9 @@
                     ) {
                     <div class="color-error">
                         @if (contactForm.controls.name.hasError('required')) {
-                        <small>Nome e obrigatorio.</small>
+                        <small>Nome é obrigatório.</small>
                         } @if (contactForm.controls.name.hasError('minlength')) {
-                        <small>Nome deve ter no minimo 3 caracteres.</small>
+                        <small>Nome deve ter no mínimo 3 caracteres.</small>
                         }
                     </div>
                     }
@@ -52,9 +52,9 @@
                     ) {
                     <div class="color-error">
                         @if (contactForm.controls.email.hasError('required')) {
-                        <small>E-mail e obrigatorio.</small>
+                        <small>E-mail é obrigatório.</small>
                         } @if (contactForm.controls.email.hasError('email')) {
-                        <small>E-mail invalido.</small>
+                        <small>E-mail inválido.</small>
                         }
                     </div>
                     }
@@ -62,13 +62,11 @@
 
                 <div class="d-flex flex-column">
                     <span class="fw-bold inp-title">Categoria</span>
-                    <div class="input-standard gap-2">
-                        <i class="ph ph-tag"></i>
-                        <select formControlName="category" aria-label="Categoria da mensagem">
-                            @for (category of categories; track category.value) {
-                            <option [value]="category.value">{{ category.label }}</option>
-                            }
-                        </select>
+                    <div class="input-standard ng-select-wrapper">
+                        <ng-select class="fi-ng-select w-100" formControlName="category" [items]="categories"
+                            bindLabel="label" bindValue="value" [clearable]="false" [searchable]="false"
+                            placeholder="Selecione a categoria" aria-label="Categoria da mensagem">
+                        </ng-select>
                     </div>
                 </div>
 
@@ -79,7 +77,7 @@
               (contactForm.controls.subject.dirty || contactForm.controls.subject.touched)
             ">
                         <i class="ph ph-text-aa"></i>
-                        <input type="text" formControlName="subject" placeholder="Ex.: Nao consigo cadastrar meta" />
+                        <input type="text" formControlName="subject" placeholder="Ex.: Não consigo cadastrar meta" />
                     </div>
                     @if (
                     contactForm.controls.subject.invalid &&
@@ -87,9 +85,9 @@
                     ) {
                     <div class="color-error">
                         @if (contactForm.controls.subject.hasError('required')) {
-                        <small>Assunto e obrigatorio.</small>
+                        <small>Assunto é obrigatório.</small>
                         } @if (contactForm.controls.subject.hasError('minlength')) {
-                        <small>Assunto deve ter no minimo 6 caracteres.</small>
+                        <small>Assunto deve ter no mínimo 6 caracteres.</small>
                         }
                     </div>
                     }
@@ -112,9 +110,9 @@
                         ) {
                         <div class="color-error">
                             @if (contactForm.controls.message.hasError('required')) {
-                            <small>Mensagem e obrigatoria.</small>
+                            <small>Mensagem é obrigatória.</small>
                             } @if (contactForm.controls.message.hasError('minlength')) {
-                            <small>Mensagem deve ter no minimo 20 caracteres.</small>
+                            <small>Mensagem deve ter no mínimo 20 caracteres.</small>
                             }
                         </div>
                         } @else {

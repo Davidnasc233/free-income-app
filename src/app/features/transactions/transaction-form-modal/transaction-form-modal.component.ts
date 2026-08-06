@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { FirebaseError } from 'firebase/app';
 import { ToastService } from '../../../services/toast.service';
 import { TransactionService } from '../../../services/transaction.service';
@@ -14,7 +15,7 @@ import { TransactionType } from '../../../shared/enum/transaction-type.enum';
 
 @Component({
   selector: 'app-transaction-form-modal',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgSelectModule],
   templateUrl: './transaction-form-modal.component.html',
   styleUrl: './transaction-form-modal.component.css',
 })
@@ -23,6 +24,11 @@ export class TransactionFormModalComponent {
   readonly transactionType = TransactionType;
   isSubmitting = false;
   submitError: string | null = null;
+
+  readonly typeOptions: Array<{ value: TransactionType; label: string }> = [
+    { value: TransactionType.EXPENSE, label: 'Despesa' },
+    { value: TransactionType.INCOME, label: 'Receita' },
+  ];
 
   readonly categories = [
     { id: 'outro', label: 'Outro' },
@@ -71,7 +77,7 @@ export class TransactionFormModalComponent {
     const userId = this.auth.currentUser?.uid;
 
     if (!userId) {
-      this.submitError = 'Voce precisa estar logado para adicionar transacoes.';
+      this.submitError = 'Você precisa estar logado para adicionar transações.';
       this.toast.error(this.submitError);
       return;
     }
@@ -99,7 +105,7 @@ export class TransactionFormModalComponent {
 
       this.activeModal?.close('created');
     } catch (error) {
-      console.error('Erro ao adicionar transacao', error);
+      console.error('Erro ao adicionar transação', error);
       this.submitError = this.mapSubmitError(error);
       this.toast.error(this.submitError);
     } finally {
@@ -109,20 +115,20 @@ export class TransactionFormModalComponent {
 
   private mapSubmitError(error: unknown): string {
     if (!(error instanceof FirebaseError)) {
-      return 'Nao foi possivel adicionar a transacao. Tente novamente.';
+      return 'Não foi possível adicionar a transação. Tente novamente.';
     }
 
     switch (error.code) {
       case 'permission-denied':
-        return 'Sem permissao para salvar. Verifique as regras do Firebase.';
+        return 'Sem permissão para salvar. Verifique as regras do Firebase.';
       case 'unauthenticated':
-        return 'Sua sessao expirou. Faca login novamente.';
+        return 'Sua sessão expirou. Faça login novamente.';
       case 'unavailable':
-        return 'Firebase indisponivel no momento. Tente novamente em instantes.';
+        return 'Firebase indisponível no momento. Tente novamente em instantes.';
       case 'failed-precondition':
-        return 'Indice do Firestore ausente. Crie o indice sugerido no console.';
+        return 'Índice do Firestore ausente. Crie o índice sugerido no console.';
       default:
-        return 'Nao foi possivel adicionar a transacao. Tente novamente.';
+        return 'Não foi possível adicionar a transação. Tente novamente.';
     }
   }
 }
