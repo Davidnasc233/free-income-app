@@ -153,7 +153,8 @@
                 <span class="fw-bold inp-title">Renda Mensal <small>(opcional)</small></span>
                 <div class="input-standard gap-2">
                     <i class="ph ph-currency-circle-dollar"></i>
-                    <input type="number" name="fixed-income" placeholder="Digite sua renda" formControlName="income" />
+                    <input type="text" inputmode="decimal" currencyMask name="fixed-income" placeholder="R$ 0,00"
+                        formControlName="income" />
                 </div>
                 @if (registerForm.controls.income.invalid && (registerForm.controls.income.dirty ||
                 registerForm.controls.income.touched)) {

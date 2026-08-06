@@ -19,6 +19,7 @@ import {
   getAuth,
   signInWithPopup,
 } from '@angular/fire/auth';
+import { NgxCurrencyDirective } from 'ngx-currency';
 import { UserService } from '../../../services/user.service';
 import { PhoneMaskDirective } from '../../../shared/directive/phone-mask.directive';
 
@@ -31,6 +32,7 @@ import { PhoneMaskDirective } from '../../../shared/directive/phone-mask.directi
     SocialLoginModule,
     ReactiveFormsModule,
     PhoneMaskDirective,
+    NgxCurrencyDirective,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',

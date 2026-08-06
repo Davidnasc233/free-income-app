@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Auth } from '@angular/fire/auth';
+import { NgxCurrencyDirective } from 'ngx-currency';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationModalService } from '../../services/confirmation-modal.service';
 import { ReauthModalService } from '../../services/reauth-modal.service';
@@ -26,6 +27,7 @@ import { ReauthMode } from '../../shared/components/reauth-modal/reauth-modal.co
     CommonModule,
     ReactiveFormsModule,
     PhoneMaskDirective,
+    NgxCurrencyDirective,
     PageStateComponent,
   ],
   templateUrl: './user-settings.component.html',

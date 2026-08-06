@@ -18,7 +18,7 @@
             <span class="fw-bold inp-title">Valor alvo (R$)</span>
             <div class="input-standard" [class.invalid-error]="goalForm.controls.targetValue.invalid &&
 				(goalForm.controls.targetValue.dirty || goalForm.controls.targetValue.touched)">
-                <input type="number" name="targetValue" min="1" step="0.01" placeholder="2000"
+                <input type="text" inputmode="decimal" currencyMask name="targetValue" placeholder="R$ 0,00"
                     formControlName="targetValue" />
             </div>
         </div>

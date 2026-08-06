@@ -19,7 +19,8 @@
             <span class="fw-bold inp-title">Valor (R$)</span>
             <div class="input-standard" [class.invalid-error]="transactionForm.controls.value.invalid &&
 			(transactionForm.controls.value.dirty || transactionForm.controls.value.touched)">
-                <input type="number" name="value" step="0.01" min="0" placeholder="50.00" formControlName="value" />
+                <input type="text" inputmode="decimal" currencyMask name="value" placeholder="R$ 0,00"
+                    formControlName="value" />
             </div>
         </div>
 

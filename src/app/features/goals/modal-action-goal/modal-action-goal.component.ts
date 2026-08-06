@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxCurrencyDirective } from 'ngx-currency';
 import { FirebaseError } from 'firebase/app';
 import { GoalsService } from '../../../services/goals.service';
 import { GoalListItem } from '../../../services/goals-modal.service';
@@ -19,7 +20,7 @@ type GoalIcon = { id: string; visual: string; label: string };
 
 @Component({
   selector: 'app-modal-action-goal',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgxCurrencyDirective],
   templateUrl: './modal-action-goal.component.html',
   styleUrl: './modal-action-goal.component.css',
 })

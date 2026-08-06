@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxCurrencyDirective } from 'ngx-currency';
 import { FirebaseError } from 'firebase/app';
 import { ToastService } from '../../../services/toast.service';
 import { TransactionService } from '../../../services/transaction.service';
@@ -16,7 +17,7 @@ import { TRANSACTION_CATEGORIES } from '../../../shared/constants/categories.con
 
 @Component({
   selector: 'app-transaction-form-modal',
-  imports: [ReactiveFormsModule, NgSelectModule],
+  imports: [ReactiveFormsModule, NgSelectModule, NgxCurrencyDirective],
   templateUrl: './transaction-form-modal.component.html',
   styleUrl: './transaction-form-modal.component.css',
 })

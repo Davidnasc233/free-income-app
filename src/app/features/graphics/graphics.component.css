@@ -19,6 +19,14 @@
     box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }
 
+.chart-empty {
+    min-height: 260px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 1rem;
+}
+
 .chart-card-full {
     grid-column: 1 / -1;
 }

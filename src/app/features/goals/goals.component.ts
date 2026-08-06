@@ -11,12 +11,13 @@ import { ConfirmationModalService } from '../../services/confirmation-modal.serv
 import { ToastService } from '../../services/toast.service';
 import { Goals } from '../../shared/interfaces/goals.interface';
 import { PageStateComponent } from '../../shared/components/page-state/page-state.component';
+import { NgxCurrencyDirective } from 'ngx-currency';
 
 type GoalItem = Goals & { id: string };
 
 @Component({
   selector: 'app-goals',
-  imports: [CommonModule, PageStateComponent],
+  imports: [CommonModule, PageStateComponent, NgxCurrencyDirective],
   templateUrl: './goals.component.html',
   styleUrl: './goals.component.css',
 })
@@ -189,7 +190,12 @@ export class GoalsComponent {
   }
 
   private parseAmount(rawValue: string): number {
-    const normalized = rawValue.trim().replace(',', '.');
+    const normalized = rawValue
+      .trim()
+      .replace(/\s|\u00A0/g, '')
+      .replace('R$', '')
+      .replace(/\./g, '')
+      .replace(',', '.');
     return Number(normalized);
   }
 }

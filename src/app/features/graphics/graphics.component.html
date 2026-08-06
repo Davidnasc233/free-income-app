@@ -7,42 +7,49 @@
         </small>
     </section>
 
-    @if (isLoading) {
-    <section class="loader-wrap d-flex justify-content-center py-2">
-        <div class="loader"></div>
-    </section>
-    } @else if (loadError) {
-    <section class="d-flex justify-content-center py-2">
-        <p class="color-error m-0">{{ loadError }}</p>
-    </section>
-    } @else if (!hasData) {
-    <section class="d-flex justify-content-center py-2">
-        <p class="text-muted m-0">Não há dados suficientes para montar os gráficos neste período.</p>
-    </section>
-    } @else {
-    <section class="charts-grid">
-        <article class="chart-card">
-            <header class="mb-2">
-                <h5 class="m-0">Gastos por Categoria</h5>
-            </header>
-            <app-expenses-doughnut-chart [data]="expensesByCategoryData"></app-expenses-doughnut-chart>
-        </article>
+    <app-page-state [loading]="isLoading" [error]="loadError" [empty]="!hasData" loadingMessage="Carregando gráficos..."
+        emptyMessage="Não há dados suficientes para montar os gráficos neste período.">
+        <section class="charts-grid">
+            <article class="chart-card">
+                <header class="mb-2">
+                    <h5 class="m-0">Gastos por Categoria</h5>
+                </header>
+                @if (hasExpensesByCategoryData) {
+                <app-expenses-doughnut-chart [data]="expensesByCategoryData"></app-expenses-doughnut-chart>
+                } @else {
+                <section class="chart-empty">
+                    <p class="text-muted m-0">Sem dados de despesas por categoria neste período.</p>
+                </section>
+                }
+            </article>
 
-        <article class="chart-card">
-            <header class="mb-2">
-                <h5 class="m-0">Receitas vs Despesas</h5>
-                <small class="text-muted">Comparativo total dos últimos 30 dias</small>
-            </header>
-            <app-income-expense-bar-chart [data]="incomeVsExpensesData"></app-income-expense-bar-chart>
-        </article>
+            <article class="chart-card">
+                <header class="mb-2">
+                    <h5 class="m-0">Receitas vs Despesas</h5>
+                    <small class="text-muted">Comparativo total dos últimos 30 dias</small>
+                </header>
+                @if (hasIncomeVsExpensesData) {
+                <app-income-expense-bar-chart [data]="incomeVsExpensesData"></app-income-expense-bar-chart>
+                } @else {
+                <section class="chart-empty">
+                    <p class="text-muted m-0">Sem dados de receitas e despesas neste período.</p>
+                </section>
+                }
+            </article>
 
-        <article class="chart-card chart-card-full">
-            <header class="mb-2">
-                <h5 class="m-0">Evolução do Saldo</h5>
-                <small class="text-muted">Linha de saldo acumulado diário</small>
-            </header>
-            <app-balance-evolution-line-chart [data]="balanceEvolutionData"></app-balance-evolution-line-chart>
-        </article>
-    </section>
-    }
+            <article class="chart-card chart-card-full">
+                <header class="mb-2">
+                    <h5 class="m-0">Evolução do Saldo</h5>
+                    <small class="text-muted">Linha de saldo acumulado diário</small>
+                </header>
+                @if (hasBalanceEvolutionData) {
+                <app-balance-evolution-line-chart [data]="balanceEvolutionData"></app-balance-evolution-line-chart>
+                } @else {
+                <section class="chart-empty">
+                    <p class="text-muted m-0">Sem movimentações para exibir a evolução do saldo neste período.</p>
+                </section>
+                }
+            </article>
+        </section>
+    </app-page-state>
 </main>

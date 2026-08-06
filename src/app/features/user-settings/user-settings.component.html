@@ -116,7 +116,8 @@
                 settingsForm.controls.income.touched)
             ">
                         <i class="ph ph-currency-circle-dollar"></i>
-                        <input type="number" formControlName="income" min="0" step="0.01" placeholder="0,00" />
+                        <input type="text" inputmode="decimal" currencyMask formControlName="income"
+                            placeholder="R$ 0,00" />
                     </div>
                     @if (
                     settingsForm.controls.income.invalid &&

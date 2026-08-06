@@ -13,6 +13,10 @@ import {
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import {
+  NgxCurrencyInputMode,
+  provideEnvironmentNgxCurrency,
+} from 'ngx-currency';
 
 registerLocaleData(localePt);
 
@@ -24,6 +28,18 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideCharts(withDefaultRegisterables()),
+    provideEnvironmentNgxCurrency({
+      align: 'left',
+      allowNegative: false,
+      allowZero: true,
+      decimal: ',',
+      precision: 2,
+      prefix: 'R$ ',
+      suffix: '',
+      thousands: '.',
+      nullable: true,
+      inputMode: NgxCurrencyInputMode.Financial,
+    }),
     {
       provide: SOCIAL_AUTH_CONFIG,
       useValue: {

@@ -5,6 +5,7 @@ import { ChartData } from 'chart.js';
 import { TransactionService } from '../../services/transaction.service';
 import { TransactionType } from '../../shared/enum/transaction-type.enum';
 import { Transaction } from '../../shared/interfaces/transaction.interface';
+import { PageStateComponent } from '../../shared/components/page-state/page-state.component';
 import { BalanceEvolutionLineChartComponent } from './balance-evolution-line-chart/balance-evolution-line-chart.component';
 import { ExpensesDoughnutChartComponent } from './expenses-doughnut-chart/expenses-doughnut-chart.component';
 import { IncomeExpenseBarChartComponent } from './income-expense-bar-chart/income-expense-bar-chart.component';
@@ -13,6 +14,7 @@ import { IncomeExpenseBarChartComponent } from './income-expense-bar-chart/incom
   selector: 'app-graphics',
   imports: [
     DatePipe,
+    PageStateComponent,
     ExpensesDoughnutChartComponent,
     IncomeExpenseBarChartComponent,
     BalanceEvolutionLineChartComponent,
@@ -24,6 +26,29 @@ export class GraphicsComponent {
   isLoading = false;
   loadError: string | null = null;
   hasData = false;
+
+  get hasExpensesByCategoryData(): boolean {
+    const values = this.expensesByCategoryData.datasets[0]?.data ?? [];
+    return values.some((value) => value > 0);
+  }
+
+  get hasIncomeVsExpensesData(): boolean {
+    const values = this.incomeVsExpensesData.datasets[0]?.data ?? [];
+    return values.some((value) => value > 0);
+  }
+
+  get hasBalanceEvolutionData(): boolean {
+    const labels = this.balanceEvolutionData.labels ?? [];
+    return labels.length > 0;
+  }
+
+  get hasAnyChartData(): boolean {
+    return (
+      this.hasExpensesByCategoryData ||
+      this.hasIncomeVsExpensesData ||
+      this.hasBalanceEvolutionData
+    );
+  }
 
   readonly daysWindow = 30;
   periodStart!: Date;
@@ -115,7 +140,7 @@ export class GraphicsComponent {
       this.buildExpensesByCategoryChart(transactions);
       this.buildIncomeVsExpensesChart(transactions);
       this.buildBalanceEvolutionChart(transactions);
-      this.hasData = transactions.length > 0;
+      this.hasData = this.hasAnyChartData;
     } catch (error) {
       console.error('Erro ao carregar dados dos gráficos', error);
       this.loadError = this.mapLoadError(error);
