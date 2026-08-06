@@ -41,18 +41,25 @@ export class BalanceComponent {
     }
 
     try {
-      const transactions = await this.transactionService.getByUserId(uid, {
-        maxItems: 5000,
-      });
+      const [incomeTransactions, expenseTransactions] = await Promise.all([
+        this.transactionService.getByUserId(uid, {
+          type: TransactionType.INCOME,
+          maxItems: 500,
+        }),
+        this.transactionService.getByUserId(uid, {
+          type: TransactionType.EXPENSE,
+          maxItems: 500,
+        }),
+      ]);
 
-      this.totalIncome = transactions
-        .filter((item) => item.type === TransactionType.INCOME)
-        .reduce((acc, item) => acc + item.value, 0);
-
-      this.totalExpense = transactions
-        .filter((item) => item.type === TransactionType.EXPENSE)
-        .reduce((acc, item) => acc + item.value, 0);
-
+      this.totalIncome = incomeTransactions.reduce(
+        (acc, item) => acc + item.value,
+        0,
+      );
+      this.totalExpense = expenseTransactions.reduce(
+        (acc, item) => acc + item.value,
+        0,
+      );
       this.totalBalance = this.totalIncome - this.totalExpense;
     } catch (error) {
       console.error('Erro ao carregar resumo financeiro', error);

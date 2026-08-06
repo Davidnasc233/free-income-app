@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import {
   FormControl,
@@ -12,6 +12,7 @@ import { FirebaseError } from 'firebase/app';
 import { ToastService } from '../../../services/toast.service';
 import { TransactionService } from '../../../services/transaction.service';
 import { TransactionType } from '../../../shared/enum/transaction-type.enum';
+import { TRANSACTION_CATEGORIES } from '../../../shared/constants/categories.constants';
 
 @Component({
   selector: 'app-transaction-form-modal',
@@ -25,18 +26,15 @@ export class TransactionFormModalComponent {
   isSubmitting = false;
   submitError: string | null = null;
 
+  @Input() editMode = false;
+  @Input() transactionId: string | null = null;
+
   readonly typeOptions: Array<{ value: TransactionType; label: string }> = [
     { value: TransactionType.EXPENSE, label: 'Despesa' },
     { value: TransactionType.INCOME, label: 'Receita' },
   ];
 
-  readonly categories = [
-    { id: 'outro', label: 'Outro' },
-    { id: 'alimentacao', label: 'Alimentação' },
-    { id: 'moradia', label: 'Moradia' },
-    { id: 'transporte', label: 'Transporte' },
-    { id: 'saude', label: 'Saúde' },
-  ];
+  readonly categories = TRANSACTION_CATEGORIES;
 
   transactionForm = new FormGroup({
     description: new FormControl('', {
@@ -86,24 +84,32 @@ export class TransactionFormModalComponent {
       this.isSubmitting = true;
       const payload = this.transactionForm.getRawValue();
 
-      await this.transactionService.addTransaction({
-        userId,
-        description: payload.description,
-        value: Number(payload.value),
-        type: payload.type,
-        categoryId: payload.categoryId,
-        fixedExpense: false,
-        transactionDate: new Date(),
-      });
-
-      this.transactionForm.reset({
-        description: '',
-        value: null,
-        type: TransactionType.EXPENSE,
-        categoryId: 'outro',
-      });
-
-      this.activeModal?.close('created');
+      if (this.editMode && this.transactionId) {
+        await this.transactionService.updateTransaction(this.transactionId, {
+          description: payload.description,
+          value: Number(payload.value),
+          type: payload.type,
+          categoryId: payload.categoryId,
+        });
+        this.activeModal?.close('updated');
+      } else {
+        await this.transactionService.addTransaction({
+          userId,
+          description: payload.description,
+          value: Number(payload.value),
+          type: payload.type,
+          categoryId: payload.categoryId,
+          fixedExpense: false,
+          transactionDate: new Date(),
+        });
+        this.transactionForm.reset({
+          description: '',
+          value: null,
+          type: TransactionType.EXPENSE,
+          categoryId: 'outro',
+        });
+        this.activeModal?.close('created');
+      }
     } catch (error) {
       console.error('Erro ao adicionar transação', error);
       this.submitError = this.mapSubmitError(error);

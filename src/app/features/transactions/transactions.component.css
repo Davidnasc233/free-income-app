@@ -78,10 +78,6 @@
     border-radius: 14px;
     box-shadow: 0 6px 16px rgba(22, 28, 45, 0.04);
     padding: 14px 18px;
-
-    &:hover {
-        border-color: #dce2eb;
-    }
 }
 
 .income,
@@ -123,6 +119,40 @@
     color: #ef4444;
     margin: 0;
     font-size: 1.04rem;
+}
+
+.item-actions {
+    opacity: 1;
+}
+
+.btn-trash,
+.btn-edit {
+    padding: 6px;
+
+    .ph-trash,
+    .ph-pencil-simple {
+        color: var(--color-gray-600);
+    }
+}
+
+.btn-edit:hover {
+    background-color: var(--color-primary-600);
+    border-radius: 50%;
+    padding: 6px;
+
+    .ph-pencil-simple {
+        color: #fff;
+    }
+}
+
+.btn-trash:hover {
+    background-color: var(--color-error);
+    border-radius: 50%;
+    padding: 6px;
+
+    .ph-trash {
+        color: #fff;
+    }
 }
 
 .empty-list {

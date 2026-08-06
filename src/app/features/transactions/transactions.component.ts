@@ -4,9 +4,11 @@ import { Auth } from '@angular/fire/auth';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from '../../services/toast.service';
 import { TransactionService } from '../../services/transaction.service';
+import { ConfirmationModalService } from '../../services/confirmation-modal.service';
 import { PageStateComponent } from '../../shared/components/page-state/page-state.component';
 import { TransactionType } from '../../shared/enum/transaction-type.enum';
 import { Transaction } from '../../shared/interfaces/transaction.interface';
+import { TRANSACTION_CATEGORIES, getCategoryLabel } from '../../shared/constants/categories.constants';
 import { TransactionFiltersComponent } from './transaction-filters/transaction-filters.component';
 import {
   PeriodFilter,
@@ -46,19 +48,14 @@ export class TransactionsComponent {
   loadError: string | null = null;
   appliedFilterDescription = 'Últimos 30 dias';
 
-  readonly categories = [
-    { id: 'outro', label: 'Outro' },
-    { id: 'alimentacao', label: 'Alimentação' },
-    { id: 'moradia', label: 'Moradia' },
-    { id: 'transporte', label: 'Transporte' },
-    { id: 'saude', label: 'Saúde' },
-  ];
+  readonly categories = TRANSACTION_CATEGORIES;
 
   constructor(
     private readonly transactionService: TransactionService,
     private readonly auth: Auth,
     private readonly modalService: NgbModal,
     private readonly toast: ToastService,
+    private readonly confirmationModal: ConfirmationModalService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -307,11 +304,53 @@ export class TransactionsComponent {
     };
   }
 
+  openEditTransactionModal(item: TransactionListItem): void {
+    const modalRef = this.modalService.open(TransactionFormModalComponent, {
+      centered: true,
+      backdropClass: 'user-toolbar-backdrop',
+      windowClass: 'transaction-modal',
+    });
+
+    const instance = modalRef.componentInstance as TransactionFormModalComponent;
+    instance.editMode = true;
+    instance.transactionId = item.id;
+    instance.transactionForm.patchValue({
+      description: item.description,
+      value: item.value,
+      type: item.type,
+      categoryId: item.categoryId,
+    });
+
+    modalRef.closed.subscribe((result) => {
+      if (result === 'updated') {
+        this.toast.success('Transação atualizada.');
+        void this.refreshTransactions();
+      }
+    });
+  }
+
+  async deleteTransaction(item: TransactionListItem): Promise<void> {
+    const confirmed = await this.confirmationModal.confirm({
+      type: 'danger',
+      title: 'Excluir transação',
+      description: `Deseja excluir "${item.description}"? Essa ação não pode ser desfeita.`,
+      cancelLabel: 'Cancelar',
+      confirmLabel: 'Excluir',
+    });
+
+    if (!confirmed) return;
+
+    try {
+      await this.transactionService.deleteTransaction(item.id);
+      this.toast.success('Transação excluída.');
+      void this.refreshTransactions();
+    } catch {
+      this.toast.error('Não foi possível excluir a transação. Tente novamente.');
+    }
+  }
+
   private getCategoryLabel(categoryId: string): string {
-    return (
-      this.categories.find((item) => item.id === categoryId)?.label ??
-      'Sem categoria'
-    );
+    return getCategoryLabel(categoryId);
   }
 
   private mapLoadError(error: unknown): string {

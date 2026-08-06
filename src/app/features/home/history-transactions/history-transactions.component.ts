@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import { TransactionService } from '../../../services/transaction.service';
+import { getCategoryLabel } from '../../../shared/constants/categories.constants';
 import { Transaction } from '../../../shared/interfaces/transaction.interface';
 import { PageStateComponent } from '../../../shared/components/page-state/page-state.component';
 
@@ -53,8 +54,8 @@ export class HistoryTransactionsComponent {
       const transactions = await this.transactionService.getRecentByUserId(uid);
 
       this.data = transactions.map((item) => ({
-        ...item,
-        category: item.categoryId || 'Sem categoria',
+      ...item,
+      category: getCategoryLabel(item.categoryId),
       }));
     } catch (error) {
       console.error('Erro ao carregar transações', error);

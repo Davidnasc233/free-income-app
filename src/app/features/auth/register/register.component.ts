@@ -64,7 +64,7 @@ export class AuthRegisterComponent {
       nonNullable: true,
       validators: [Validators.required, Validators.pattern(this.phonePattern)],
     }),
-    income: new FormControl('', {
+    income: new FormControl<number | null>(null, {
       validators: [Validators.min(0)],
     }),
     termsAccepted: new FormControl(false, {

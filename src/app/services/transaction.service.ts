@@ -4,10 +4,13 @@ import {
   QueryConstraint,
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   limit,
   orderBy,
   query,
+  updateDoc,
   where,
 } from '@angular/fire/firestore';
 import { FirebaseError } from 'firebase/app';
@@ -44,6 +47,19 @@ export class TransactionService {
       });
       throw error;
     }
+  }
+
+  async updateTransaction(
+    id: string,
+    payload: Partial<Omit<Transaction, 'createdAt' | 'updatedAt'>>,
+  ): Promise<void> {
+    const ref = doc(this.firestore, 'transactions', id);
+    await updateDoc(ref, { ...payload, updatedAt: new Date() });
+  }
+
+  async deleteTransaction(id: string): Promise<void> {
+    const ref = doc(this.firestore, 'transactions', id);
+    await deleteDoc(ref);
   }
 
   async getRecentByUserId(
