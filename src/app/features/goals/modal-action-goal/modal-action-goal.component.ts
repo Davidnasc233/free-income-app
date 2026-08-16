@@ -48,6 +48,9 @@ export class ModalActionGoalComponent {
     targetValue: new FormControl<number | null>(null, {
       validators: [Validators.required, Validators.min(1)],
     }),
+    savedValue: new FormControl<number | null>(null, {
+      validators: [Validators.min(0)],
+    }),
     limitDate: new FormControl('', {
       nonNullable: true,
     }),
@@ -82,6 +85,7 @@ export class ModalActionGoalComponent {
     this.goalForm.reset({
       title: goal.title,
       targetValue: goal.targetValue,
+      savedValue: Number(goal.actualValue) || 0,
       limitDate: this.toInputDate(goal.limitDate),
       icon: goal.icon || 'ph-target',
     });
@@ -127,7 +131,7 @@ export class ModalActionGoalComponent {
           userId,
           title,
           targetValue,
-          actualValue: this.goalToEdit.actualValue,
+          actualValue: Number(payload.savedValue) || 0,
           limitDate,
           icon,
         });

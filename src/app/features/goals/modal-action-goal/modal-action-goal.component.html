@@ -7,7 +7,7 @@
 
     <form [formGroup]="goalForm" (submit)="onSubmit()" novalidate class="d-flex flex-column gap-3">
         <div class="d-flex flex-column">
-            <span class="fw-bold inp-title">Nome da meta</span>
+            <span class="fw-bold inp-title">Nome da meta*</span>
             <div class="input-standard" [class.invalid-error]="goalForm.controls.title.invalid &&
 				(goalForm.controls.title.dirty || goalForm.controls.title.touched)">
                 <input type="text" name="title" placeholder="Ex: Notebook novo" formControlName="title" />
@@ -15,11 +15,20 @@
         </div>
 
         <div class="d-flex flex-column">
-            <span class="fw-bold inp-title">Valor alvo (R$)</span>
+            <span class="fw-bold inp-title">Valor alvo (R$)*</span>
             <div class="input-standard" [class.invalid-error]="goalForm.controls.targetValue.invalid &&
 				(goalForm.controls.targetValue.dirty || goalForm.controls.targetValue.touched)">
                 <input type="text" inputmode="decimal" currencyMask name="targetValue" placeholder="R$ 0,00"
                     formControlName="targetValue" />
+            </div>
+        </div>
+
+        <div class="d-flex flex-column">
+            <span class="fw-bold inp-title">Valor Guardado (R$)</span>
+            <div class="input-standard" [class.invalid-error]="goalForm.controls.savedValue.invalid &&
+				(goalForm.controls.savedValue.dirty || goalForm.controls.savedValue.touched)">
+                <input type="text" inputmode="decimal" currencyMask name="savedValue" placeholder="R$ 0,00"
+                    formControlName="savedValue" />
             </div>
         </div>
 
@@ -48,7 +57,7 @@
         }
 
         <button type="submit" class="btn btn-fi-success w-100" [disabled]="isSubmitting">
-            {{ isSubmitting ? 'Salvando...' : mode === 'edit' ? 'Salvar alteracoes' : 'Criar Meta' }}
+            {{ isSubmitting ? 'Salvando...' : mode === 'edit' ? 'Salvar alterações' : 'Criar Meta' }}
         </button>
     </form>
 </main>

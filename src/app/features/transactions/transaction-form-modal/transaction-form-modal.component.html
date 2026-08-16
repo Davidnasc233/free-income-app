@@ -1,13 +1,13 @@
 <main class="new-transaction-container p-4">
     <section class="d-flex justify-content-between align-items-center mb-2">
-        <h4 class="fw-bold m-0">Nova Transação</h4>
+        <h4 class="fw-bold m-0">{{ editMode ? 'Editar Transação' : 'Nova Transação' }}</h4>
 
         <button type="button" class="btn-close" aria-label="Fechar" (click)="closeModal()"></button>
     </section>
 
     <form [formGroup]="transactionForm" (submit)="onSubmit()" novalidate class="d-flex flex-column gap-3">
         <div class="d-flex flex-column">
-            <span class="fw-bold inp-title">Descrição</span>
+            <span class="fw-bold inp-title">Descrição*</span>
             <div class="input-standard" [class.invalid-error]="transactionForm.controls.description.invalid &&
 			(transactionForm.controls.description.dirty || transactionForm.controls.description.touched)">
                 <input type="text" name="description" placeholder="Ex: Almoco, Freelance..."
@@ -16,7 +16,7 @@
         </div>
 
         <div class="d-flex flex-column">
-            <span class="fw-bold inp-title">Valor (R$)</span>
+            <span class="fw-bold inp-title">Valor (R$)*</span>
             <div class="input-standard" [class.invalid-error]="transactionForm.controls.value.invalid &&
 			(transactionForm.controls.value.dirty || transactionForm.controls.value.touched)">
                 <input type="text" inputmode="decimal" currencyMask name="value" placeholder="R$ 0,00"
